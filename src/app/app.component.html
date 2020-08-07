@@ -1,0 +1,28 @@
+<div class="mat-typography app-frame mat-app-background">
+  <app-toolbar [deviceXs]="deviceXs" [deviceSm]="deviceSm" [deviceMd]="deviceMd" [deviceLg]="deviceLg" [sideNav]="drawer"></app-toolbar>
+    <mat-drawer-container autosize>
+      <mat-drawer mode="over" #drawer>
+        <div fxLayout="column" fxLayoutAlign="start start" class="drawer-buttons-container">
+
+          <div fxLayout="row" fxLayoutAlign="start center" *ngFor="let sideNavItem of sideNavItems" class="sidenav-button">
+            <button mat-flat-button [routerLink]="sideNavItem.route">
+            <mat-icon class="{{ sideNavItem.iconClass }}" svgIcon="{{ sideNavItem.iconName }}"></mat-icon>
+              <span>{{ sideNavItem.name }}</span>
+            </button>
+          </div>
+
+          <hr>
+
+        </div>
+      </mat-drawer>
+      <mat-drawer-content>
+
+        <div [@slideInAnimation]="o.isActivated ? o.activatedRoute : ''">
+          <router-outlet #o="outlet"></router-outlet>
+        </div>
+
+      </mat-drawer-content>
+    </mat-drawer-container>
+</div>
+
+

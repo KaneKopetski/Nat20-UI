@@ -1,0 +1,19 @@
+.mat-card-title {
+  font-size: 10vw;
+  line-height: 10vw;
+}
+
+.mat-card-subtitle {
+  font-size: 1rem;
+}
+
+.mat-card {
+  border: 1px solid #d84315;
+  padding: 45px;
+  margin: 20px;
+  box-shadow: none;
+}
+
+.flex-container {
+  height: 55vh;
+}

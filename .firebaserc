@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "nat20app": {
+      "hosting": {
+        "nat20-ui": [
+          "nat20app"
+        ]
+      }
+    }
+  }
+}

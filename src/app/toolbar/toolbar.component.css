@@ -1,0 +1,23 @@
+.logo-40 {
+  height: 40px;
+}
+
+.mat-menu-panel {
+  max-width: 500px !important;
+}
+
+.text {
+  display: block;
+  max-width: 100px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.text:hover {
+  overflow: visible;
+}
+
+
+
+

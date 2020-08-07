@@ -1,0 +1,15 @@
+.mat-button {
+  margin-top: 25px;
+}
+
+.mat-card {
+  width: 350px;
+}
+
+.mat-icon {
+  margin-right: 1px;
+}
+
+.validation-messages {
+  margin-bottom: 15px;
+}

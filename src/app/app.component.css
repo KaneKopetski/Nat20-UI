@@ -1,0 +1,30 @@
+html, body, app-root, .app-frame {
+  overflow: scroll;
+  height: 100%;
+}
+
+.mat-drawer-container {
+  height: 91.25vh;
+  box-sizing: border-box;
+}
+
+.mat-flat-button {
+  width: 100%;
+  border-radius: 0;
+  text-align: left;
+  font-size: 1rem;
+}
+
+.sidenav-button {
+  width: 100%;
+  margin-right: 25px;
+}
+
+.mat-icon {
+  margin-right: 30px;
+  filter: brightness(100);
+}
+
+.drawer-buttons-container {
+  margin-top: 15px;
+}

@@ -1,0 +1,14 @@
+<div fxLayout="column" [ngSwitch]="action">
+
+  <ng-container *ngSwitchCase="'resetPassword'">
+    <app-confirm-password-reset></app-confirm-password-reset>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'verifyEmail'">
+    <app-email-verified></app-email-verified>
+  </ng-container>
+
+  <ng-container *ngSwitchDefault>
+    An error has occurred.
+  </ng-container>
+</div>

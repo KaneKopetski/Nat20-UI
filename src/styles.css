@@ -1,0 +1,23 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+
+.mat-form-field.no-padding > .mat-form-field-wrapper {
+  margin-bottom: -1em;
+}
+
+button:focus, button:active:focus, button.active:focus, img {
+  outline: none !important;
+}
+
+.alchemyLight, .characterLight, .anvilLight {
+  filter: brightness(100);
+}
+
+.card-list {
+  width: 98%;
+}
+
+.card-list > .character-summary-card {
+  width: 50%;
+}

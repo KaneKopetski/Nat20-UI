@@ -1,0 +1,73 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row fxLayoutAlign="space-between center">
+    <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="center center">
+      <button mat-icon-button (click)="sideNav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <a [routerLink]="'/'"><img src="assets/nat20-dragons20-transparent-200.png" class="logo-40" alt="logo"></a>
+    </div>
+    <div>
+      <div fxLayout="row" class="toolbar-buttons">
+        <button mat-icon-button aria-hidden="false" aria-label="apps icon" class="toolbar-button" [matMenuTriggerFor]="helpMenu">
+          <mat-icon>help</mat-icon>
+        </button>
+        <button mat-icon-button aria-hidden="false" aria-label="apps icon" class="toolbar-button" [matMenuTriggerFor]="appMenu">
+          <mat-icon>apps</mat-icon>
+        </button>
+
+        <div *ngIf="!this.userData">
+          <button mat-flat-button color="accent" aria-hidden="false" aria-label="apps icon" class="toolbar-button" [routerLink]="'/register'">
+            GET STARTED
+          </button>
+          <button mat-button aria-hidden="false" aria-label="apps icon" class="toolbar-button" [routerLink]="'/login'">
+            SIGN IN
+          </button>
+        </div>
+
+        <div *ngIf="this.userData">
+          <button mat-flat-button color="accent" aria-hidden="false" aria-label="apps icon" class="toolbar-button" (click)="authService.signOutAndRedirect()">
+            SIGN OUT
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-menu #helpMenu="matMenu" xPosition="before">
+  <button mat-menu-item>
+    <mat-icon>contact_support</mat-icon>
+    <span>Support</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>info</mat-icon>
+    <span>About Us</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>new_releases</mat-icon>
+    <span>Updates</span>
+  </button>
+  <mat-divider></mat-divider>
+  <button mat-menu-item>
+    <mat-icon>feedback</mat-icon>
+    <span>Send Feedback</span>
+  </button>
+</mat-menu>
+
+<mat-menu #appMenu="matMenu" xPosition="before">
+  <div fxLayout="row wrap"
+       [style.width]="apps.length/100-10 + '%'"
+       fxLayoutAlign="start"
+       fxLayout.xs="column wrap"
+       fxLayoutAlign.xs="space-between center"
+       class="menu-row">
+    <div fxLayout="column" fxLayoutAlign="center center" class="menu-button" *ngFor="let app of apps">
+      <button mat-flat-button [routerLink]="app.route">
+        <mat-icon class="{{ app.iconClass }}" svgIcon="{{ app.iconName }}"></mat-icon>
+        <span class="text">{{ app.name }}</span>
+      </button>
+    </div>
+  </div>
+</mat-menu>
+
