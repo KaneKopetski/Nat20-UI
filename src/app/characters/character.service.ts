@@ -14,7 +14,6 @@ export class CharacterService {
   }
 
   getCharacters() {
-    console.log("test");
     return this.http.get(this.apiUrl + this.characterEndpoint);
   }
 }
