@@ -3,13 +3,13 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import {from, Observable, Subscription} from 'rxjs';
 import * as firebase from 'firebase/app';
 import { auth } from 'firebase';
-import { Router } from "@angular/router";
-import { User } from  'firebase';
+import { Router } from '@angular/router';
+import { User } from 'firebase';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService implements OnInit, OnDestroy {
+export class AuthService implements OnDestroy {
   userData: Observable<firebase.User>;
   userToken: string;
   user: User;
@@ -26,26 +26,27 @@ export class AuthService implements OnInit, OnDestroy {
     this.sub = this.user$.subscribe( user => {
       this.user = user;
     });
+    this.onInit();
   }
 
-  ngOnInit() {
-    // this.afAuth.authState.subscribe(user => {
-    //   if (user){
-    //     this.user = user;
-    //     localStorage.setItem('user', JSON.stringify(this.user));
-    //   } else {
-    //     localStorage.setItem('user', null);
-    //   }
-    // })
+  onInit() {
+    this.afAuth.authState.subscribe(user => {
+      if (user) {
+        this.user = user;
+        localStorage.setItem('user', JSON.stringify(this.user));
+      } else {
+        localStorage.setItem('user', null);
+      }
+    });
   }
 
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
 
-  isLoggedIn(): boolean {
-    const user = JSON.parse(localStorage.getItem('user'));
-    return (user !== null);
+  get isLoggedIn(): boolean {
+    const  user  =  JSON.parse(localStorage.getItem('user'));
+    return  user  !==  null;
   }
 
   isEmailVerified(): boolean {
@@ -78,7 +79,7 @@ export class AuthService implements OnInit, OnDestroy {
       localStorage.removeItem('user');
       this.userData = null;
       this.router.navigate(['/home']);
-    })
+    });
   }
 
   googleAuth() {
@@ -164,7 +165,7 @@ export class AuthService implements OnInit, OnDestroy {
     this.afAuth.confirmPasswordReset(oobCode, newPassword)
       .then((result) => {
         return result;
-      })
+      });
   }
 
   getUser() {
