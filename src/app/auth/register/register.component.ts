@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from "../auth.service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { CustomValidators } from "../custom-validators/custom-validators";
-import { Constants } from "../../constants";
+import { Constants } from "../../common/constants";
 import { Subject } from "rxjs";
 import { EmailAvailabilityValidator } from "../custom-validators/email-availability-validator";
 import { Router } from "@angular/router";

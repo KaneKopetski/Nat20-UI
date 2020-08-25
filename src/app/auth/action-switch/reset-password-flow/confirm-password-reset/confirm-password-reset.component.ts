@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Constants } from "../../../../constants";
+import { Constants } from "../../../../common/constants";
 import { AuthService } from "../../../auth.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { CustomValidators } from "../../../custom-validators/custom-validators";

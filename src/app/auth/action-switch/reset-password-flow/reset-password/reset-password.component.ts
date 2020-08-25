@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Constants } from "../../../../constants";
+import { Constants } from "../../../../common/constants";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { EmailExistsValidator } from "../../../custom-validators/email-exists-validator";
 import { AuthService } from "../../../auth.service";

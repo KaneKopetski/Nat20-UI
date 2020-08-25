@@ -1,12 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { AppRoutingModule } from './app-routing-module/app-routing.module';
+import { AppRoutingModule } from './common/app-routing-module/app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AngularMaterialModule } from './angular-material-module/angular-material.module';
+import { AngularMaterialModule } from './common/angular-material-module/angular-material.module';
 import { WelcomeComponent } from './welcome/welcome.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { ToolbarComponent } from './toolbar/toolbar.component';
+import { PageNotFoundComponent } from './error-components/page-not-found/page-not-found.component';
+import { ToolbarComponent } from './common/toolbar/toolbar.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
@@ -24,11 +24,11 @@ import { ConfirmPasswordResetComponent } from './auth/action-switch/reset-passwo
 import { ResetPasswordComponent } from './auth/action-switch/reset-password-flow/reset-password/reset-password.component';
 import { ResetPasswordConfirmationComponent } from './auth/action-switch/reset-password-flow/reset-password-confirmation/reset-password-confirmation.component';
 import { ResetPasswordEmailSentComponent } from './auth/action-switch/reset-password-flow/reset-password-email-sent/reset-password-email-sent.component';
-import { CharactersLandingComponent } from './characters/characters-landing/characters-landing.component';
+import { CharactersLandingComponent } from './character-builder/characters-landing/characters-landing.component';
 import { ToastContainerModule, ToastrModule } from 'ngx-toastr';
-import { MaterialElevationDirective } from './material-elevation.directive';
-import { FlipCardComponent } from './characters/flip-card/flip-card.component';
-import {TokenInterceptorService} from './token-interceptor/token-interceptor.service';
+import { MaterialElevationDirective } from './common/material-elevation.directive';
+import { FlipCardComponent } from './character-builder/flip-card/flip-card.component';
+import {TokenInterceptorService} from './common/token-interceptor/token-interceptor.service';
 
 
 @NgModule({
