@@ -15,7 +15,7 @@ import { environment } from '../environments/environment';
 import { LoginComponent } from './auth/login/login.component';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RegisterComponent } from './auth/register/register.component';
 import { EmailVerificationComponent } from './auth/email-verification/email-verification.component';
 import { EmailVerifiedComponent } from './auth/action-switch/email-verified/email-verified.component';
@@ -28,7 +28,7 @@ import { CharactersLandingComponent } from './character-builder/characters-landi
 import { ToastContainerModule, ToastrModule } from 'ngx-toastr';
 import { MaterialElevationDirective } from './common/material-elevation.directive';
 import { FlipCardComponent } from './character-builder/flip-card/flip-card.component';
-import {TokenInterceptorService} from './common/token-interceptor/token-interceptor.service';
+import { TokenInterceptorService } from './common/token-interceptor/token-interceptor.service';
 
 
 @NgModule({
