@@ -4,7 +4,7 @@ import { MediaChange, MediaObserver } from "@angular/flex-layout";
 import { slideInAnimation } from "./app.animation";
 import { MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
-import { AppButton } from "./toolbar/app-button-model";
+import { AppButton } from "./common/toolbar/app-button-model";
 
 @Component({
   selector: 'app-root',

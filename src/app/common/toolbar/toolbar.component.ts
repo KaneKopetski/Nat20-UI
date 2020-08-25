@@ -3,7 +3,7 @@ import { MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
 import { AppButton } from "./app-button-model";
 import { MatDrawer } from "@angular/material/sidenav";
-import { AuthService } from "../auth/auth.service";
+import { AuthService } from "../../auth/auth.service";
 
 @Component({
   selector: 'app-toolbar',

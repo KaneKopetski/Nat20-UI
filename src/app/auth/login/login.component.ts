@@ -4,7 +4,7 @@ import {MatIconRegistry} from "@angular/material/icon";
 import {DomSanitizer} from "@angular/platform-browser";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Constants} from "../../constants";
+import {Constants} from "../../common/constants";
 import {ToastrService, ToastContainerDirective} from "ngx-toastr";
 
 
