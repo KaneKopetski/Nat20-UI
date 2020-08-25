@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-action-switch',
@@ -16,9 +16,9 @@ export class ActionSwitchComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.action = this.route.snapshot.queryParams['mode'];
-    this.oobCode = this.route.snapshot.queryParams['oobCode'];
-    this.apiKey = this.route.snapshot.queryParams['apiKey'];
+    this.action = this.route.snapshot.queryParams.mode;
+    this.oobCode = this.route.snapshot.queryParams.oobCode;
+    this.apiKey = this.route.snapshot.queryParams.apiKey;
   }
 
 }

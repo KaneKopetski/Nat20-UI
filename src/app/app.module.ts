@@ -27,7 +27,6 @@ import { ResetPasswordEmailSentComponent } from './auth/action-switch/reset-pass
 import { CharactersLandingComponent } from './character-builder/characters-landing/characters-landing.component';
 import { ToastContainerModule, ToastrModule } from 'ngx-toastr';
 import { MaterialElevationDirective } from './common/material-elevation.directive';
-import { FlipCardComponent } from './character-builder/flip-card/flip-card.component';
 import { TokenInterceptorService } from './common/token-interceptor/token-interceptor.service';
 
 
@@ -47,8 +46,7 @@ import { TokenInterceptorService } from './common/token-interceptor/token-interc
     ResetPasswordConfirmationComponent,
     ResetPasswordEmailSentComponent,
     CharactersLandingComponent,
-    MaterialElevationDirective,
-    FlipCardComponent
+    MaterialElevationDirective
   ],
   imports: [
     BrowserModule,

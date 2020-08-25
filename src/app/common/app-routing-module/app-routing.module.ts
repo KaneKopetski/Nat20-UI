@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { WelcomeComponent } from "../../welcome/welcome.component";
-import { PageNotFoundComponent } from "../../error-components/page-not-found/page-not-found.component";
-import { LoginComponent } from "../../auth/login/login.component";
-import { RegisterComponent } from "../../auth/register/register.component";
-import { EmailVerificationComponent } from "../../auth/email-verification/email-verification.component";
-import { ActionSwitchComponent } from "../../auth/action-switch/action-switch.component";
-import { ResetPasswordComponent } from "../../auth/action-switch/reset-password-flow/reset-password/reset-password.component";
-import { ResetPasswordConfirmationComponent } from "../../auth/action-switch/reset-password-flow/reset-password-confirmation/reset-password-confirmation.component";
-import { ResetPasswordEmailSentComponent } from "../../auth/action-switch/reset-password-flow/reset-password-email-sent/reset-password-email-sent.component";
+import { WelcomeComponent } from '../../welcome/welcome.component';
+import { PageNotFoundComponent } from '../../error-components/page-not-found/page-not-found.component';
+import { LoginComponent } from '../../auth/login/login.component';
+import { RegisterComponent } from '../../auth/register/register.component';
+import { EmailVerificationComponent } from '../../auth/email-verification/email-verification.component';
+import { ActionSwitchComponent } from '../../auth/action-switch/action-switch.component';
+import { ResetPasswordComponent } from '../../auth/action-switch/reset-password-flow/reset-password/reset-password.component';
+import { ResetPasswordConfirmationComponent } from '../../auth/action-switch/reset-password-flow/reset-password-confirmation/reset-password-confirmation.component';
+import { ResetPasswordEmailSentComponent } from '../../auth/action-switch/reset-password-flow/reset-password-email-sent/reset-password-email-sent.component';
 // import { AngularFireAuthGuard, hasCustomClaim, redirectUnauthorizedTo, redirectLoggedInTo, emailVerified, isNotAnonymous } from '@angular/fire/auth-guard';
-import { CharactersLandingComponent } from "../../character-builder/characters-landing/characters-landing.component";
+import { CharactersLandingComponent } from '../../character-builder/characters-landing/characters-landing.component';
 // import {Observable, pipe, UnaryFunction} from "rxjs";
 // import { map } from "rxjs/operators";
 // import { User, auth } from 'firebase/app';
-import { AuthGuard } from "../../auth/guard/auth.guard";
+import { AuthGuard } from '../../auth/guard/auth.guard';
 
 
 

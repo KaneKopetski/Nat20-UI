@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AuthService } from "../auth.service";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { CustomValidators } from "../custom-validators/custom-validators";
-import { Constants } from "../../common/constants";
-import { Subject } from "rxjs";
-import { EmailAvailabilityValidator } from "../custom-validators/email-availability-validator";
-import { Router } from "@angular/router";
+import { AuthService } from '../auth.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CustomValidators } from '../custom-validators/custom-validators';
+import { Constants } from '../../common/constants';
+import { Subject } from 'rxjs';
+import { EmailAvailabilityValidator } from '../custom-validators/email-availability-validator';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -42,7 +42,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
         CustomValidators.patternValidator(/\d/, { hasNumber: true }),
         CustomValidators.patternValidator(/[A-Z]/, { hasCapitalCase: true }),
         CustomValidators.patternValidator(/[a-z]/, { hasSmallCase: true }),
-        CustomValidators.patternValidator(/[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/,{hasSpecialCharacters: true})
+        CustomValidators.patternValidator(/[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/, {hasSpecialCharacters: true})
       ])],
         confirmPassword: [null,
           [Validators.required]]},

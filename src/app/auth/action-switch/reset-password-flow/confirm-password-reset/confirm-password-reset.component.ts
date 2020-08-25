@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Constants } from "../../../../common/constants";
-import { AuthService } from "../../../auth.service";
-import { ActivatedRoute, Router } from "@angular/router";
-import { CustomValidators } from "../../../custom-validators/custom-validators";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Constants } from '../../../../common/constants';
+import { AuthService } from '../../../auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CustomValidators } from '../../../custom-validators/custom-validators';
 
 
 @Component({
@@ -34,17 +34,17 @@ export class ConfirmPasswordResetComponent implements OnInit {
           CustomValidators.patternValidator(/\d/, { hasNumber: true }),
           CustomValidators.patternValidator(/[A-Z]/, { hasCapitalCase: true }),
           CustomValidators.patternValidator(/[a-z]/, { hasSmallCase: true }),
-          CustomValidators.patternValidator(/[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/,{hasSpecialCharacters: true})
+          CustomValidators.patternValidator(/[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/, {hasSpecialCharacters: true})
         ])],
         confirmPassword: [null,
           [Validators.required]]},
       {validator: CustomValidators.passwordMatchValidator});
-    this.oobCode = this.route.snapshot.queryParams['oobCode'];
+    this.oobCode = this.route.snapshot.queryParams.oobCode;
   }
 
   resetPassword() {
     this.authenticationService.resetPassword(this.oobCode, this.newPasswordForm.get('password').value);
-    this.router.navigate(['/reset-password-confirmation'])
+    this.router.navigate(['/reset-password-confirmation']);
   }
 
 

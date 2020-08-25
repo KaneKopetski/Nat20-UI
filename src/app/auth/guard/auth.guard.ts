@@ -1,8 +1,8 @@
 import { Injectable, OnInit } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AuthService } from "../auth.service";
-import * as firebase from "firebase";
+import { AuthService } from '../auth.service';
+import * as firebase from 'firebase';
 
 
 @Injectable({
@@ -27,14 +27,14 @@ export class AuthGuard implements CanActivate {
     this.userRoute = '/' + next.url.toString();
 
     this.userData.subscribe(userData => {
-      if(!userData) {
-        this.router.navigate(['/login'], { queryParams: { error: true } })
+      if (!userData) {
+        this.router.navigate(['/login'], { queryParams: { error: true } });
         this.isAuthorized = false;
-      } else if(!userData.emailVerified) {
-        this.router.navigate(['/register'])
+      } else if (!userData.emailVerified) {
+        this.router.navigate(['/register']);
         this.isAuthorized = false;
       } else {
-        this.router.navigate([this.userRoute])
+        this.router.navigate([this.userRoute]);
         this.isAuthorized = true;
       }
     });
