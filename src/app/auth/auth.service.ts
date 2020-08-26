@@ -50,27 +50,6 @@ export class AuthService implements OnDestroy {
     this.sub.unsubscribe();
   }
 
-  get isLoggedIn(): boolean {
-    const  user  =  JSON.parse(localStorage.getItem('user'));
-    return  user  !==  null;
-  }
-
-  isEmailVerified(): boolean {
-    const user = JSON.parse(localStorage.getItem('user'));
-    return (user !== null && user.emailVerified !== false);
-  }
-
-  register(email: string, password: string) {
-    this.afAuth
-      .createUserWithEmailAndPassword(email, password)
-      .then(res => {
-        console.log('Successfully signed up!', res);
-      })
-      .catch(error => {
-        console.log('Something is wrong:', error.message);
-      });
-  }
-
   signInWithEmail(email: string, password: string) {
     return this.afAuth
       .signInWithEmailAndPassword(email, password)
@@ -93,14 +72,6 @@ export class AuthService implements OnDestroy {
     this.authLogin(new auth.GoogleAuthProvider()).then(() => {
       this.router.navigate(['/']);
     });
-  }
-
-  facebookAuth() {
-    return this.authLogin(new auth.FacebookAuthProvider());
-  }
-
-  twitterAuth() {
-    return this.authLogin(new auth.TwitterAuthProvider());
   }
 
   authLogin(provider) {
@@ -139,22 +110,11 @@ export class AuthService implements OnDestroy {
       });
   }
 
-  getProviders(email: string) {
-    return this.afAuth.fetchSignInMethodsForEmail(email)
-      .then((result) => {
-      return result;
-    });
-  }
-
   getProvidersObservable(email: string): Observable<string[]> {
     return from(this.afAuth.fetchSignInMethodsForEmail(email)
       .then((result) => {
         return result;
       }));
-  }
-
-  public getUserData() {
-    return this.userData;
   }
 
   setEmailVerified(actionCode: string) {
@@ -173,10 +133,6 @@ export class AuthService implements OnDestroy {
       .then((result) => {
         return result;
       });
-  }
-
-  getUser() {
-    return this.user;
   }
 
 }
