@@ -1,6 +1,6 @@
-import {Injectable, OnDestroy, OnInit} from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import {from, Observable, Subscription} from 'rxjs';
+import { from, Observable, Subscription } from 'rxjs';
 import * as firebase from 'firebase/app';
 import { auth } from 'firebase';
 import { Router } from '@angular/router';
@@ -34,35 +34,20 @@ export class AuthService implements OnDestroy {
       if (user) {
         this.user = user;
         localStorage.setItem('user', JSON.stringify(this.user));
+
+        user.getIdToken().then(res => {
+          localStorage.setItem('userToken', res);
+        });
       } else {
         localStorage.setItem('user', null);
+        localStorage.setItem('userToken', null);
       }
     });
+
   }
 
   ngOnDestroy() {
     this.sub.unsubscribe();
-  }
-
-  get isLoggedIn(): boolean {
-    const  user  =  JSON.parse(localStorage.getItem('user'));
-    return  user  !==  null;
-  }
-
-  isEmailVerified(): boolean {
-    const user = JSON.parse(localStorage.getItem('user'));
-    return (user !== null && user.emailVerified !== false);
-  }
-
-  register(email: string, password: string) {
-    this.afAuth
-      .createUserWithEmailAndPassword(email, password)
-      .then(res => {
-        console.log('Successfully signed up!', res);
-      })
-      .catch(error => {
-        console.log('Something is wrong:', error.message);
-      });
   }
 
   signInWithEmail(email: string, password: string) {
@@ -77,6 +62,7 @@ export class AuthService implements OnDestroy {
   signOutAndRedirect() {
     return this.afAuth.signOut().then(() => {
       localStorage.removeItem('user');
+      localStorage.removeItem('userToken');
       this.userData = null;
       this.router.navigate(['/home']);
     });
@@ -84,16 +70,8 @@ export class AuthService implements OnDestroy {
 
   googleAuth() {
     this.authLogin(new auth.GoogleAuthProvider()).then(() => {
-      this.router.navigate(['/'])
+      this.router.navigate(['/']);
     });
-  }
-
-  facebookAuth() {
-    return this.authLogin(new auth.FacebookAuthProvider());
-  }
-
-  twitterAuth() {
-    return this.authLogin(new auth.TwitterAuthProvider());
   }
 
   authLogin(provider) {
@@ -120,7 +98,7 @@ export class AuthService implements OnDestroy {
   sendVerificationMail() {
     this.afAuth.onAuthStateChanged(user => user.sendEmailVerification())
       .then(() => {
-        this.router.navigate(['/verify-email-address'])
+        this.router.navigate(['/verify-email-address']);
       });
   }
 
@@ -132,22 +110,11 @@ export class AuthService implements OnDestroy {
       });
   }
 
-  getProviders(email: string) {
-    return this.afAuth.fetchSignInMethodsForEmail(email)
-      .then((result) => {
-      return result;
-    });
-  }
-
   getProvidersObservable(email: string): Observable<string[]> {
     return from(this.afAuth.fetchSignInMethodsForEmail(email)
       .then((result) => {
         return result;
       }));
-  }
-
-  public getUserData() {
-    return this.userData;
   }
 
   setEmailVerified(actionCode: string) {
@@ -166,10 +133,6 @@ export class AuthService implements OnDestroy {
       .then((result) => {
         return result;
       });
-  }
-
-  getUser() {
-    return this.user;
   }
 
 }

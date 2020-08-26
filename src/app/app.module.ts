@@ -15,7 +15,7 @@ import { environment } from '../environments/environment';
 import { LoginComponent } from './auth/login/login.component';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RegisterComponent } from './auth/register/register.component';
 import { EmailVerificationComponent } from './auth/email-verification/email-verification.component';
 import { EmailVerifiedComponent } from './auth/action-switch/email-verified/email-verified.component';
@@ -27,8 +27,8 @@ import { ResetPasswordEmailSentComponent } from './auth/action-switch/reset-pass
 import { CharactersLandingComponent } from './character-builder/characters-landing/characters-landing.component';
 import { ToastContainerModule, ToastrModule } from 'ngx-toastr';
 import { MaterialElevationDirective } from './common/material-elevation.directive';
-import { FlipCardComponent } from './character-builder/flip-card/flip-card.component';
-import {TokenInterceptorService} from './common/token-interceptor/token-interceptor.service';
+import { TokenInterceptorService } from './common/token-interceptor/token-interceptor.service';
+import {AuthGuard} from './auth/guard/auth.guard';
 
 
 @NgModule({
@@ -47,8 +47,7 @@ import {TokenInterceptorService} from './common/token-interceptor/token-intercep
     ResetPasswordConfirmationComponent,
     ResetPasswordEmailSentComponent,
     CharactersLandingComponent,
-    MaterialElevationDirective,
-    FlipCardComponent
+    MaterialElevationDirective
   ],
   imports: [
     BrowserModule,

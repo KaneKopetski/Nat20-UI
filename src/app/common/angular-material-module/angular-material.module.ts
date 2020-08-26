@@ -1,4 +1,4 @@
-import { NgModule} from "@angular/core";
+import { NgModule} from '@angular/core';
 import { MatNativeDateModule} from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -71,7 +71,7 @@ const MODULES = [
     MatTreeModule,
     MatNativeDateModule,
     MatDividerModule
-]
+];
 
 
 

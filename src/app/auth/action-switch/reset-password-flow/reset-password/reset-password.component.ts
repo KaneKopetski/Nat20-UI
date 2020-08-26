@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Constants } from "../../../../common/constants";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { EmailExistsValidator } from "../../../custom-validators/email-exists-validator";
-import { AuthService } from "../../../auth.service";
-import { Router } from "@angular/router";
+import { Constants } from '../../../../common/constants';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { EmailExistsValidator } from '../../../custom-validators/email-exists-validator';
+import { AuthService } from '../../../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-reset-password',

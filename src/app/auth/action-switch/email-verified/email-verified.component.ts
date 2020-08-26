@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import { AuthService } from "../../auth.service";
+import {ActivatedRoute, Router} from '@angular/router';
+import { AuthService } from '../../auth.service';
 
 @Component({
   selector: 'app-email-verified',
@@ -16,7 +16,7 @@ export class EmailVerifiedComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.oobCode = this.route.snapshot.queryParams['oobCode'];
+    this.oobCode = this.route.snapshot.queryParams.oobCode;
     this.authService.setEmailVerified(this.oobCode);
     setTimeout(() => {
       this.router.navigate(['/login']);

@@ -1,26 +1,27 @@
+<!--FROM SERVICE CALL-->
 <div fxLayout="column" fxLayoutAlign="space-between center">
 
   <div>My Characters</div>
   <div fxLayout="row wrap" fxLayoutAlign="start" fxLayoutGap="25px" class="card-list">
-    <div class='card-container' *ngFor="let characterCard of myCharacters">
+    <div class='card-container' *ngFor="let characterCard of this.characters">
       <div class='flippable-card' [ngClass]="{'flipped':characterCard.isFlipped}" (click)='characterCard.isFlipped = !characterCard.isFlipped'>
         <mat-card appMaterialElevation>
           <mat-card-content>
             <div class="card-header-block" fxLayout="column" fxLayoutAlign="start">
               <div fxLayout="row" fxLayoutAlign="space-between start">
-              <mat-card-title class="character-name">{{ characterCard.name }}</mat-card-title>
-              <div class="character-level" fxLayoutAlign="center center" matTooltip="Character level">{{ characterCard.level }}</div>
+                <mat-card-title class="character-name">{{ characterCard.basicAttributes.name }}</mat-card-title>
+                <div class="character-level" fxLayoutAlign="center center" matTooltip="Character level">CHARACTER LEVEL WILL GO HERE</div>
               </div>
-              <mat-card-subtitle>{{ characterCard.classSummary }}</mat-card-subtitle>
+              <mat-card-subtitle>Class Summary goes here</mat-card-subtitle>
             </div>
-              <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+            <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
             <div class="physical-traits-container" fxLayoutAlign="center start">
               <div class="character-physical-traits" fxLayout="row" fxLayoutAlign="space-between center">
-                <div>Sex: {{ characterCard.physicalTraits.gender }}</div>
-                <div>Race: {{ characterCard.physicalTraits.race.raceName }}</div>
-                <div>Ht: {{ characterCard.physicalTraits.heightFeet + '\''}}
-                  {{ characterCard.physicalTraits.heightInches + '"'}}</div>
-                <div>Wt: {{ characterCard.physicalTraits.weight + ' lbs.' }}</div>
+                <div>Sex: {{ characterCard.basicAttributes.gender | titlecase }}</div>
+                <div>Race: {{ characterCard.basicAttributes.race.name }}</div>
+                <div>Ht: {{ characterCard.basicAttributes.height.feet + '\''}}
+                  {{ characterCard.basicAttributes.height.inches + '"'}}</div>
+                <div>Wt: {{ characterCard.basicAttributes.weight + ' lbs.' }}</div>
               </div>
             </div>
             <div class="character-summary-container" fxLayoutAlign="center start">
@@ -28,42 +29,111 @@
             <div class="desc-box" fxLayout="column" fxLayoutAlign="start space-between">
               <div class="character-desc">Placeholder for a short character description.</div>
               <div class="character-quote" fxLayout="column" fxLayoutAlign="center start">
-                {{ characterCard.quote }}
+                QUOTE GOES HERE
               </div>
             </div>
-              <mat-card-footer class="character-summary" fxLayout="row" fxLayoutAlign="space-between center">
-                <div class="character-creator" matTooltip="Character creator">{{ characterCard.creator }}</div>
-                <div matTooltip="DND Edition">Edition: {{ characterCard.edition }}</div>
-              </mat-card-footer>
+            <mat-card-footer class="character-summary" fxLayout="row" fxLayoutAlign="space-between center">
+              <div class="character-creator" matTooltip="Character creator">CREATOR GOES HERE</div>
+              <div matTooltip="DND Edition">Edition: EDITION GOES HERE</div>
+            </mat-card-footer>
           </mat-card-content>
         </mat-card>
         <mat-card class='back'>
-          <mat-card-title>{{ characterCard.name + '\'s ' }}Statistics</mat-card-title>
+          <mat-card-title>{{ characterCard.basicAttributes.name + '\'s ' }}Statistics</mat-card-title>
           <div class="base-attack-bonus">
-            BAB: {{ characterCard.baseAttackBonus }}
+            BAB: BAB GOES HERE
           </div>
           <div class="saving-throws-chart">
             <div>Saving Throws</div>
             <div>
-            <div>Fort: {{ characterCard.savingThrows.fortitude }}</div>
-            <div>Will: {{ characterCard.savingThrows.will }}</div>
-            <div>Reflex: {{ characterCard.savingThrows.reflex }}</div>
+              <div>Fort: FORT SAVE HERE</div>
+              <div>Will: WILL SAVE HERE</div>
+              <div>Reflex: REFLEX SAVE HERE</div>
             </div>
             <div class="ability-scores-chart">Ability Scores</div>
             <div>
-              <div>Str: {{ characterCard.abilityScores.strength }} Mod: {{ characterCard.abilityScores.strMod }}</div>
-              <div>Dex: {{ characterCard.abilityScores.dexterity }} Mod: {{ characterCard.abilityScores.dexMod }}</div>
-              <div>Con: {{ characterCard.abilityScores.constitution }} Mod: {{ characterCard.abilityScores.conMod }}</div>
-              <div>Wis: {{ characterCard.abilityScores.wisdom }} Mod: {{ characterCard.abilityScores.wisMod }}</div>
-              <div>Int: {{ characterCard.abilityScores.intelligence }} Mod: {{ characterCard.abilityScores.intMod }}</div>
-              <div>Cha: {{ characterCard.abilityScores.charisma }} Mod: {{ characterCard.abilityScores.chaMod }}</div>
+              <div>Str: {{ characterCard.baseAbilities.STRENGTH.inherentScore }} Mod: {{ characterCard.baseAbilities.STRENGTH.enhancementModifier }}</div>
+              <div>Dex: {{ characterCard.baseAbilities.DEXTERITY.inherentScore }} Mod: {{ characterCard.baseAbilities.DEXTERITY.enhancementModifier }}</div>
+              <div>Con: {{ characterCard.baseAbilities.CONSTITUTION.inherentScore }} Mod: {{ characterCard.baseAbilities.CONSTITUTION.enhancementModifier }}</div>
+              <div>Wis: {{ characterCard.baseAbilities.WISDOM.inherentScore }} Mod: {{ characterCard.baseAbilities.WISDOM.enhancementModifier }}</div>
+              <div>Int: {{ characterCard.baseAbilities.INTELLIGENCE.inherentScore }} Mod: {{ characterCard.baseAbilities.INTELLIGENCE.enhancementModifier }}</div>
+              <div>Cha: {{ characterCard.baseAbilities.CHARISMA.inherentScore }} Mod: {{ characterCard.baseAbilities.CHARISMA.enhancementModifier }}</div>
             </div>
           </div>
         </mat-card>
       </div>
     </div>
   </div>
+</div>
 
+<!--USING SAMPLE DATA-->
+<!--<div fxLayout="column" fxLayoutAlign="space-between center">-->
+
+<!--  <div>My Characters</div>-->
+<!--  <div fxLayout="row wrap" fxLayoutAlign="start" fxLayoutGap="25px" class="card-list">-->
+<!--    <div class='card-container' *ngFor="let characterCard of myCharacters">-->
+<!--      <div class='flippable-card' [ngClass]="{'flipped':characterCard.isFlipped}" (click)='characterCard.isFlipped = !characterCard.isFlipped'>-->
+<!--        <mat-card appMaterialElevation>-->
+<!--          <mat-card-content>-->
+<!--            <div class="card-header-block" fxLayout="column" fxLayoutAlign="start">-->
+<!--              <div fxLayout="row" fxLayoutAlign="space-between start">-->
+<!--              <mat-card-title class="character-name">{{ characterCard.name }}</mat-card-title>-->
+<!--              <div class="character-level" fxLayoutAlign="center center" matTooltip="Character level">{{ characterCard.level }}</div>-->
+<!--              </div>-->
+<!--              <mat-card-subtitle>{{ characterCard.classSummary }}</mat-card-subtitle>-->
+<!--            </div>-->
+<!--              <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">-->
+<!--            <div class="physical-traits-container" fxLayoutAlign="center start">-->
+<!--              <div class="character-physical-traits" fxLayout="row" fxLayoutAlign="space-between center">-->
+<!--                <div>Sex: {{ characterCard.physicalTraits.gender }}</div>-->
+<!--                <div>Race: {{ characterCard.physicalTraits.race.raceName }}</div>-->
+<!--                <div>Ht: {{ characterCard.physicalTraits.heightFeet + '\''}}-->
+<!--                  {{ characterCard.physicalTraits.heightInches + '"'}}</div>-->
+<!--                <div>Wt: {{ characterCard.physicalTraits.weight + ' lbs.' }}</div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="character-summary-container" fxLayoutAlign="center start">-->
+<!--            </div>-->
+<!--            <div class="desc-box" fxLayout="column" fxLayoutAlign="start space-between">-->
+<!--              <div class="character-desc">Placeholder for a short character description.</div>-->
+<!--              <div class="character-quote" fxLayout="column" fxLayoutAlign="center start">-->
+<!--                {{ characterCard.quote }}-->
+<!--              </div>-->
+<!--            </div>-->
+<!--              <mat-card-footer class="character-summary" fxLayout="row" fxLayoutAlign="space-between center">-->
+<!--                <div class="character-creator" matTooltip="Character creator">{{ characterCard.creator }}</div>-->
+<!--                <div matTooltip="DND Edition">Edition: {{ characterCard.edition }}</div>-->
+<!--              </mat-card-footer>-->
+<!--          </mat-card-content>-->
+<!--        </mat-card>-->
+<!--        <mat-card class='back'>-->
+<!--          <mat-card-title>{{ characterCard.name + '\'s ' }}Statistics</mat-card-title>-->
+<!--          <div class="base-attack-bonus">-->
+<!--            BAB: {{ characterCard.baseAttackBonus }}-->
+<!--          </div>-->
+<!--          <div class="saving-throws-chart">-->
+<!--            <div>Saving Throws</div>-->
+<!--            <div>-->
+<!--            <div>Fort: {{ characterCard.savingThrows.fortitude }}</div>-->
+<!--            <div>Will: {{ characterCard.savingThrows.will }}</div>-->
+<!--            <div>Reflex: {{ characterCard.savingThrows.reflex }}</div>-->
+<!--            </div>-->
+<!--            <div class="ability-scores-chart">Ability Scores</div>-->
+<!--            <div>-->
+<!--              <div>Str: {{ characterCard.abilityScores.strength }} Mod: {{ characterCard.abilityScores.strMod }}</div>-->
+<!--              <div>Dex: {{ characterCard.abilityScores.dexterity }} Mod: {{ characterCard.abilityScores.dexMod }}</div>-->
+<!--              <div>Con: {{ characterCard.abilityScores.constitution }} Mod: {{ characterCard.abilityScores.conMod }}</div>-->
+<!--              <div>Wis: {{ characterCard.abilityScores.wisdom }} Mod: {{ characterCard.abilityScores.wisMod }}</div>-->
+<!--              <div>Int: {{ characterCard.abilityScores.intelligence }} Mod: {{ characterCard.abilityScores.intMod }}</div>-->
+<!--              <div>Cha: {{ characterCard.abilityScores.charisma }} Mod: {{ characterCard.abilityScores.chaMod }}</div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </mat-card>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+
+<!--OLD BUT RELEVANT-->
 <!--  <div>Shared Characters</div>-->
 <!--  <div fxLayout="row wrap" fxLayoutAlign="start" fxLayoutGap="25px" class="card-list">-->
 <!--  <div class='card-container' *ngFor="let characterCard of publicCharacters">-->
@@ -86,5 +156,8 @@
 <!--  </div>-->
 <!--  </div>-->
 
-</div>
+<!--</div>-->
 
+<button mat-flat-button (click)="getCharacterById(6)">Get Single Character</button>
+
+<br>{{ this.resultTest | json }}

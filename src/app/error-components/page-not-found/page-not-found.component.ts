@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./page-not-found.component.css']
 })
 export class PageNotFoundComponent implements OnInit {
-//TODO: Add route to support contact form from template
+// TODO: Add route to support contact form from template
   constructor() { }
 
   ngOnInit(): void {

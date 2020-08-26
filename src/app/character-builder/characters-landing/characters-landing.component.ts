@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CharacterSummary } from "../character-summary-model";
-import { SampleCharacterLists } from "../sample-character-lists";
+import { CharacterService } from '../character.service';
+import { CharacterTemplateModel } from '../model/character-template-model';
+import { CharacterPageModel } from '../model/character-page-model';
 
 @Component({
   selector: 'app-characters-landing',
@@ -8,16 +9,32 @@ import { SampleCharacterLists } from "../sample-character-lists";
   styleUrls: ['./characters-landing.component.css']
 })
 export class CharactersLandingComponent implements OnInit {
-  myCharacters: CharacterSummary[];
-  publicCharacters: CharacterSummary[];
 
-  constructor() {
-    this.myCharacters = SampleCharacterLists.myCharacters;
-    this.publicCharacters = SampleCharacterLists.publicCharacters;
+  singleCharacter: CharacterTemplateModel;
+  characters: Array<CharacterTemplateModel>;
+
+  resultTest: any;
+
+  constructor(private characterTemplateService: CharacterService) {
   }
 
   ngOnInit(): void {
+    this.getCharacterPage(0, 5);
   }
 
+  getCharacterById(id: number) {
+    this.characterTemplateService.getCharacterById(id).subscribe((res: CharacterTemplateModel) => {
+      this.singleCharacter = res;
+    });
+  }
+
+  getCharacterPage(pageNumber: number, pageSize: number) {
+    this.characterTemplateService.getCharacters(pageNumber, pageSize)
+      .subscribe((res: CharacterPageModel) => {
+        this.resultTest = res;
+        this.characters = res.content;
+        console.log(res);
+      });
+  }
 
 }

@@ -1,8 +1,8 @@
-import {AbstractControl, AsyncValidator, AsyncValidatorFn, ValidationErrors} from '@angular/forms';
-import { Observable, of } from "rxjs";
-import {debounceTime, map, switchMap, take} from 'rxjs/operators';
-import { AuthService } from "../auth.service";
-import { Injectable } from "@angular/core";
+import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { AuthService } from '../auth.service';
+import { Injectable } from '@angular/core';
 
 
 @Injectable({

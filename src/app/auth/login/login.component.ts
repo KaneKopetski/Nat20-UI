@@ -1,22 +1,22 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {AuthService} from "../auth.service";
-import {MatIconRegistry} from "@angular/material/icon";
-import {DomSanitizer} from "@angular/platform-browser";
-import {ActivatedRoute, Router} from "@angular/router";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Constants} from "../../common/constants";
-import {ToastrService, ToastContainerDirective} from "ngx-toastr";
+import {AuthService} from '../auth.service';
+import {MatIconRegistry} from '@angular/material/icon';
+import {DomSanitizer} from '@angular/platform-browser';
+import {ActivatedRoute, Router} from '@angular/router';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Constants} from '../../common/constants';
+import {ToastrService, ToastContainerDirective} from 'ngx-toastr';
 
 
 const googleLogoURL =
-  "https://raw.githubusercontent.com/fireflysemantics/logo/master/Google.svg";
+  'https://raw.githubusercontent.com/fireflysemantics/logo/master/Google.svg';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   errorExists: boolean;
   errorMessage: string;
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit{
               private route: ActivatedRoute,
               private toastr: ToastrService) {
 
-    this.matIconRegistry.addSvgIcon("googleLogo", this.domSanitizer.bypassSecurityTrustResourceUrl(googleLogoURL));
+    this.matIconRegistry.addSvgIcon('googleLogo', this.domSanitizer.bypassSecurityTrustResourceUrl(googleLogoURL));
     this.errorMessage = Constants.MUST_BE_LOGGED_IN;
   }
 
@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit{
 
     this.toastr.overlayContainer = this.toastContainer;
 
-    this.errorExists = this.route.snapshot.queryParams['error'];
+    this.errorExists = this.route.snapshot.queryParams.error;
     this.checkForError();
   }
 
@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit{
         this.loginForm.reset();
         this.router.navigate(['']);
       }).catch((error) => {
-        this.loginForm.setErrors({ 'invalid': true });
+        this.loginForm.setErrors({ invalid: true });
         this.addFirebaseErrorsToErrorsCollections(error.code);
     });
   }
@@ -66,44 +66,44 @@ export class LoginComponent implements OnInit{
   }
 
   private addFirebaseErrorsToErrorsCollections(errorCode: string) {
-    switch(errorCode) {
+    switch (errorCode) {
       case 'auth/user-not-found': {
-        this.loginForm.get('email').setErrors({ 'userNotFound': true })
+        this.loginForm.get('email').setErrors({ userNotFound: true });
         break;
       }
       case 'auth/user-disabled': {
-        this.loginForm.get('email').setErrors({ 'userDisabled': true })
+        this.loginForm.get('email').setErrors({ userDisabled: true });
         break;
       }
       case 'auth/wrong-password': {
-        this.loginForm.get('password').setErrors({ 'invalidPassword': true })
+        this.loginForm.get('password').setErrors({ invalidPassword: true });
         break;
       }
       default: {
-        this.loginForm.get('email').setErrors({ 'unknownError': true });
+        this.loginForm.get('email').setErrors({ unknownError: true });
         break;
       }
     }
   }
 
   getEmailErrorMessage() {
-    if (this.loginForm.controls['email'].hasError('required')) {
+    if (this.loginForm.controls.email.hasError('required')) {
       return Constants.FIELD_REQUIRED_MESSAGE;
-    } else if (this.loginForm.controls['email'].hasError('email')) {
+    } else if (this.loginForm.controls.email.hasError('email')) {
       return Constants.EMAIL_INVALID_MESSAGE;
-    } else if (this.loginForm.controls['email'].hasError('userNotFound')) {
+    } else if (this.loginForm.controls.email.hasError('userNotFound')) {
       return Constants.USER_NOT_FOUND_MESSAGE;
-    } else if (this.loginForm.controls['email'].hasError('userDisabled')) {
+    } else if (this.loginForm.controls.email.hasError('userDisabled')) {
       return Constants.USER_DISABLED_MESSAGE;
-    } else if(this.loginForm.controls['email'].hasError('unknownError')) {
+    } else if (this.loginForm.controls.email.hasError('unknownError')) {
       return Constants.UNKNOWN_ERROR_MESSAGE;
     }
   }
 
   getPasswordErrorMessage() {
-    if (this.loginForm.controls['password'].hasError('required')) {
+    if (this.loginForm.controls.password.hasError('required')) {
       return Constants.FIELD_REQUIRED_MESSAGE;
-    } else if (this.loginForm.controls['password'].hasError('invalidPassword')) {
+    } else if (this.loginForm.controls.password.hasError('invalidPassword')) {
       return  Constants.WRONG_PASSWORD_MESSAGE;
     }
   }
