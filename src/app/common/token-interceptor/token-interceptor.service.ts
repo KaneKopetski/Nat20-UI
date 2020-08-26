@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { HttpHandler, HttpInterceptor, HttpRequest, HttpEvent, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {HttpHandler, HttpInterceptor, HttpRequest, HttpEvent, HttpResponse} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 
 @Injectable({
@@ -33,7 +33,7 @@ export class TokenInterceptorService implements HttpInterceptor {
         return next.handle(authReq).pipe(
           map(resp => {
             if (resp instanceof HttpResponse) {
-              return resp;
+              return resp.clone();
             }
           })
         );

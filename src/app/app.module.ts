@@ -28,6 +28,7 @@ import { CharactersLandingComponent } from './character-builder/characters-landi
 import { ToastContainerModule, ToastrModule } from 'ngx-toastr';
 import { MaterialElevationDirective } from './common/material-elevation.directive';
 import { TokenInterceptorService } from './common/token-interceptor/token-interceptor.service';
+import {AuthGuard} from './auth/guard/auth.guard';
 
 
 @NgModule({
