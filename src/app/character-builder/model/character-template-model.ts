@@ -29,25 +29,13 @@ export interface CharacterTemplateModel {
       },
       'baseSpeed': number;
       'levelAdjustment': number;
-      'baseAbilityRacialModifiers': {
-        'DEXTERITY': {
-          'modifierValue': number;
-        },
-        'STRENGTH': {
-          'modifierValue': number;
-        }
-        'CONSTITUTION': {
-          'modifierValue': number;
-        }
-        'INTELLIGENCE': {
-          'modifierValue': number;
-        }
-        'WISDOM': {
-          'modifierValue': number;
-        }
-        'CHARISMA': {
-          'modifierValue': number;
-        }
+      'raceBaseAbilityModifiers': {
+        'STRENGTH'?: number;
+        'CONSTITUTION'?: number;
+        'DEXTERITY'?: number;
+        'WISDOM'?: number;
+        'INTELLIGENCE'?: number;
+        'CHARISMA'?: number;
       }
     },
   'size': {
