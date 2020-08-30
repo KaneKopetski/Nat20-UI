@@ -1,0 +1,40 @@
+<div class="message-container" fxLayout="row" fxLayoutAlign="center center" toastContainer></div>
+
+<div fxLayout="column" fxLayoutAlign="center center" [style.margin-top]="'90px'">
+
+  <mat-card>
+    <mat-card-title [style.margin-bottom]="'25px'">Edit your profile</mat-card-title>
+    <mat-card-content>
+
+      <form novalidate (ngSubmit)="submitProfile()" [formGroup]="this.userProfileForm" fxLayout="column" fxLayoutAlign="center center">
+
+        <mat-form-field appearance="outline" color="accent">
+          <mat-label>Change your email</mat-label>
+          <input matInput formControlName="email">
+          <mat-error></mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" color="accent">
+          <mat-label>Change your username</mat-label>
+          <input matInput formControlName="displayName">
+          <mat-error></mat-error>
+        </mat-form-field>
+
+        <button mat-stroked-button appPreventDoubleClick
+                [throttleTime]="2000"
+                (throttledClick)="this.submitProfile()"
+                [class.spinner]="loading"
+                color="accent"
+                type="submit"
+                [disabled]="userProfileForm.invalid || loading">{{ this.submitButtonText }}</button>
+
+      </form>
+
+    </mat-card-content>
+
+  </mat-card>
+</div>
+
+<br>{{ this.userProfileForm.value | json }}
+<br>{{ this.userProfileForm.errors | json }}
+<br>{{ this.user | json }}
