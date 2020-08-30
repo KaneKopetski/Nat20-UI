@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import * as firebase from 'firebase';
 import {UserProfileService} from '../user-profile.service';
@@ -12,9 +12,9 @@ import {ToastrService, ToastContainerDirective} from 'ngx-toastr';
 })
 export class EditUserProfileComponent implements OnInit {
 
+  @ViewChild(ToastContainerDirective, {static: true}) toastContainer: ToastContainerDirective;
   userProfileForm: FormGroup;
   user: firebase.User;
-  @ViewChild(ToastContainerDirective, {static: true}) toastContainer: ToastContainerDirective;
   loading = false;
   submitButtonText = 'Finish';
 
@@ -46,7 +46,7 @@ export class EditUserProfileComponent implements OnInit {
     const userProfileModel: UserProfileModel = new UserProfileModel();
     userProfileModel.displayName = this.userProfileForm.get(['email']).value;
     userProfileModel.email = this.userProfileForm.get(['displayName']).value;
-    this.userProfileService.createProfile(userProfileModel).subscribe(
+    this.userProfileService.saveProfile(userProfileModel).subscribe(
       success => this.successMessage(),
       error => this.errorMessage());
   }

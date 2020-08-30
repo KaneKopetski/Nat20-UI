@@ -5,6 +5,7 @@ import * as firebase from 'firebase/app';
 import { auth } from 'firebase';
 import { Router } from '@angular/router';
 import { User } from 'firebase';
+import { UserProfileService } from '../user-profile/user-profile.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,8 +20,13 @@ export class AuthService implements OnDestroy {
     return this.afAuth.user;
   }
 
+  get userFromLocalStorage$(): firebase.User {
+    return JSON.parse(localStorage.getItem('user'));
+  }
+
   constructor(private afAuth: AngularFireAuth,
-              public router: Router) {
+              public router: Router,
+              private userProfileService: UserProfileService) {
 
     this.userData = afAuth.authState;
     this.sub = this.user$.subscribe( user => {
@@ -106,6 +112,7 @@ export class AuthService implements OnDestroy {
     return this.afAuth.createUserWithEmailAndPassword(email, password)
       .then((result) => {
         this.sendVerificationMail();
+        this.userProfileService.saveProfile(this.userFromLocalStorage$);
         return result;
       });
   }
