@@ -13,7 +13,6 @@ import {UserProfileModel} from '../user-profile/user-profile-model';
 })
 export class AuthService implements OnDestroy {
   userData: Observable<firebase.User>;
-  userToken: string;
   user: User;
   private sub: Subscription;
 
@@ -25,18 +24,12 @@ export class AuthService implements OnDestroy {
     return JSON.parse(localStorage.getItem('user'));
   }
 
-  constructor(private afAuth: AngularFireAuth,
-              public router: Router,
-              private userProfileService: UserProfileService) {
-
-    this.userData = afAuth.authState;
-    this.sub = this.user$.subscribe( user => {
-      this.user = user;
-    });
+  constructor(private afAuth: AngularFireAuth, private router: Router, private userProfileService: UserProfileService) {
     this.onInit();
   }
 
   onInit() {
+    this.userData = this.afAuth.authState;
     this.afAuth.authState.subscribe(user => {
       if (user) {
         this.user = user;
@@ -61,7 +54,6 @@ export class AuthService implements OnDestroy {
     return this.afAuth
       .signInWithEmailAndPassword(email, password)
       .then(result => {
-        this.getTokenPromise();
         return result;
       });
   }
@@ -84,23 +76,10 @@ export class AuthService implements OnDestroy {
   authLogin(provider) {
     return this.afAuth.signInWithPopup(provider)
       .then((result) => {
-        this.getTokenPromise();
+        console.log(result);
       }).catch((error) => {
+        console.log(error);
       });
-  }
-
-  getTokenPromise(): Promise<string> {
-    return new Promise((resolve, reject) => {
-      this.afAuth.onAuthStateChanged( user => {
-        if (user) {
-          user.getIdToken().then(idToken => {
-            this.userToken = idToken;
-            resolve(idToken);
-            resolve(idToken);
-          });
-        }
-      });
-    });
   }
 
   sendVerificationMail() {
