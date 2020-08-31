@@ -43,10 +43,11 @@ export class EditUserProfileComponent implements OnInit {
 
   submitProfile() {
     this.runSpinner();
-    const userProfileModel: UserProfileModel = new UserProfileModel();
-    userProfileModel.displayName = this.userProfileForm.get(['email']).value;
-    userProfileModel.email = this.userProfileForm.get(['displayName']).value;
-    this.userProfileService.saveProfile(userProfileModel).subscribe(
+    const userProfile: UserProfileModel = new UserProfileModel();
+    userProfile.displayName = this.userProfileForm.get(['email']).value;
+    userProfile.email = this.userProfileForm.get(['displayName']).value;
+    userProfile.uid = JSON.parse(localStorage.getItem('user')).uid;
+    this.userProfileService.saveProfile(userProfile).subscribe(
       success => this.successMessage(),
       error => this.errorMessage());
   }
@@ -66,6 +67,24 @@ export class EditUserProfileComponent implements OnInit {
   runSpinner() {
     this.submitButtonText = '';
     this.loading = true;
+  }
+
+  testGetOrCreate() {
+    const userish: UserProfileModel = new UserProfileModel();
+    userish.uid = JSON.parse(localStorage.getItem('user')).uid;
+    userish.displayName = JSON.parse(localStorage.getItem('user')).displayName;
+    userish.email = JSON.parse(localStorage.getItem('user')).email;
+    this.userProfileService.getOrCreateProfile(userish).subscribe(res => {
+      console.log(res);
+    });
+  }
+
+  testGet() {
+    console.log('Get by id');
+    return this.userProfileService.getUserProfileById(JSON.parse(localStorage.getItem('user')).uid)
+      .subscribe(res => {
+        console.log(res);
+      });
   }
 
 }

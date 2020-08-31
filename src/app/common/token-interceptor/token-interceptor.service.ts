@@ -33,6 +33,7 @@ export class TokenInterceptorService implements HttpInterceptor {
         return next.handle(authReq).pipe(
           map(resp => {
             if (resp instanceof HttpResponse) {
+              console.log('INTERCEPT: ' + resp.body);
               return resp.clone();
             }
           })

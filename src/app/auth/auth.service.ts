@@ -6,6 +6,7 @@ import { auth } from 'firebase';
 import { Router } from '@angular/router';
 import { User } from 'firebase';
 import { UserProfileService } from '../user-profile/user-profile.service';
+import {UserProfileModel} from '../user-profile/user-profile-model';
 
 @Injectable({
   providedIn: 'root'
@@ -95,6 +96,7 @@ export class AuthService implements OnDestroy {
           user.getIdToken().then(idToken => {
             this.userToken = idToken;
             resolve(idToken);
+            resolve(idToken);
           });
         }
       });
@@ -112,7 +114,6 @@ export class AuthService implements OnDestroy {
     return this.afAuth.createUserWithEmailAndPassword(email, password)
       .then((result) => {
         this.sendVerificationMail();
-        this.userProfileService.saveProfile(this.userFromLocalStorage$);
         return result;
       });
   }
@@ -140,6 +141,14 @@ export class AuthService implements OnDestroy {
       .then((result) => {
         return result;
       });
+  }
+
+  mapFirebaseUserToUserProfile(user: firebase.User): UserProfileModel {
+    const newProfile: UserProfileModel = new UserProfileModel();
+    newProfile.uid = user.uid;
+    newProfile.displayName = user.displayName;
+    newProfile.email = user.email;
+    return newProfile;
   }
 
 }
