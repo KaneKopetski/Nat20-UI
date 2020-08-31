@@ -7,14 +7,15 @@ import { Router } from '@angular/router';
 import { User } from 'firebase';
 import { UserProfileService } from '../user-profile/user-profile.service';
 import {UserProfileModel} from '../user-profile/user-profile-model';
+import UserCredential = firebase.auth.UserCredential;
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService implements OnDestroy {
   userData: Observable<firebase.User>;
-  user: User;
   private sub: Subscription;
+  private userCredential: UserCredential;
 
   get user$(): Observable<User|null> {
     return this.afAuth.user;
@@ -30,14 +31,19 @@ export class AuthService implements OnDestroy {
 
   onInit() {
     this.userData = this.afAuth.authState;
-    this.afAuth.authState.subscribe(user => {
+    this.sub = this.afAuth.authState.subscribe(user => {
       if (user) {
-        this.user = user;
-        localStorage.setItem('user', JSON.stringify(this.user));
+        console.log('Store user in localstorage');
+        localStorage.setItem('user', JSON.stringify(user));
 
+        console.log('Store token');
         user.getIdToken().then(res => {
           localStorage.setItem('userToken', res);
+        }).then(() => {
+          this.saveProfileIfNewUser();
         });
+
+
       } else {
         localStorage.setItem('user', null);
         localStorage.setItem('userToken', null);
@@ -68,18 +74,32 @@ export class AuthService implements OnDestroy {
   }
 
   googleAuth() {
+    console.log('Google auth');
     this.authLogin(new auth.GoogleAuthProvider()).then(() => {
       this.router.navigate(['/']);
     });
   }
 
   authLogin(provider) {
+    console.log('Auth login');
     return this.afAuth.signInWithPopup(provider)
       .then((result) => {
-        console.log(result);
+        this.userCredential = result;
+        console.log('Result: ');
+        console.log('Credential:');
       }).catch((error) => {
         console.log(error);
       });
+  }
+
+  saveProfileIfNewUser() {
+    console.log('Checking new user');
+    if (this.userCredential && this.userCredential.additionalUserInfo.isNewUser) {
+      console.log('Saving new profile');
+      this.userProfileService.saveProfile(
+        this.mapFirebaseUserToUserProfile(this.userCredential.user))
+        .subscribe(result => console.log(result));
+    }
   }
 
   sendVerificationMail() {
