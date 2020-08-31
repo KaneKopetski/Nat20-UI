@@ -16,6 +16,7 @@ export class AuthService implements OnDestroy {
   userData: Observable<firebase.User>;
   private sub: Subscription;
   private userCredential: UserCredential;
+  token: string;
 
   get user$(): Observable<User|null> {
     return this.afAuth.user;
@@ -33,27 +34,24 @@ export class AuthService implements OnDestroy {
     this.userData = this.afAuth.authState;
     this.sub = this.afAuth.authState.subscribe(user => {
       if (user) {
-        console.log('Store user in localstorage');
         localStorage.setItem('user', JSON.stringify(user));
-
-        console.log('Store token');
-        user.getIdToken().then(res => {
-          localStorage.setItem('userToken', res);
-        }).then(() => {
+        this.setToken(user).then(() => {
           this.saveProfileIfNewUser();
         });
-
-
       } else {
         localStorage.setItem('user', null);
-        localStorage.setItem('userToken', null);
       }
     });
-
   }
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+  }
+
+  setToken(user: User) {
+    return user.getIdToken(true).then(res => {
+      this.token = res;
+    });
   }
 
   signInWithEmail(email: string, password: string) {
@@ -93,12 +91,12 @@ export class AuthService implements OnDestroy {
   }
 
   saveProfileIfNewUser() {
-    console.log('Checking new user');
     if (this.userCredential && this.userCredential.additionalUserInfo.isNewUser) {
-      console.log('Saving new profile');
-      this.userProfileService.saveProfile(
+      this.userProfileService.getOrCreateProfile(
         this.mapFirebaseUserToUserProfile(this.userCredential.user))
-        .subscribe(result => console.log(result));
+        .subscribe(result => {
+          this.userProfileService.userProfile = result;
+        });
     }
   }
 

@@ -8,6 +8,7 @@ import { UserProfileModel } from './user-profile-model';
   providedIn: 'root'
 })
 export class UserProfileService {
+  userProfile: UserProfileModel;
 
   urls = {
     apiUrl: '',
