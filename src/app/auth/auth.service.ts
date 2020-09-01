@@ -5,53 +5,66 @@ import * as firebase from 'firebase/app';
 import { auth } from 'firebase';
 import { Router } from '@angular/router';
 import { User } from 'firebase';
-import { UserProfileService } from '../user-profile/user-profile.service';
-import {UserProfileModel} from '../user-profile/user-profile-model';
 import UserCredential = firebase.auth.UserCredential;
+import {UserProfileService} from '../user-profile/user-profile.service';
+import {UserProfileModel} from '../user-profile/user-profile-model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService implements OnDestroy {
   userData: Observable<firebase.User>;
+  userToken: string;
+  user: User;
   private sub: Subscription;
   private userCredential: UserCredential;
-  token: string;
 
   get user$(): Observable<User|null> {
     return this.afAuth.user;
   }
 
-  get userFromLocalStorage$(): firebase.User {
-    return JSON.parse(localStorage.getItem('user'));
-  }
+  constructor(private afAuth: AngularFireAuth,
+              private router: Router,
+              private userProfileService: UserProfileService) {
 
-  constructor(private afAuth: AngularFireAuth, private router: Router, private userProfileService: UserProfileService) {
+    this.userData = afAuth.authState;
+    this.sub = this.user$.subscribe( user => {
+      this.user = user;
+    });
     this.onInit();
   }
 
   onInit() {
-    this.userData = this.afAuth.authState;
-    this.sub = this.afAuth.authState.subscribe(user => {
+    this.afAuth.authState.subscribe(user => {
       if (user) {
-        localStorage.setItem('user', JSON.stringify(user));
-        this.setToken(user).then(() => {
+        this.user = user;
+        localStorage.setItem('user', JSON.stringify(this.user));
+
+        user.getIdToken().then(res => {
+          localStorage.setItem('userToken', res);
+        }).then(() => {
           this.saveProfileIfNewUser();
         });
       } else {
         localStorage.setItem('user', null);
+        localStorage.setItem('userToken', null);
       }
     });
+
   }
 
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
 
-  setToken(user: User) {
-    return user.getIdToken(true).then(res => {
-      this.token = res;
-    });
+  saveProfileIfNewUser() {
+    if (this.userCredential && this.userCredential.additionalUserInfo.isNewUser) {
+      this.userProfileService.getOrCreateProfile(
+        this.mapFirebaseUserToUserProfile(this.userCredential.user))
+        .subscribe(result => {
+          this.userProfileService.userProfile = result;
+        });
+    }
   }
 
   signInWithEmail(email: string, password: string) {
@@ -72,7 +85,6 @@ export class AuthService implements OnDestroy {
   }
 
   googleAuth() {
-    console.log('Google auth');
     this.authLogin(new auth.GoogleAuthProvider()).then(() => {
       this.router.navigate(['/']);
     });
@@ -88,16 +100,6 @@ export class AuthService implements OnDestroy {
       }).catch((error) => {
         console.log(error);
       });
-  }
-
-  saveProfileIfNewUser() {
-    if (this.userCredential && this.userCredential.additionalUserInfo.isNewUser) {
-      this.userProfileService.getOrCreateProfile(
-        this.mapFirebaseUserToUserProfile(this.userCredential.user))
-        .subscribe(result => {
-          this.userProfileService.userProfile = result;
-        });
-    }
   }
 
   sendVerificationMail() {

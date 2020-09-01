@@ -1,9 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpHandler, HttpInterceptor, HttpRequest, HttpEvent, HttpResponse} from '@angular/common/http';
-import {from, Observable} from 'rxjs';
-import {map, mergeMap} from 'rxjs/operators';
-import * as firebase from 'firebase';
-import {AuthService} from '../../auth/auth.service';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 
 @Injectable({
@@ -13,18 +11,20 @@ export class TokenInterceptorService implements HttpInterceptor {
   private excludedUrlsRegex: RegExp[];
   private excludedUrls = [ '.svg' ];
 
-  constructor(private authService: AuthService) {
+  constructor() {
     this.excludedUrlsRegex = this.excludedUrls.map(urlPattern => new RegExp(urlPattern, 'i')) || [];
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const passThrough: boolean = !!this.excludedUrlsRegex.find(regex => regex.test(req.url));
+
+    const passThrough: boolean =
+      !!this.excludedUrlsRegex.find(regex => regex.test(req.url));
 
     if (passThrough) {
       return next.handle(req);
     } else {
 
-      const token = this.authService.token;
+      const token = localStorage.getItem('userToken');
       let newHeaders = req.headers;
       if (token) {
         newHeaders = newHeaders.append('Authorization', 'Bearer ' + token);
@@ -39,4 +39,5 @@ export class TokenInterceptorService implements HttpInterceptor {
       );
     }
   }
+
 }
