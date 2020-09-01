@@ -19,10 +19,6 @@ export class AuthService implements OnDestroy {
   private sub: Subscription;
   private userCredential: UserCredential;
 
-  get user$(): Observable<User|null> {
-    return this.afAuth.user;
-  }
-
   constructor(private afAuth: AngularFireAuth,
               private router: Router,
               private userProfileService: UserProfileService) {
