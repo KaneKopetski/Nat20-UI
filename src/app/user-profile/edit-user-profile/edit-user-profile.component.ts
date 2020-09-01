@@ -4,6 +4,7 @@ import * as firebase from 'firebase';
 import {UserProfileService} from '../user-profile.service';
 import {UserProfileModel} from '../user-profile-model';
 import {ToastrService, ToastContainerDirective} from 'ngx-toastr';
+import {AuthService} from '../../auth/auth.service';
 
 @Component({
   selector: 'app-edit-user-profile',
@@ -20,11 +21,12 @@ export class EditUserProfileComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private userProfileService: UserProfileService,
-              private toastr: ToastrService) {
+              private toastr: ToastrService,
+              private authService: AuthService) {
   }
 
   ngOnInit(): void {
-    this.user = JSON.parse(localStorage.getItem('user'));
+    this.user = this.authService.getUserFromLocalStorage();
     this.createForm();
     this.toastr.overlayContainer = this.toastContainer;
 
@@ -46,7 +48,7 @@ export class EditUserProfileComponent implements OnInit {
     const userProfile: UserProfileModel = new UserProfileModel();
     userProfile.displayName = this.userProfileForm.get(['email']).value;
     userProfile.email = this.userProfileForm.get(['displayName']).value;
-    userProfile.uid = JSON.parse(localStorage.getItem('user')).uid;
+    userProfile.uid = this.user.uid;
     this.userProfileService.saveProfile(userProfile).subscribe(
       success => this.successMessage(),
       error => this.errorMessage());
@@ -71,9 +73,9 @@ export class EditUserProfileComponent implements OnInit {
 
   testGetOrCreate() {
     const userish: UserProfileModel = new UserProfileModel();
-    userish.uid = JSON.parse(localStorage.getItem('user')).uid;
-    userish.displayName = JSON.parse(localStorage.getItem('user')).displayName;
-    userish.email = JSON.parse(localStorage.getItem('user')).email;
+    userish.uid = this.user.uid;
+    userish.displayName = this.user.displayName;
+    userish.email = this.user.email;
     this.userProfileService.getOrCreateProfile(userish).subscribe(res => {
       console.log(res);
     });
@@ -81,7 +83,7 @@ export class EditUserProfileComponent implements OnInit {
 
   testGet() {
     console.log('Get by id');
-    return this.userProfileService.getUserProfileById(JSON.parse(localStorage.getItem('user')).uid)
+    return this.userProfileService.getUserProfileById(this.user.uid)
       .subscribe(res => {
         console.log(res);
       });

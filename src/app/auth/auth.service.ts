@@ -45,6 +45,10 @@ export class AuthService implements OnDestroy {
     this.sub.unsubscribe();
   }
 
+  getUserFromLocalStorage(): User {
+    return JSON.parse(localStorage.getItem('user'));
+  }
+
   getTokenFromLocalStorage(): string {
     return localStorage.getItem('userToken');
   }
