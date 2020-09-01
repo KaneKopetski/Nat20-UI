@@ -15,7 +15,6 @@ import {UserProfileModel} from '../user-profile/user-profile-model';
 export class AuthService implements OnDestroy {
   userData: Observable<firebase.User>;
   userToken: string;
-  user: User;
   private sub: Subscription;
   private userCredential: UserCredential;
 
@@ -28,11 +27,10 @@ export class AuthService implements OnDestroy {
 
   onInit() {
     this.userData = this.afAuth.authState;
-    this.afAuth.authState.subscribe(user => {
-      if (user) {
-        this.user = user;
-        localStorage.setItem('user', JSON.stringify(this.user));
 
+    this.userData.subscribe(user => {
+      if (user) {
+        localStorage.setItem('user', JSON.stringify(user));
         user.getIdToken().then(res => {
           localStorage.setItem('userToken', res);
         }).then(() => {
