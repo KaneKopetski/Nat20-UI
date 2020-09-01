@@ -25,7 +25,7 @@ export class TokenInterceptorService implements HttpInterceptor {
       return next.handle(req);
     } else {
 
-      const token = this.authService.getTokenFromLocalStorage();
+      const token = this.authService.getUserToken();
       let newHeaders = req.headers;
       if (token) {
         newHeaders = newHeaders.append('Authorization', 'Bearer ' + token);

@@ -17,4 +17,7 @@ export abstract class Constants {
   public static readonly WRONG_PASSWORD_MESSAGE: string = 'Invalid password';
   public static readonly UNKNOWN_ERROR_MESSAGE: string = 'Unknown error. Please try again later';
   public static readonly MUST_BE_LOGGED_IN: string = 'You must be logged in';
+
+  public static readonly USER_KEY: string = 'user';
+  public static readonly USER_TOKEN_KEY: string = 'userToken';
 }

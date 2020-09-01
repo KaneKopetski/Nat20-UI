@@ -8,6 +8,7 @@ import { User } from 'firebase';
 import UserCredential = firebase.auth.UserCredential;
 import {UserProfileService} from '../user-profile/user-profile.service';
 import {UserProfileModel} from '../user-profile/user-profile-model';
+import {Constants} from '../common/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -28,15 +29,15 @@ export class AuthService implements OnDestroy {
     this.userData = this.afAuth.authState;
     this.userData.subscribe(user => {
       if (user) {
-        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem(Constants.USER_KEY, JSON.stringify(user));
         user.getIdToken().then(res => {
-          localStorage.setItem('userToken', res);
+          localStorage.setItem(Constants.USER_TOKEN_KEY, res);
         }).then(() => {
           this.saveProfileIfNewUser();
         });
       } else {
-        localStorage.setItem('user', null);
-        localStorage.setItem('userToken', null);
+        localStorage.setItem(Constants.USER_KEY, null);
+        localStorage.setItem(Constants.USER_TOKEN_KEY, null);
       }
     });
   }
@@ -45,12 +46,17 @@ export class AuthService implements OnDestroy {
     this.sub.unsubscribe();
   }
 
-  getUserFromLocalStorage(): User {
-    return JSON.parse(localStorage.getItem('user'));
+  getCurrentUser(): User {
+    return JSON.parse(localStorage.getItem(Constants.USER_KEY));
   }
 
-  getTokenFromLocalStorage(): string {
-    return localStorage.getItem('userToken');
+  getUserToken(): string {
+    return localStorage.getItem(Constants.USER_TOKEN_KEY);
+  }
+
+  removeTokensFromLocalStorage() {
+    localStorage.removeItem(Constants.USER_KEY);
+    localStorage.removeItem(Constants.USER_TOKEN_KEY);
   }
 
   saveProfileIfNewUser() {
@@ -73,8 +79,7 @@ export class AuthService implements OnDestroy {
 
   signOutAndRedirect() {
     return this.afAuth.signOut().then(() => {
-      localStorage.removeItem('user');
-      localStorage.removeItem('userToken');
+      this.removeTokensFromLocalStorage();
       this.userData = null;
       this.router.navigate(['/home']);
     });

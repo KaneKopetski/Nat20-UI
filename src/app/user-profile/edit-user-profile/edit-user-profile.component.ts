@@ -26,7 +26,7 @@ export class EditUserProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.user = this.authService.getUserFromLocalStorage();
+    this.user = this.authService.getCurrentUser();
     this.createForm();
     this.toastr.overlayContainer = this.toastContainer;
 
