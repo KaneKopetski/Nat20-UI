@@ -13,8 +13,7 @@ import {UserProfileModel} from '../user-profile/user-profile-model';
   providedIn: 'root'
 })
 export class AuthService implements OnDestroy {
-  userData: Observable<firebase.User>;
-  userToken: string;
+  userData: Observable<User>;
   private sub: Subscription;
   private userCredential: UserCredential;
 
@@ -27,7 +26,6 @@ export class AuthService implements OnDestroy {
 
   onInit() {
     this.userData = this.afAuth.authState;
-
     this.userData.subscribe(user => {
       if (user) {
         localStorage.setItem('user', JSON.stringify(user));
@@ -41,11 +39,14 @@ export class AuthService implements OnDestroy {
         localStorage.setItem('userToken', null);
       }
     });
-
   }
 
   ngOnDestroy() {
     this.sub.unsubscribe();
+  }
+
+  getTokenFromLocalStorage(): string {
+    return localStorage.getItem('userToken');
   }
 
   saveProfileIfNewUser() {
@@ -86,8 +87,6 @@ export class AuthService implements OnDestroy {
     return this.afAuth.signInWithPopup(provider)
       .then((result) => {
         this.userCredential = result;
-        console.log('Result: ');
-        console.log('Credential:');
       }).catch((error) => {
         console.log(error);
       });
