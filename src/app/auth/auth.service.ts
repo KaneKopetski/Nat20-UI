@@ -27,14 +27,11 @@ export class AuthService implements OnDestroy {
               private router: Router,
               private userProfileService: UserProfileService) {
 
-    this.userData = afAuth.authState;
-    this.sub = this.user$.subscribe( user => {
-      this.user = user;
-    });
     this.onInit();
   }
 
   onInit() {
+    this.userData = this.afAuth.authState;
     this.afAuth.authState.subscribe(user => {
       if (user) {
         this.user = user;
