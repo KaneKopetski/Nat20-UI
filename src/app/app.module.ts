@@ -29,7 +29,7 @@ import { ToastContainerModule, ToastrModule } from 'ngx-toastr';
 import { MaterialElevationDirective } from './common/material-elevation.directive';
 import { TokenInterceptorService } from './common/token-interceptor/token-interceptor.service';
 import { EditUserProfileComponent } from './user-profile/edit-user-profile/edit-user-profile.component';
-import { ViewProfileComponent } from './user-profile/view-profile/view-profile.component';
+import { ProfileDetailComponent } from './user-profile/profile-detail/profile-detail.component';
 import { PreventDoubleClickDirective } from './common/prevent-double-click.directive';
 
 
@@ -51,7 +51,7 @@ import { PreventDoubleClickDirective } from './common/prevent-double-click.direc
     CharactersLandingComponent,
     MaterialElevationDirective,
     EditUserProfileComponent,
-    ViewProfileComponent,
+    ProfileDetailComponent,
     PreventDoubleClickDirective
   ],
   imports: [

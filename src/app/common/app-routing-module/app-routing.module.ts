@@ -12,7 +12,7 @@ import { ResetPasswordEmailSentComponent } from '../../auth/action-switch/reset-
 import { CharactersLandingComponent } from '../../character-builder/characters-landing/characters-landing.component';
 import { AuthGuard } from '../../auth/guard/auth-guard/auth.guard';
 import {EditUserProfileComponent} from '../../user-profile/edit-user-profile/edit-user-profile.component';
-import {ViewProfileComponent} from '../../user-profile/view-profile/view-profile.component';
+import {ProfileDetailComponent} from '../../user-profile/profile-detail/profile-detail.component';
 import {OwnerGuard} from '../../auth/guard/owner-guard/owner.guard';
 
 const ROUTES = [
@@ -29,7 +29,7 @@ const ROUTES = [
   { path: 'character', component: CharactersLandingComponent, canActivate: [AuthGuard] },
   { path: 'c', component: CharactersLandingComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: EditUserProfileComponent, canActivate: [AuthGuard, OwnerGuard] },
-  { path: 'view-profile', component: ViewProfileComponent },
+  { path: 'view-profile/:uid', component: ProfileDetailComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];

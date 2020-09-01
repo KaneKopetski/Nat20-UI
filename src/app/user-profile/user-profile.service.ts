@@ -14,7 +14,7 @@ export class UserProfileService {
     apiUrl: '',
     basePath: '/userProfile',
     getById: '/getById/',
-    getOrCreate: '/getOrCreateTest',
+    getOrCreate: '/getOrCreate',
     saveProfile: '/save',
     update: '/update'
   };
@@ -37,8 +37,6 @@ export class UserProfileService {
   }
 
   getOrCreateProfile(profile: UserProfileModel): Observable<UserProfileModel> {
-    console.log('Get or create: ' + this.urls.apiUrl + this.urls.basePath + this.urls.getOrCreate);
-    console.log('Profile: ' + profile.displayName);
     return this.http.post<UserProfileModel>(this.urls.apiUrl + this.urls.basePath + this.urls.getOrCreate, profile);
   }
 

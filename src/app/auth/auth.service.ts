@@ -60,9 +60,8 @@ export class AuthService implements OnDestroy {
   }
 
   saveProfileIfNewUser() {
-    if (this.userCredential && this.userCredential.additionalUserInfo.isNewUser) {
-      this.userProfileService.getOrCreateProfile(
-        this.mapFirebaseUserToUserProfile(this.userCredential.user))
+    if (this.userCredential) {
+      this.userProfileService.getOrCreateProfile(this.mapFirebaseUserToUserProfile(this.userCredential.user))
         .subscribe(result => {
           this.userProfileService.userProfile = result;
         });
@@ -111,6 +110,7 @@ export class AuthService implements OnDestroy {
   signUp(email, password) {
     return this.afAuth.createUserWithEmailAndPassword(email, password)
       .then((result) => {
+        this.userCredential = result;
         this.sendVerificationMail();
         return result;
       });

@@ -116,7 +116,7 @@ export interface CharacterTemplateModel {
   };
   'creator': {
     'uid': string;
-    'username': string;
+    'displayName': string;
     'email': string;
   };
   isFlipped?: boolean;

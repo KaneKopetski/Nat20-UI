@@ -71,22 +71,4 @@ export class EditUserProfileComponent implements OnInit {
     this.loading = true;
   }
 
-  testGetOrCreate() {
-    const userish: UserProfileModel = new UserProfileModel();
-    userish.uid = this.user.uid;
-    userish.displayName = this.user.displayName;
-    userish.email = this.user.email;
-    this.userProfileService.getOrCreateProfile(userish).subscribe(res => {
-      console.log(res);
-    });
-  }
-
-  testGet() {
-    console.log('Get by id');
-    return this.userProfileService.getUserProfileById(this.user.uid)
-      .subscribe(res => {
-        console.log(res);
-      });
-  }
-
 }
