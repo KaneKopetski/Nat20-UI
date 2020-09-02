@@ -28,11 +28,46 @@ export class CharactersLandingComponent implements OnInit {
   getCharacterPage(pageNumber: number, pageSize: number) {
     this.characterTemplateService.getCharacters(pageNumber, pageSize)
       .subscribe((res: CharacterPageModel) => {
-        this.characters = res.content;
-        this.res = res;
+        this.characters = this.applyRacialModifiersToBaseAbilityScore(res.content);
         this.pageNumber = res.pageable.pageNumber;
         this.pageSize = res.pageable.pageSize;
         this.totalPages = res.totalPages;
       });
   }
+
+  applyRacialModifiersToBaseAbilityScore(characters: Array<CharacterTemplateModel>): Array<CharacterTemplateModel> {
+    characters.every(character => {
+      switch (true) {
+        case !!character.basicAttributes.race.raceBaseAbilityModifiers.STRENGTH: {
+          character.baseAbilities.STRENGTH.inherentScore += character.basicAttributes.race.raceBaseAbilityModifiers.STRENGTH;
+          break;
+        }
+        case !!character.basicAttributes.race.raceBaseAbilityModifiers.DEXTERITY: {
+          character.baseAbilities.DEXTERITY.inherentScore += character.basicAttributes.race.raceBaseAbilityModifiers.DEXTERITY;
+          break;
+        }
+        case !!character.basicAttributes.race.raceBaseAbilityModifiers.CONSTITUTION: {
+          character.baseAbilities.CONSTITUTION.inherentScore += character.basicAttributes.race.raceBaseAbilityModifiers.CONSTITUTION;
+          break;
+        }
+        case !!character.basicAttributes.race.raceBaseAbilityModifiers.WISDOM: {
+          character.baseAbilities.WISDOM.inherentScore += character.basicAttributes.race.raceBaseAbilityModifiers.WISDOM;
+          break;
+        }
+        case !!character.basicAttributes.race.raceBaseAbilityModifiers.INTELLIGENCE: {
+          character.baseAbilities.INTELLIGENCE.inherentScore += character.basicAttributes.race.raceBaseAbilityModifiers.INTELLIGENCE;
+          break;
+        }
+        case !!character.basicAttributes.race.raceBaseAbilityModifiers.CHARISMA: {
+          character.baseAbilities.CHARISMA.inherentScore += character.basicAttributes.race.raceBaseAbilityModifiers.CHARISMA;
+          break;
+        }
+        default: {
+          return characters;
+        }
+      }
+      return characters;
+    });
+    return characters;
+}
 }
