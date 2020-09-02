@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CharacterService } from '../character.service';
 import { CharacterPageModel } from '../model/character-page-model';
 import { FormControl } from '@angular/forms';
+import {CharacterTemplateModel} from '../model/character-template-model';
 
 @Component({
   selector: 'app-characters-landing',
@@ -10,7 +11,8 @@ import { FormControl } from '@angular/forms';
 })
 export class CharactersLandingComponent implements OnInit {
 
-  characterPage: CharacterPageModel;
+  characters: Array<CharacterTemplateModel>;
+  res: any;
   position = new FormControl('above');
   pageSize: number;
   pageNumber: number;
@@ -26,7 +28,8 @@ export class CharactersLandingComponent implements OnInit {
   getCharacterPage(pageNumber: number, pageSize: number) {
     this.characterTemplateService.getCharacters(pageNumber, pageSize)
       .subscribe((res: CharacterPageModel) => {
-        this.characterPage = res;
+        this.characters = res.content;
+        this.res = res;
         this.pageNumber = res.pageable.pageNumber;
         this.pageSize = res.pageable.pageSize;
         this.totalPages = res.totalPages;

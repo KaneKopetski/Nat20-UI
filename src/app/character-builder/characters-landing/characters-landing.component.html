@@ -2,7 +2,7 @@
 
   <div>My Characters</div>
   <div fxLayout="row wrap" fxLayoutAlign="start" fxLayoutGap="25px" class="card-list">
-    <div class='card-container' *ngFor="let characterCard of this.characterPage.content">
+    <div class='card-container' *ngFor="let characterCard of this.characters">
       <div class='flippable-card' [ngClass]="{'flipped':characterCard.isFlipped}" (click)='characterCard.isFlipped = !characterCard.isFlipped'>
         <mat-card appMaterialElevation>
           <mat-card-content>
@@ -32,9 +32,9 @@
               </div>
             </div>
             <mat-card-footer class="character-summary" fxLayout="row" fxLayoutAlign="space-between center">
-<!--              <div class="character-creator" matTooltip="Info about the action" [matTooltipPosition]="this.position.value" [routerLink]="['/view-profile/', characterCard.creator.uid]">-->
-<!--                {{ characterCard.creator.displayName }}-->
-<!--              </div>-->
+              <div class="character-creator" matTooltip="Info about the action" [matTooltipPosition]="this.position.value" [routerLink]="['/view-profile/', characterCard.creatorUid]">
+                {{ characterCard.creatorUid }}
+              </div>
               <div matTooltip="DND Edition">Edition: EDITION GOES HERE</div>
             </mat-card-footer>
           </mat-card-content>
