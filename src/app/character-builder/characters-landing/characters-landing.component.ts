@@ -12,7 +12,6 @@ import {CharacterTemplateModel} from '../model/character-template-model';
 export class CharactersLandingComponent implements OnInit {
 
   characters: Array<CharacterTemplateModel>;
-  res: any;
   position = new FormControl('above');
   pageSize: number;
   pageNumber: number;
