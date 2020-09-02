@@ -102,10 +102,6 @@ export interface CharacterTemplateModel {
       'miscModifier': number;
     }
   };
-  'creator': {
-    'uid': string;
-    'displayName': string;
-    'email': string;
-  };
+  'creatorUid': string;
   isFlipped?: boolean;
 }
