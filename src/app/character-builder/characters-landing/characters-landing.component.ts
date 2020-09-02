@@ -14,6 +14,7 @@ export class CharactersLandingComponent implements OnInit {
   position = new FormControl('above');
   pageSize: number;
   pageNumber: number;
+  totalPages: number;
 
   constructor(private characterTemplateService: CharacterService) {
   }
@@ -28,6 +29,7 @@ export class CharactersLandingComponent implements OnInit {
         this.characterPage = res;
         this.pageNumber = res.pageable.pageNumber;
         this.pageSize = res.pageable.pageSize;
+        this.totalPages = res.totalPages;
       });
   }
 }
