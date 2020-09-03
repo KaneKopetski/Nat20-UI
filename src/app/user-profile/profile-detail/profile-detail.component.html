@@ -1,1 +1,21 @@
-<div>{{this.profile | json}}</div>
+<div class="message-container" fxLayout="row" fxLayoutAlign="center center" toastContainer></div>
+
+<div *ngIf="this.profile" fxLayout="row" fxLayoutAlign="center center" [style.margin-top]="'90px'">
+
+  <mat-card class="profile-avatar-card">
+    <mat-card-content>
+
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="profile-information">
+    <mat-card-content>
+      <mat-card-title [style.margin-bottom]="'25px'">{{this.profile.displayName}}</mat-card-title>
+      <mat-label>About {{ this.profile.displayName }}</mat-label>
+      <mat-card-subtitle>{{this.profile.aboutMe}}</mat-card-subtitle>
+    </mat-card-content>
+
+  </mat-card>
+</div>
+
+{{ this.userToken }}

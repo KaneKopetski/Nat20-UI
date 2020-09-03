@@ -59,11 +59,12 @@ export class AuthService implements OnDestroy {
     localStorage.removeItem(Constants.USER_TOKEN_KEY);
   }
 
+  // TODO: Add handling for the returned user profile. Should be set in tool bar
   saveProfileIfNewUser() {
     if (this.userCredential) {
       this.userProfileService.getOrCreateProfile(this.mapFirebaseUserToUserProfile(this.userCredential.user))
         .subscribe(result => {
-          this.userProfileService.userProfile = result;
+          console.log(result);
         });
     }
   }

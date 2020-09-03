@@ -20,4 +20,12 @@ export abstract class Constants {
 
   public static readonly USER_KEY: string = 'user';
   public static readonly USER_TOKEN_KEY: string = 'userToken';
+
+  public static readonly userProfileUrls = {
+    basePath: '/userProfile',
+    getById: '/getById/',
+    getOrCreate: '/getOrCreate',
+    saveProfile: '/save',
+    update: '/update'
+ };
 }
