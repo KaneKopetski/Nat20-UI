@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {User} from 'firebase';
 
 @Component({
   selector: 'app-welcome',
@@ -7,10 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WelcomeComponent implements OnInit {
 
+  user: User;
+
   constructor() {
   }
 
   ngOnInit() {
+    this.user = JSON.parse(localStorage.getItem('user'));
   }
 
 }

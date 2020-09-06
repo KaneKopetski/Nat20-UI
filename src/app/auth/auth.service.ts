@@ -144,7 +144,7 @@ export class AuthService implements OnDestroy {
 
   mapFirebaseUserToUserProfile(user: firebase.User): UserProfileModel {
     const newProfile: UserProfileModel = new UserProfileModel();
-    newProfile.identity.uid = user.uid;
+    newProfile.uid = user.uid;
     newProfile.displayName = user.displayName;
     newProfile.email = user.email;
     return newProfile;

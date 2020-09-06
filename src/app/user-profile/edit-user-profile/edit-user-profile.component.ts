@@ -48,7 +48,7 @@ export class EditUserProfileComponent implements OnInit {
     const userProfile: UserProfileModel = new UserProfileModel();
     userProfile.displayName = this.userProfileForm.get(['email']).value;
     userProfile.email = this.userProfileForm.get(['displayName']).value;
-    userProfile.identity.uid = this.user.uid;
+    userProfile.uid = this.user.uid;
     this.userProfileService.saveProfile(userProfile).subscribe(
       success => this.successMessage(),
       error => this.errorMessage());
