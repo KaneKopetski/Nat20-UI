@@ -1,5 +1,7 @@
 export class UserProfileModel {
-  uid: string;
+  identity: {
+    uid: string;
+  };
   email: string;
   displayName: string;
   aboutMe?: string;
