@@ -11,6 +11,7 @@ import {UserProfileModel} from '../user-profile-model';
 export class ProfileDetailComponent implements OnInit {
 
   profile: UserProfileModel;
+  profileAvatar: any;
   userToken: string;
 
   constructor(private route: ActivatedRoute, private profileService: UserProfileService, private router: Router) { }
@@ -24,9 +25,20 @@ export class ProfileDetailComponent implements OnInit {
   // TODO: Look at adding an error message to 404 component to provide user more context
   getProfile(uid: string) {
     this.profileService.getUserProfileById(uid).subscribe(
-      res => this.profile = res,
+      res => this.handleProfile(res),
       error => this.router.navigate(['not-found'])
     );
   }
+
+  handleProfile(userProfile: UserProfileModel) {
+    this.profile = userProfile;
+    if (!userProfile.profileAvatar) {
+      this.profileAvatar = '../../../assets/red-dragon-around-d20-transparent.png';
+    } else {
+      this.profileAvatar = userProfile.profileAvatar;
+    }
+  }
+
+
 
 }
