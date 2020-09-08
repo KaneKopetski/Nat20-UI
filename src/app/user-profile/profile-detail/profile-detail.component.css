@@ -1,9 +1,31 @@
-.profile-card {
-  max-width: 270px;
-  max-height: 25%;
-}
-
 .avatar {
-  width: 45%
+  max-width: 170px;
+  max-height: 200px;
 }
 
+.profile-card {
+  padding: 0;
+  width: 550px;
+  height: 200px;
+}
+
+.card-info {
+  margin: 15px;
+}
+
+.about-me {
+  margin-top: 25px;
+}
+
+.mat-card-actions {
+  padding: 0;
+  margin-left: 0;
+}
+
+.avatar-container {
+  width: 33%;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}

@@ -1,21 +1,36 @@
-<div class="message-container" fxLayout="row" fxLayoutAlign="center center" toastContainer></div>
 
-<div *ngIf="this.profile" [style.margin-top]="'90px'" fxLayout="column" fxLayoutAlign="center center">
+<div *ngIf="this.profile" [style.margin-top]="'90px'" fxLayout="row" fxLayoutAlign="center center">
 
-  <mat-card class="profile-card" fxLayout="column" fxLayoutAlign="center center">
-      <img class="avatar" mat-card-image src="{{ this.profileAvatar }}" alt="avatar">
 
-    <mat-card-content>
-      <mat-card-header>
-        <mat-card-title>{{ this.profile.displayName }}</mat-card-title>
-      </mat-card-header>
-      <mat-card-subtitle>About {{ this.profile.displayName }}</mat-card-subtitle>
+  <mat-card class="profile-card">
+
+    <mat-card-content fxLayout="row" fxLayoutAlign="space-between center">
+
+      <div class="avatar-container">
+    <img class="avatar" src="{{ this.profileAvatar }}" alt="avatar">
+      </div>
+
+    <div class="card-info" fxLayout="column" fxLayoutAlign="space-between center">
+    <mat-card-header>
+      <mat-card-title class="display-name">{{ this.profile.displayName }}</mat-card-title>
+    </mat-card-header>
+
+      <mat-card-subtitle class="about-me">About {{ this.profile.displayName }}</mat-card-subtitle>
       <p>{{ this.profile.aboutMe }}</p>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button>FRIEND</button>
-      <button mat-button>CONTACT</button>
+    </div>
+
+    <mat-card-actions fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="7px">
+      <button mat-fab color="warn" aria-label="Add friend">
+        <mat-icon>add_circle</mat-icon>
+      </button>
+      <button mat-fab color="warn" aria-label="Add friend">
+        <mat-icon>email</mat-icon>
+      </button>
     </mat-card-actions>
+
+    </mat-card-content>
+
   </mat-card>
 
 </div>
+
