@@ -1,20 +1,26 @@
 .avatar {
-  max-width: 170px;
-  max-height: 200px;
+  min-height: 150px;
+  min-width: 150px;
+  max-height: 300px;
+  max-width: 300px;
 }
 
 .profile-card {
   padding: 0;
-  width: 550px;
-  height: 200px;
+  max-width: 850px;
+  max-height: 300px;
 }
 
 .card-info {
-  margin: 15px;
+  margin: 25px;
+}
+
+.about-me-header {
+  margin-top: 25px;
 }
 
 .about-me {
-  margin-top: 25px;
+  max-width: 550px;
 }
 
 .mat-card-actions {
