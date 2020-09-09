@@ -32,13 +32,11 @@ export class ProfileDetailComponent implements OnInit {
 
   handleProfile(userProfile: UserProfileModel) {
     this.profile = userProfile;
-    if (!userProfile.profileAvatar) {
+    if (!userProfile.newProfileAvatar) {
       this.profileAvatar = '../../../assets/red-dragon-around-d20-transparent.png';
     } else {
-      this.profileAvatar = userProfile.profileAvatar;
+      this.profileAvatar = userProfile.newProfileAvatar;
     }
   }
-
-
 
 }

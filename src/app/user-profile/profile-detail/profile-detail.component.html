@@ -13,11 +13,10 @@
           <mat-card-title class="display-name">{{ this.profile.displayName }}</mat-card-title>
         </mat-card-header>
 
-        <mat-card-subtitle class="about-me-header">About {{ this.profile.displayName }}</mat-card-subtitle>
         <span class="about-me">{{ this.profile.aboutMe }}</span>
       </div>
 
-      <mat-card-actions fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="7px">
+      <mat-card-actions fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px">
         <button mat-fab color="warn" aria-label="Add friend" matTooltip="Send {{ this.profile.displayName }} a friend request">
           <mat-icon>add_circle</mat-icon>
         </button>

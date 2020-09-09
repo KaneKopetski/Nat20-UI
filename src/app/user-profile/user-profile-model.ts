@@ -3,7 +3,7 @@ export class UserProfileModel {
   email: string;
   displayName: string;
   aboutMe?: string;
-  profileAvatar?: {
+  newProfileAvatar?: {
     imageId: number;
     fileName: string;
     fileType: string;

@@ -8,13 +8,10 @@ import {User} from 'firebase';
 })
 export class WelcomeComponent implements OnInit {
 
-  user: User;
-
   constructor() {
   }
 
   ngOnInit() {
-    this.user = JSON.parse(localStorage.getItem('user'));
   }
 
 }

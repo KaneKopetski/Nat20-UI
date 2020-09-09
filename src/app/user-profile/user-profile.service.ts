@@ -30,7 +30,8 @@ export class UserProfileService {
     return this.http.put<UserProfileModel>(this.apiUrl + this.urls.basePath + this.urls.update, profile);
   }
 
-  getOrCreateProfile(profile: UserProfileModel): Observable<UserProfileModel> {
+  getOrCreateProfile(profile: FormData): Observable<UserProfileModel> {
+    console.log('Profile to save: ' + JSON.stringify(profile));
     return this.http.post<UserProfileModel>(this.apiUrl + this.urls.basePath + this.urls.getOrCreate, profile);
   }
 
