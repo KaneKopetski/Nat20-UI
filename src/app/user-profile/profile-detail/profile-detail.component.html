@@ -5,7 +5,8 @@
     <mat-card-content fxLayout="row" fxLayoutAlign="space-between center">
 
       <div class="avatar-container">
-        <img class="avatar" src="{{ this.profileAvatar }}" alt="avatar">
+        <img class="avatar" [src]="this.getImagePath()" alt="Profile avatar">
+
       </div>
 
       <div class="card-info" fxLayout="column" fxLayoutAlign="space-between center">
@@ -30,4 +31,5 @@
   </mat-card>
 
 </div>
+
 

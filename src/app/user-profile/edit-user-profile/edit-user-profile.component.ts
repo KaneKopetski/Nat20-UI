@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import * as firebase from 'firebase';
 import {UserProfileService} from '../user-profile.service';
-import {UserProfileModel} from '../user-profile-model';
+import {UserProfileRequest} from '../user-profile-request';
 import {ToastrService, ToastContainerDirective} from 'ngx-toastr';
 import {AuthService} from '../../auth/auth.service';
 
@@ -45,7 +45,7 @@ export class EditUserProfileComponent implements OnInit {
 
   submitProfile() {
     this.runSpinner();
-    const userProfile: UserProfileModel = new UserProfileModel();
+    const userProfile: UserProfileRequest = new UserProfileRequest();
     userProfile.displayName = this.userProfileForm.get(['email']).value;
     userProfile.email = this.userProfileForm.get(['displayName']).value;
     userProfile.uid = this.user.uid;

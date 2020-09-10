@@ -1,4 +1,4 @@
-import {UserProfileModel} from '../../user-profile/user-profile-model';
+import {UserProfileRequest} from '../../user-profile/user-profile-request';
 
 export interface CharacterTemplateModel {
   'id': number;
@@ -110,6 +110,6 @@ export interface CharacterTemplateModel {
     'grappleModifier': number,
     'hitPoints': number
   };
-  'creator': UserProfileModel;
+  'creator': UserProfileRequest;
   isFlipped?: boolean;
 }
