@@ -1,0 +1,38 @@
+.avatar {
+  min-height: 150px;
+  min-width: 150px;
+  max-height: 300px;
+  max-width: 300px;
+}
+
+.profile-card {
+  padding: 0;
+  min-width: 750px;
+  max-width: 850px;
+  max-height: 300px;
+}
+
+.card-info {
+  margin: 25px;
+}
+
+.about-me-header {
+  margin-top: 255px;
+}
+
+.about-me {
+  max-width: 550px;
+}
+
+.mat-card-actions {
+  padding: 0;
+  margin-left: 0;
+}
+
+.avatar-container {
+  width: 33%;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}

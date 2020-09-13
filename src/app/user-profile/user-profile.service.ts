@@ -2,42 +2,37 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
-import { UserProfileModel} from './user-profile-model';
+import { UserProfileRequest} from './user-profile-request';
+import { Constants } from '../common/constants';
+import {UserProfileResponse} from './user-profile-response';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserProfileService {
-  userProfile: UserProfileModel;
 
-  urls = {
-    apiUrl: '',
-    basePath: '/userProfile',
-    getById: '/getById/',
-    getOrCreate: '/getOrCreate',
-    saveProfile: '/save',
-    update: '/update'
-  };
-
+  apiUrl: string;
+  urls: any;
 
   constructor(private http: HttpClient) {
-    this.urls.apiUrl = environment.apiURL;
+    this.apiUrl = environment.apiURL;
+    this.urls = Constants.userProfileUrls;
   }
 
-  getUserProfileById(id: string): Observable<UserProfileModel> {
-    return this.http.get<UserProfileModel>(this.urls.apiUrl + this.urls.basePath + this.urls.getById + id);
+  getUserProfileById(id: string): Observable<UserProfileResponse> {
+    return this.http.get<UserProfileResponse>(this.apiUrl + this.urls.basePath + this.urls.getById + id);
   }
 
-  saveProfile(profile: UserProfileModel): Observable<UserProfileModel> {
-    return this.http.post<UserProfileModel>(this.urls.apiUrl + this.urls.basePath + this.urls.saveProfile, profile);
+  saveProfile(profile: UserProfileRequest): Observable<UserProfileResponse> {
+    return this.http.post<UserProfileResponse>(this.apiUrl + this.urls.basePath + this.urls.saveProfile, profile);
   }
 
-  updateProfile(profile: UserProfileModel): Observable<UserProfileModel> {
-    return this.http.put<UserProfileModel>(this.urls.apiUrl + this.urls.basePath + this.urls.update, profile);
+  updateProfile(profile: UserProfileRequest): Observable<UserProfileResponse> {
+    return this.http.put<UserProfileResponse>(this.apiUrl + this.urls.basePath + this.urls.update, profile);
   }
 
-  getOrCreateProfile(profile: UserProfileModel): Observable<UserProfileModel> {
-    return this.http.post<UserProfileModel>(this.urls.apiUrl + this.urls.basePath + this.urls.getOrCreate, profile);
+  getOrCreateProfile(profile: FormData): Observable<UserProfileResponse> {
+    return this.http.post<UserProfileResponse>(this.apiUrl + this.urls.basePath + this.urls.getOrCreate, profile);
   }
 
 

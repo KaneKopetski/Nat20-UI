@@ -1,3 +1,5 @@
+import {UserProfileRequest} from '../../user-profile/user-profile-request';
+
 export interface CharacterTemplateModel {
   'id': number;
   'basicAttributes': {
@@ -102,6 +104,12 @@ export interface CharacterTemplateModel {
       'miscModifier': number;
     }
   };
-  'creatorUid': string;
+  'combatAttributes': {
+    'armorClass': number,
+    'baseAttackBonus': number,
+    'grappleModifier': number,
+    'hitPoints': number
+  };
+  'creator': UserProfileRequest;
   isFlipped?: boolean;
 }

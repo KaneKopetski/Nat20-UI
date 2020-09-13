@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
 import { User } from 'firebase';
 import UserCredential = firebase.auth.UserCredential;
 import {UserProfileService} from '../user-profile/user-profile.service';
-import {UserProfileModel} from '../user-profile/user-profile-model';
 import {Constants} from '../common/constants';
 
 @Injectable({
@@ -59,11 +58,16 @@ export class AuthService implements OnDestroy {
     localStorage.removeItem(Constants.USER_TOKEN_KEY);
   }
 
+  // TODO: Add handling for the returned user profile. Should be set in tool bar
   saveProfileIfNewUser() {
     if (this.userCredential) {
-      this.userProfileService.getOrCreateProfile(this.mapFirebaseUserToUserProfile(this.userCredential.user))
+      const userProfileForm = new FormData();
+      userProfileForm.append('uid', this.userCredential.user.uid);
+      userProfileForm.append('displayName', this.userCredential.user.displayName);
+      userProfileForm.append('email', this.userCredential.user.email);
+      this.userProfileService.getOrCreateProfile(userProfileForm)
         .subscribe(result => {
-          this.userProfileService.userProfile = result;
+          console.log(result);
         });
     }
   }
@@ -139,14 +143,6 @@ export class AuthService implements OnDestroy {
       .then((result) => {
         return result;
       });
-  }
-
-  mapFirebaseUserToUserProfile(user: firebase.User): UserProfileModel {
-    const newProfile: UserProfileModel = new UserProfileModel();
-    newProfile.uid = user.uid;
-    newProfile.displayName = user.displayName;
-    newProfile.email = user.email;
-    return newProfile;
   }
 
 }

@@ -1,1 +1,35 @@
-<div>{{this.profile | json}}</div>
+<div *ngIf="this.profile" [style.margin-top]="'90px'" fxLayout="row" fxLayoutAlign="center center">
+
+  <mat-card class="profile-card">
+
+    <mat-card-content fxLayout="row" fxLayoutAlign="space-between center">
+
+      <div class="avatar-container">
+        <img class="avatar" [src]="this.getImagePath()" alt="Profile avatar">
+
+      </div>
+
+      <div class="card-info" fxLayout="column" fxLayoutAlign="space-between center">
+        <mat-card-header>
+          <mat-card-title class="display-name">{{ this.profile.displayName }}</mat-card-title>
+        </mat-card-header>
+
+        <span class="about-me">{{ this.profile.aboutMe }}</span>
+      </div>
+
+      <mat-card-actions fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px">
+        <button mat-fab color="warn" aria-label="Add friend" matTooltip="Send {{ this.profile.displayName }} a friend request">
+          <mat-icon>add_circle</mat-icon>
+        </button>
+        <button mat-fab color="warn" aria-label="Send message" matTooltip="Message {{ this.profile.displayName }}">
+          <mat-icon>email</mat-icon>
+        </button>
+      </mat-card-actions>
+
+    </mat-card-content>
+
+  </mat-card>
+
+</div>
+
+
