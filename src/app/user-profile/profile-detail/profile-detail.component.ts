@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UserProfileService} from '../user-profile.service';
 import {UserProfileResponse} from '../user-profile-response';
-import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-profile-detail',
@@ -12,10 +11,10 @@ import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 export class ProfileDetailComponent implements OnInit {
 
   profile: UserProfileResponse;
-  profileAvatar: SafeResourceUrl;
+  profileUrl: 'https://nat20profileavatars.s3.amazonaws.com/2020-09-15T23%3A52%3A22.948226_635292-icon-Cube1.png';
   userToken: string;
 
-  constructor(private route: ActivatedRoute, private profileService: UserProfileService, private router: Router, private domSanitizer: DomSanitizer) { }
+  constructor(private route: ActivatedRoute, private profileService: UserProfileService, private router: Router) { }
 
   ngOnInit(): void {
     const uid = this.route.snapshot.paramMap.get('uid');
@@ -29,14 +28,6 @@ export class ProfileDetailComponent implements OnInit {
       res => this.profile = res,
       error => this.router.navigate(['not-found'])
     );
-  }
-
-  getImagePath() {
-    if (this.profile.profileAvatar) {
-      return this.domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + this.profile.profileAvatar.data);
-    } else {
-      return '../../../assets/red-dragon-around-d20-transparent.png';
-    }
   }
 
 }

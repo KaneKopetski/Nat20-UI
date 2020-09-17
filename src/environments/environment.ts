@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   apiURL: 'http://localhost:8080/api',
+  s3URL: 'https://nat20profileavatars.s3.amazonaws.com/',
   firebase: {
     apiKey: 'AIzaSyCcR_8vgRdJJsWjNFcYSjTFfbA-8dmPpk4',
     authDomain: 'nat20app.firebaseapp.com',
