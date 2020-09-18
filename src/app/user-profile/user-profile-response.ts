@@ -3,5 +3,5 @@ export class UserProfileResponse {
   email: string;
   displayName: string;
   aboutMe: string;
-  profileAvatarFilename: string;
+  profileAvatarUrl: string;
 }

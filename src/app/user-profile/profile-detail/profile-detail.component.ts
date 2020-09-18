@@ -11,7 +11,6 @@ import {UserProfileResponse} from '../user-profile-response';
 export class ProfileDetailComponent implements OnInit {
 
   profile: UserProfileResponse;
-  profileUrl: 'https://nat20profileavatars.s3.amazonaws.com/2020-09-15T23%3A52%3A22.948226_635292-icon-Cube1.png';
   userToken: string;
 
   constructor(private route: ActivatedRoute, private profileService: UserProfileService, private router: Router) { }
