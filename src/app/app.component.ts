@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
-import { slideInAnimation } from './app.animation';
+import { slideInAnimation } from './core/animations/app.animation';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
-import { AppButton } from './common/toolbar/app-button-model';
+import { AppButton } from './core/components/header/app-button-model';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +13,7 @@ import { AppButton } from './common/toolbar/app-button-model';
   animations: [slideInAnimation],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  private title = 'Nat20';
+  title = 'Nat20';
   private mediaSubscription: Subscription;
   public deviceXs: boolean;
   public deviceSm: boolean;
