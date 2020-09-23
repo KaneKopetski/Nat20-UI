@@ -29,7 +29,7 @@ export class AuthService implements OnDestroy {
     this.userData.subscribe(user => {
       if (user) {
         sessionStorage.setItem(Constants.USER_KEY, JSON.stringify(user));
-        user.getIdToken().then(res => {
+        user.getIdToken(true).then(res => {
           sessionStorage.setItem(Constants.USER_TOKEN_KEY, res);
         }).then(() => {
           this.saveProfileIfNewUser();
