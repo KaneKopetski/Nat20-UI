@@ -1,0 +1,39 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+import { Observable } from 'rxjs';
+import { UserProfileRequest} from './user-profile-request';
+import { Constants } from '../../shared/constants/constants';
+import {UserProfileResponse} from './user-profile-response';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UserProfileService {
+
+  apiUrl: string;
+  urls: any;
+
+  constructor(private http: HttpClient) {
+    this.apiUrl = environment.apiURL;
+    this.urls = Constants.userProfileUrls;
+  }
+
+  getUserProfileById(id: string): Observable<UserProfileResponse> {
+    return this.http.get<UserProfileResponse>(this.apiUrl + this.urls.basePath + this.urls.getById + id);
+  }
+
+  saveProfile(profile: UserProfileRequest): Observable<UserProfileResponse> {
+    return this.http.post<UserProfileResponse>(this.apiUrl + this.urls.basePath + this.urls.saveProfile, profile);
+  }
+
+  updateProfile(profile: UserProfileRequest): Observable<UserProfileResponse> {
+    return this.http.put<UserProfileResponse>(this.apiUrl + this.urls.basePath + this.urls.update, profile);
+  }
+
+  getOrCreateProfile(profile: FormData): Observable<UserProfileResponse> {
+    return this.http.post<UserProfileResponse>(this.apiUrl + this.urls.basePath + this.urls.getOrCreate, profile);
+  }
+
+
+}
