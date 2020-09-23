@@ -20,7 +20,7 @@ export class ProfileDetailComponent implements OnInit {
   ngOnInit(): void {
     const uid = this.route.snapshot.paramMap.get('uid');
     this.getProfile(uid);
-    this.userToken = localStorage.getItem('userToken');
+    this.userToken = sessionStorage.getItem('userToken');
   }
 
   // TODO: Look at adding an error message to 404 component to provide user more context

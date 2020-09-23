@@ -28,15 +28,15 @@ export class AuthService implements OnDestroy {
     this.userData = this.afAuth.authState;
     this.userData.subscribe(user => {
       if (user) {
-        localStorage.setItem(Constants.USER_KEY, JSON.stringify(user));
+        sessionStorage.setItem(Constants.USER_KEY, JSON.stringify(user));
         user.getIdToken().then(res => {
-          localStorage.setItem(Constants.USER_TOKEN_KEY, res);
+          sessionStorage.setItem(Constants.USER_TOKEN_KEY, res);
         }).then(() => {
           this.saveProfileIfNewUser();
         });
       } else {
-        localStorage.setItem(Constants.USER_KEY, null);
-        localStorage.setItem(Constants.USER_TOKEN_KEY, null);
+        sessionStorage.setItem(Constants.USER_KEY, null);
+        sessionStorage.setItem(Constants.USER_TOKEN_KEY, null);
       }
     });
   }
@@ -46,16 +46,16 @@ export class AuthService implements OnDestroy {
   }
 
   getCurrentUser(): User {
-    return JSON.parse(localStorage.getItem(Constants.USER_KEY));
+    return JSON.parse(sessionStorage.getItem(Constants.USER_KEY));
   }
 
   getUserToken(): string {
-    return localStorage.getItem(Constants.USER_TOKEN_KEY);
+    return sessionStorage.getItem(Constants.USER_TOKEN_KEY);
   }
 
-  removeTokensFromLocalStorage() {
-    localStorage.removeItem(Constants.USER_KEY);
-    localStorage.removeItem(Constants.USER_TOKEN_KEY);
+  removeTokensFromSessionStorage() {
+    sessionStorage.removeItem(Constants.USER_KEY);
+    sessionStorage.removeItem(Constants.USER_TOKEN_KEY);
   }
 
   // TODO: Add handling for the returned user profile. Should be set in tool bar
@@ -82,7 +82,7 @@ export class AuthService implements OnDestroy {
 
   signOutAndRedirect() {
     return this.afAuth.signOut().then(() => {
-      this.removeTokensFromLocalStorage();
+      this.removeTokensFromSessionStorage();
       this.userData = null;
       this.router.navigate(['/home']);
     });
