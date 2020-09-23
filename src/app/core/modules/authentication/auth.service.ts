@@ -1,7 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { from, Observable, Subscription } from 'rxjs';
-import * as firebase from 'firebase/app';
 import { auth } from 'firebase';
 import { Router } from '@angular/router';
 import { User } from 'firebase';
