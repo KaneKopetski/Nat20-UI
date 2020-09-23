@@ -5,7 +5,6 @@ import * as firebase from 'firebase/app';
 import { auth } from 'firebase';
 import { Router } from '@angular/router';
 import { User } from 'firebase';
-import UserCredential = firebase.auth.UserCredential;
 import {UserProfileService} from '../../../modules/user-profile/user-profile.service';
 import {Constants} from '../../../shared/constants/constants';
 
@@ -15,7 +14,6 @@ import {Constants} from '../../../shared/constants/constants';
 export class AuthService implements OnDestroy {
   userData: Observable<User>;
   private sub: Subscription;
-  private userCredential: UserCredential;
 
   constructor(private afAuth: AngularFireAuth,
               private router: Router,
@@ -32,7 +30,7 @@ export class AuthService implements OnDestroy {
         user.getIdToken(true).then(res => {
           sessionStorage.setItem(Constants.USER_TOKEN_KEY, res);
         }).then(() => {
-          this.saveProfileIfNewUser();
+          this.getOrSaveProfile();
         });
       } else {
         sessionStorage.setItem(Constants.USER_KEY, null);
@@ -59,17 +57,16 @@ export class AuthService implements OnDestroy {
   }
 
   // TODO: Add handling for the returned user profile. Should be set in tool bar
-  saveProfileIfNewUser() {
-    if (this.userCredential) {
+  getOrSaveProfile() {
       const userProfileForm = new FormData();
-      userProfileForm.append('uid', this.userCredential.user.uid);
-      userProfileForm.append('displayName', this.userCredential.user.displayName);
-      userProfileForm.append('email', this.userCredential.user.email);
+      const user: User = this.getCurrentUser();
+      userProfileForm.append('uid', user.uid);
+      userProfileForm.append('displayName', user.displayName);
+      userProfileForm.append('email', user.email);
       this.userProfileService.getOrCreateProfile(userProfileForm)
         .subscribe(result => {
           console.log(result);
         });
-    }
   }
 
   signInWithEmail(email: string, password: string) {
@@ -98,7 +95,7 @@ export class AuthService implements OnDestroy {
     console.log('Auth login');
     return this.afAuth.signInWithPopup(provider)
       .then((result) => {
-        this.userCredential = result;
+        console.log(result);
       }).catch((error) => {
         console.log(error);
       });
@@ -114,7 +111,6 @@ export class AuthService implements OnDestroy {
   signUp(email, password) {
     return this.afAuth.createUserWithEmailAndPassword(email, password)
       .then((result) => {
-        this.userCredential = result;
         this.sendVerificationMail();
         return result;
       });
