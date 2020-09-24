@@ -46,16 +46,17 @@ export class EditUserProfileComponent implements OnInit {
   }
 
   submitProfile() {
-    // this.runSpinner();
-    // const userProfile: FormData = new FormData();
-    // userProfile.append('uid', this.user.uid);
-    // userProfile.append('email', this.userProfileForm.get(['email']).value);
-    // userProfile.append('newProfileAvatar', this.newProfileAvatar);
-    // userProfile.append('displayName', this.userProfileForm.get(['displayName']).value);
-    // this.authService.updateFirebaseUser(this.userProfileForm.get('displayName').value);
-    // this.userProfileService.updateProfile(userProfile).subscribe(
-    //   () => this.successMessage(),
-    //   () => this.errorMessage());
+    this.runSpinner();
+    const userProfile: FormData = new FormData();
+    userProfile.append('uid', this.user.uid);
+    userProfile.append('email', this.userProfileForm.get(['email']).value);
+    userProfile.append('newProfileAvatar', this.newProfileAvatar);
+    userProfile.append('displayName', this.userProfileForm.get(['displayName']).value);
+    this.authService.updateFirebaseUser(this.userProfileForm.get('displayName').value).then(() => {
+      this.userProfileService.updateProfile(userProfile).subscribe(
+        () => this.successMessage(),
+        () => this.errorMessage());
+    }).catch(() => this.errorMessage());
   }
 
   successMessage() {
