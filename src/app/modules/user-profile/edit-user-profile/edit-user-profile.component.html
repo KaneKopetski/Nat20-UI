@@ -1,12 +1,25 @@
 <div class="message-container" fxLayout="row" fxLayoutAlign="center center" toastContainer></div>
 
-<div fxLayout="column" fxLayoutAlign="center center" [style.margin-top]="'90px'">
+<div>
+  <form novalidate (ngSubmit)="submitProfile()" [formGroup]="this.userProfileForm" fxLayout="row" fxLayoutAlign="center center" [style.margin-top]="'90px'">
+
+  <mat-card>
+    <mat-card-content>
+
+  <div class="dropzone" appDragNDrop (fileDropped)="this.handleFileSelection($event)">
+    <input class="file-upload" type="file" #fileDropRef id="fileDropRef" formControlName="newProfileAvatar" (change)="this.handleFileSelection($event)">
+    <img class="upload-file-icon" src="assets/upload-icon.png" alt="Upload file">
+    <h3>Dragon drop (hah!) file here</h3>
+    <h3>or</h3>
+    <label class="change-avatar" for="fileDropRef">Change avatar</label>
+  </div>
+
+    </mat-card-content>
+  </mat-card>
 
   <mat-card>
     <mat-card-title [style.margin-bottom]="'25px'">Edit your profile</mat-card-title>
-    <mat-card-content>
-
-      <form novalidate (ngSubmit)="submitProfile()" [formGroup]="this.userProfileForm" fxLayout="column" fxLayoutAlign="center center">
+    <mat-card-content fxLayout="column" fxLayoutAlign="center center">
 
         <mat-form-field appearance="outline" color="accent">
           <mat-label>Change your email</mat-label>
@@ -28,9 +41,9 @@
                 type="submit"
                 [disabled]="userProfileForm.invalid || loading">{{ this.submitButtonText }}</button>
 
-      </form>
 
     </mat-card-content>
-
   </mat-card>
+  </form>
+
 </div>

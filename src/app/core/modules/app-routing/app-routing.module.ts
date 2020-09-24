@@ -28,7 +28,7 @@ const ROUTES = [
   { path: 'characters', component: CharactersLandingComponent, canActivate: [AuthGuard] },
   { path: 'character', component: CharactersLandingComponent, canActivate: [AuthGuard] },
   { path: 'c', component: CharactersLandingComponent, canActivate: [AuthGuard] },
-  { path: 'profile', component: EditUserProfileComponent, canActivate: [AuthGuard, OwnerGuard] },
+  { path: 'edit-profile', component: EditUserProfileComponent, canActivate: [AuthGuard, OwnerGuard] },
   { path: 'view-profile/:uid', component: ProfileDetailComponent },
   { path: 'not-found', component: PageNotFoundComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },

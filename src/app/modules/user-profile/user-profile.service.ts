@@ -27,7 +27,7 @@ export class UserProfileService {
     return this.http.post<UserProfileResponse>(this.apiUrl + this.urls.basePath + this.urls.saveProfile, profile);
   }
 
-  updateProfile(profile: UserProfileRequest): Observable<UserProfileResponse> {
+  updateProfile(profile: FormData): Observable<UserProfileResponse> {
     return this.http.put<UserProfileResponse>(this.apiUrl + this.urls.basePath + this.urls.update, profile);
   }
 

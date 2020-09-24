@@ -1,10 +1,9 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as firebase from 'firebase';
-import {UserProfileService} from '../user-profile.service';
-import {UserProfileRequest} from '../user-profile-request';
-import {ToastrService, ToastContainerDirective} from 'ngx-toastr';
-import {AuthService} from '../../../core/modules/authentication/auth.service';
+import { UserProfileService } from '../user-profile.service';
+import { ToastrService, ToastContainerDirective } from 'ngx-toastr';
+import { AuthService } from '../../../core/modules/authentication/auth.service';
 
 @Component({
   selector: 'app-edit-user-profile',
@@ -13,11 +12,13 @@ import {AuthService} from '../../../core/modules/authentication/auth.service';
 })
 export class EditUserProfileComponent implements OnInit {
 
-  @ViewChild(ToastContainerDirective, {static: true}) toastContainer: ToastContainerDirective;
+  @ViewChild(ToastContainerDirective, {static: true})
+  toastContainer: ToastContainerDirective;
   userProfileForm: FormGroup;
   user: firebase.User;
   loading = false;
   submitButtonText = 'Finish';
+  newProfileAvatar: File;
 
   constructor(private fb: FormBuilder,
               private userProfileService: UserProfileService,
@@ -39,19 +40,22 @@ export class EditUserProfileComponent implements OnInit {
       ],
       displayName: [ this.user.displayName, Validators.compose(
         [Validators.maxLength(50),
-          Validators.minLength(3)])]
+          Validators.minLength(3)])],
+      newProfileAvatar: ['']
     });
   }
 
   submitProfile() {
-    this.runSpinner();
-    const userProfile: UserProfileRequest = new UserProfileRequest();
-    userProfile.displayName = this.userProfileForm.get(['email']).value;
-    userProfile.email = this.userProfileForm.get(['displayName']).value;
-    userProfile.uid = this.user.uid;
-    this.userProfileService.saveProfile(userProfile).subscribe(
-      success => this.successMessage(),
-      error => this.errorMessage());
+    // this.runSpinner();
+    // const userProfile: FormData = new FormData();
+    // userProfile.append('uid', this.user.uid);
+    // userProfile.append('email', this.userProfileForm.get(['email']).value);
+    // userProfile.append('newProfileAvatar', this.newProfileAvatar);
+    // userProfile.append('displayName', this.userProfileForm.get(['displayName']).value);
+    // this.authService.updateFirebaseUser(this.userProfileForm.get('displayName').value);
+    // this.userProfileService.updateProfile(userProfile).subscribe(
+    //   () => this.successMessage(),
+    //   () => this.errorMessage());
   }
 
   successMessage() {
@@ -70,5 +74,11 @@ export class EditUserProfileComponent implements OnInit {
     this.submitButtonText = '';
     this.loading = true;
   }
+
+  handleFileSelection(event: any) {
+    this.newProfileAvatar = event.target.files[0];
+  }
+
+
 
 }

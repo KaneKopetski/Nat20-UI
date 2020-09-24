@@ -38,6 +38,16 @@ export class AuthService implements OnDestroy {
     });
   }
 
+  updateFirebaseUser(newDisplayName: string) {
+    return this.afAuth.currentUser.then(user => {
+      user.updateProfile({
+        displayName: newDisplayName
+      }).then(updatedUser => {
+        sessionStorage.setItem('user', JSON.stringify(updatedUser));
+      });
+    });
+  }
+
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
