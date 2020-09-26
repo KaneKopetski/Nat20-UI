@@ -13,6 +13,7 @@ export class UserProfileService {
 
   apiUrl: string;
   urls: any;
+  userProfile: UserProfileResponse;
 
   constructor(private http: HttpClient) {
     this.apiUrl = environment.apiURL;
@@ -31,9 +32,16 @@ export class UserProfileService {
     return this.http.put<UserProfileResponse>(this.apiUrl + this.urls.basePath + this.urls.update, profile);
   }
 
-  getOrCreateProfile(profile: FormData): Observable<UserProfileResponse> {
-    return this.http.post<UserProfileResponse>(this.apiUrl + this.urls.basePath + this.urls.getOrCreate, profile);
+  getOrCreateProfile(profile: FormData) {
+    this.http.post<UserProfileResponse>(this.apiUrl + this.urls.basePath + this.urls.getOrCreate, profile).subscribe(res => this.userProfile = res);
   }
 
+  getUserProfileEmail() {
+    return this.userProfile.email;
+  }
+
+  getUserProfileAvatarUrl() {
+    return this.userProfile.profileAvatarUrl;
+  }
 
 }

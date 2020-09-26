@@ -30,13 +30,4 @@ export class ProfileDetailComponent implements OnInit {
       error => this.router.navigate(['not-found'])
     );
   }
-
-  getImagePath() {
-    if (this.profile.profileAvatar) {
-      return this.domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,' + this.profile.profileAvatar.data);
-    } else {
-      return '../../../assets/red-dragon-around-d20-transparent.png';
-    }
-  }
-
 }

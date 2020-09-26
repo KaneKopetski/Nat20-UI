@@ -4,6 +4,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { AppButton } from './app-button-model';
 import { MatDrawer } from '@angular/material/sidenav';
 import { AuthService } from '../../modules/authentication/auth.service';
+import { UserProfileResponse } from '../../../modules/user-profile/user-profile-response';
+import { UserProfileService } from '../../../modules/user-profile/user-profile.service';
+import { User } from 'firebase';
 
 @Component({
   selector: 'app-toolbar',
@@ -17,14 +20,16 @@ export class ToolbarComponent implements OnInit {
   @Input() deviceMd: boolean;
   @Input() deviceLg: boolean;
   @Input() sideNav: MatDrawer;
-  authService: AuthService;
-  userData: boolean;
+  userData: User;
+  userProfile: UserProfileResponse;
   apps: AppButton[];
+  userProfileService: UserProfileService;
 
   constructor(private matIconRegistry: MatIconRegistry,
               private domSanitizer: DomSanitizer,
-              authService: AuthService) {
-    this.authService = authService;
+              private authService: AuthService,
+              userProfileService: UserProfileService) {
+    this.userProfileService = userProfileService;
   }
 
   ngOnInit(): void {
@@ -39,9 +44,10 @@ export class ToolbarComponent implements OnInit {
       this.matIconRegistry.addSvgIcon(app.iconName, this.domSanitizer.bypassSecurityTrustResourceUrl(app.iconUrl));
     });
 
-    this.authService.userData.subscribe(result => {
-      this.userData = !!result;
-    });
+    this.authService.userData.subscribe(result => this.userData = result);
   }
 
+  signOut() {
+    this.authService.signOutAndRedirect();
+  }
 }
