@@ -28,6 +28,14 @@
   animation: spinner .8s linear infinite;
 }
 
+.profile-avatar-panel {
+  margin-right: 25px;
+}
+
+.about-me {
+  margin-left: 25px;
+}
+
 .upload-file-icon {
   max-width: 150px;
 }

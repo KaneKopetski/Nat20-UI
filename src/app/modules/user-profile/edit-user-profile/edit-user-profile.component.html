@@ -3,21 +3,19 @@
 <div>
   <form novalidate (ngSubmit)="submitProfile()" [formGroup]="this.userProfileForm" fxLayout="row" fxLayoutAlign="center center" [style.margin-top]="'90px'">
 
-  <mat-card>
+  <mat-card class="profile-avatar-panel">
     <mat-card-content>
-
   <div class="dropzone" appDragNDrop (fileDropped)="this.handleFileSelection($event)">
-    <input class="file-upload" type="file" #fileDropRef id="fileDropRef" formControlName="newProfileAvatar" (change)="this.handleFileSelection($event)">
+    <input class="file-upload" type="file" id="fileDropRef" formControlName="newProfileAvatar" (change)="this.handleFileSelection($event)">
     <img class="upload-file-icon" src="assets/upload-icon.png" alt="Upload file">
     <h3>Dragon drop (hah!) file here</h3>
     <h3>or</h3>
     <label class="change-avatar" for="fileDropRef">Change avatar</label>
   </div>
-
     </mat-card-content>
   </mat-card>
 
-  <mat-card>
+  <mat-card class="profile-info">
     <mat-card-title [style.margin-bottom]="'25px'">Edit your profile</mat-card-title>
     <mat-card-content fxLayout="column" fxLayoutAlign="center center">
 
@@ -44,6 +42,15 @@
 
     </mat-card-content>
   </mat-card>
+
+    <mat-card class="about-me">
+      <mat-form-field appearance="outline" color="accent">
+        <mat-label>About</mat-label>
+        <textarea matInput formControlName="aboutMe">
+        </textarea>
+        <mat-error></mat-error>
+      </mat-form-field>
+    </mat-card>
   </form>
 
 </div>

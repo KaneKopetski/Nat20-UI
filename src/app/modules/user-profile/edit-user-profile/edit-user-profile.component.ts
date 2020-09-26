@@ -41,6 +41,7 @@ export class EditUserProfileComponent implements OnInit {
       displayName: [ this.user.displayName, Validators.compose(
         [Validators.maxLength(50),
           Validators.minLength(3)])],
+      aboutMe: [''],
       newProfileAvatar: ['']
     });
   }
