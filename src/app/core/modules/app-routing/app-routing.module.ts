@@ -11,7 +11,7 @@ import { ResetPasswordConfirmationComponent } from '../authentication/action-swi
 import { ResetPasswordEmailSentComponent } from '../authentication/action-switch/reset-password-flow/reset-password-email-sent/reset-password-email-sent.component';
 import { CharactersLandingComponent } from '../../../modules/character-builder/characters-landing/characters-landing.component';
 import { AuthGuard } from '../authentication/guard/auth-guard/auth.guard';
-import { EditUserProfileComponent } from '../../../modules/user-profile/edit-user-profile/edit-user-profile.component';
+import { ManageAccountComponent } from '../../../modules/user-profile/manage-account/manage-account.component';
 import { ProfileDetailComponent } from '../../../modules/user-profile/profile-detail/profile-detail.component';
 import { OwnerGuard } from '../authentication/guard/owner-guard/owner.guard';
 
@@ -28,7 +28,7 @@ const ROUTES = [
   { path: 'characters', component: CharactersLandingComponent, canActivate: [AuthGuard] },
   { path: 'character', component: CharactersLandingComponent, canActivate: [AuthGuard] },
   { path: 'c', component: CharactersLandingComponent, canActivate: [AuthGuard] },
-  { path: 'profile', component: EditUserProfileComponent, canActivate: [AuthGuard, OwnerGuard] },
+  { path: 'profile', component: ManageAccountComponent, canActivate: [AuthGuard, OwnerGuard] },
   { path: 'view-profile/:uid', component: ProfileDetailComponent },
   { path: 'not-found', component: PageNotFoundComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },

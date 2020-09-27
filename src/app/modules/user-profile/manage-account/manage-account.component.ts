@@ -8,10 +8,10 @@ import {AuthService} from '../../../core/modules/authentication/auth.service';
 
 @Component({
   selector: 'app-edit-user-profile',
-  templateUrl: './edit-user-profile.component.html',
-  styleUrls: ['./edit-user-profile.component.css']
+  templateUrl: './manage-account.component.html',
+  styleUrls: ['./manage-account.component.css']
 })
-export class EditUserProfileComponent implements OnInit {
+export class ManageAccountComponent implements OnInit {
 
   @ViewChild(ToastContainerDirective, {static: true}) toastContainer: ToastContainerDirective;
   userProfileForm: FormGroup;

@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
-import { EditUserProfileComponent } from './edit-user-profile/edit-user-profile.component';
+import { ManageAccountComponent } from './manage-account/manage-account.component';
 import { ProfileDetailComponent } from './profile-detail/profile-detail.component';
 import { SharedModule } from '../../shared/shared.module';
 
 
 @NgModule({
   declarations: [
-    EditUserProfileComponent,
+    ManageAccountComponent,
     ProfileDetailComponent
   ],
   imports: [
