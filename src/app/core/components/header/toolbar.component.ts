@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AppButton } from './app-button-model';
@@ -24,6 +24,9 @@ export class ToolbarComponent implements OnInit {
   userProfile: UserProfileResponse;
   apps: AppButton[];
   userProfileService: UserProfileService;
+  ready: boolean;
+  scale: number;
+  minScale: number;
 
   constructor(private matIconRegistry: MatIconRegistry,
               private domSanitizer: DomSanitizer,

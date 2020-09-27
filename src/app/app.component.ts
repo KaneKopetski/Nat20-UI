@@ -5,14 +5,32 @@ import { slideInAnimation } from './core/animations/app.animation';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AppButton } from './core/components/header/app-button-model';
+import {StyleRenderer, ThemeVariables, lyl, WithStyles} from '@alyle/ui';
+
+const STYLES = (theme: ThemeVariables) => ({
+  $global: lyl `{
+    body {
+      background-color: ${theme.background.default}
+      color: ${theme.text.default}
+      font-family: ${theme.typography.fontFamily}
+      margin: 0
+      direction: ${theme.direction}
+    }
+  }`,
+  root: lyl `{
+    display: block
+  }`
+});
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   animations: [slideInAnimation],
+  providers: [StyleRenderer]
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit, OnDestroy, WithStyles {
   title = 'Nat20';
   private mediaSubscription: Subscription;
   public deviceXs: boolean;
@@ -20,10 +38,13 @@ export class AppComponent implements OnInit, OnDestroy {
   public deviceMd: boolean;
   public deviceLg: boolean;
   sideNavItems: AppButton[];
+  readonly classes = this.sRenderer.renderSheet(STYLES, true);
+
 
   constructor(private mediaObserver: MediaObserver,
               private matIconRegistry: MatIconRegistry,
-              private domSanitizer: DomSanitizer) { }
+              private domSanitizer: DomSanitizer,
+              readonly sRenderer: StyleRenderer) { }
 
   ngOnInit(): void {
     this.mediaSubscription = this.mediaObserver.media$.subscribe((result: MediaChange) => {
