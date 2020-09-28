@@ -22,7 +22,7 @@ import {LyButtonModule} from '@alyle/ui/button';
     LyImageCropperModule,
     LyCommonModule,
     LyIconModule,
-    LyButtonModule
+    LyButtonModule,
   ]
 })
 export class UserProfileModule { }

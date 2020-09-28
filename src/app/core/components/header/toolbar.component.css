@@ -59,3 +59,12 @@
 .profile-menu {
   width: 300px;
 }
+
+.mat-badge-content {
+  font-family: 'Material Icons', serif;
+}
+
+.mat-badge-medium.mat-badge-above .mat-badge-content {
+  top: 45px;
+  left: 55px;
+}

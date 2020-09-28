@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AppButton } from './app-button-model';
@@ -7,6 +7,8 @@ import { AuthService } from '../../modules/authentication/auth.service';
 import { UserProfileResponse } from '../../../modules/user-profile/user-profile-response';
 import { UserProfileService } from '../../../modules/user-profile/user-profile.service';
 import { User } from 'firebase';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { EditProfileAvatarComponent } from '../../../modules/user-profile/edit-profile-avatar/edit-profile-avatar.component';
 
 @Component({
   selector: 'app-toolbar',
@@ -27,11 +29,13 @@ export class ToolbarComponent implements OnInit {
   ready: boolean;
   scale: number;
   minScale: number;
+  photoUrl: string;
 
   constructor(private matIconRegistry: MatIconRegistry,
               private domSanitizer: DomSanitizer,
               private authService: AuthService,
-              userProfileService: UserProfileService) {
+              userProfileService: UserProfileService,
+              private dialog: MatDialog) {
     this.userProfileService = userProfileService;
   }
 
@@ -53,4 +57,18 @@ export class ToolbarComponent implements OnInit {
   signOut() {
     this.authService.signOutAndRedirect();
   }
+
+  openDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.width = '400px';
+    dialogConfig.data = this.userProfileService.userProfile.profileAvatarUrl;
+
+    const dialogRef = this.dialog.open(EditProfileAvatarComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(result => {
+      this.photoUrl = result;
+    });
+  }
+
+
+
 }
