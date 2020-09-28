@@ -28,7 +28,8 @@ export class TokenInterceptorService implements HttpInterceptor {
       const token = this.authService.getUserToken();
       let newHeaders = req.headers;
       if (token) {
-        newHeaders = newHeaders.append('Authorization', 'Bearer ' + token);
+        newHeaders = newHeaders.append('Authorization', 'Bearer ' + token)
+          .append( 'Cache-Control', 'no-cache');
       }
       const authReq = req.clone({headers: newHeaders});
       return next.handle(authReq).pipe(
