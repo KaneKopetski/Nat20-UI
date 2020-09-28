@@ -2,7 +2,7 @@ import {Component, ChangeDetectionStrategy, ViewChild, AfterViewInit, Inject, On
 import { StyleRenderer, lyl, WithStyles } from '@alyle/ui';
 import { ImgCropperConfig, ImgCropperEvent, LyImageCropper, ImgCropperErrorEvent } from '@alyle/ui/image-cropper';
 import { Platform } from '@angular/cdk/platform';
-
+import { MatDialogRef } from '@angular/material/dialog';
 
 const STYLES = () => ({
   cropper: lyl `{
@@ -30,7 +30,6 @@ export class EditProfileAvatarComponent implements WithStyles, AfterViewInit {
   scale: number;
   ready: boolean;
   minScale: number;
-  private croppedImageUrl: string;
   @ViewChild(LyImageCropper) cropper: LyImageCropper;
   myConfig: ImgCropperConfig = {
     resizableArea: true,
@@ -46,12 +45,12 @@ export class EditProfileAvatarComponent implements WithStyles, AfterViewInit {
     }
   };
 
-  // tslint:disable-next-line:max-line-length
-  src = 'https://nat20profileavatars.s3.amazonaws.com/2020-09-20T22%3A44%3A13.027797900_red-dragon-around-d20-transparent.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20200928T205907Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Credential=AKIAWNT52FOL6HDCP2EJ%2F20200928%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=9159970f9244a1b99b99ca2c78bf1d6e76098d065cbd019373c85406ce24a17f';
-
   constructor(readonly sRenderer: StyleRenderer,
-              private platform: Platform) {
+              private platform: Platform,
+              public dialogRef: MatDialogRef<EditProfileAvatarComponent>) {
   }
+
+
 
   ngAfterViewInit() {
     // demo: Load image from URL and update position, scale, rotate
@@ -65,8 +64,7 @@ export class EditProfileAvatarComponent implements WithStyles, AfterViewInit {
         }
       };
       this.cropper.setImageUrl(
-        // tslint:disable-next-line:max-line-length
-        'https://nat20profileavatars.s3.amazonaws.com/2020-09-20T22%3A44%3A13.027797900_red-dragon-around-d20-transparent.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20200928T220230Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Credential=AKIAWNT52FOL6HDCP2EJ%2F20200928%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Signature=b408e4ce00f7ac4f6461181a0a71f512f316a52e5fe43edeeee02a97fdaa27e8',
+        'empty.png',
         () => {
           this.cropper.setScale(config.scale, true);
           this.cropper.updatePosition(config.position.xOrigin, config.position.yOrigin);
@@ -95,8 +93,8 @@ export class EditProfileAvatarComponent implements WithStyles, AfterViewInit {
 
   }
 
-  // close(): void {
-  //   this.dialogRef.close(this.croppedImageUrl);
-  // }
+  close(): void {
+    this.dialogRef.close();
+  }
 
 }
