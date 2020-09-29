@@ -1,25 +1,25 @@
 <div [lyDisplay]="'flex'">
-  <button ly-button color="primary" (click)="_fileInput.click()">
-    <ly-icon>image</ly-icon>
-    <span>Select File</span>
-  </button>
   <span [lyFlex]="1"></span>
   <!-- Hidden input -->
   <input #_fileInput type="file" (change)="cropper.selectInputEvent($event)" accept="image/*" hidden>
-  <button raised ly-button bg="accent" *ngIf="croppedImage">Upload</button>
 </div>
 
-<div *ngIf="ready">
-  <button (click)="cropper.zoomIn()" ly-button appearance="icon"><ly-icon>zoom_in</ly-icon></button>
-  <button (click)="cropper.zoomOut()" ly-button appearance="icon"><ly-icon>zoom_out</ly-icon></button>
-  <button (click)="cropper.center()" ly-button appearance="icon"><ly-icon>filter_center_focus</ly-icon></button>
-  <button (click)="cropper.rotate(-90)" ly-button appearance="icon"><ly-icon>rotate_90_degrees_ccw</ly-icon></button>
-  <button (click)="cropper.fit()" ly-button>Fit</button>
-  <button (click)="cropper.fitToScreen()" ly-button>Fit to screen</button>
-  <button (click)="cropper.setScale(1)" ly-button>1:1</button>
-  <button (click)="cropper.clean()" ly-button>Clean</button>
+<div *ngIf="ready" fxLayout="column" fxLayoutAlign="center center">
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="15px">
+  <button (click)="cropper.zoomIn()" mat-icon-button color="accent"><mat-icon>zoom_in</mat-icon></button>
+  <button (click)="cropper.zoomOut()" mat-icon-button color="accent"><mat-icon>zoom_out</mat-icon></button>
+  <button (click)="cropper.center()" mat-icon-button color="accent"><ly-icon>filter_center_focus</ly-icon></button>
+  <button (click)="cropper.rotate(-90)" mat-icon-button color="accent"><ly-icon>rotate_90_degrees_ccw</ly-icon></button>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="15px">
+  <button (click)="cropper.fit()" mat-button color="accent">Fit</button>
+  <button (click)="cropper.fitToScreen()" mat-button color="accent">Fit to screen</button>
+  <button (click)="cropper.setScale(1)" mat-button color="accent">1:1</button>
+  <button (click)="cropper.clean()" mat-button color="accent">Reset</button>
+  </div>
 </div>
 
+<div class="cropper-container">
 <ly-img-cropper [withClass]="classes.cropper"
                 [config]="myConfig"
                 [(scale)]="scale"
@@ -28,10 +28,21 @@
                 (cleaned)="ready = false"
                 (cropped)="onCropped($event)"
                 (loaded)="onLoaded($event)"
-                (error)="onError($event)"
->
-  <span>Drag and drop image</span>
+                (error)="onError($event)">
+
+  <div fxLayout="column" fxLayoutAlign="center center">
+    <img class="upload-to-cloud-icon" src="assets/upload-to-cloud.png" alt="Upload to cloud" [style.width]="'150px'" [style.margin-bottom]="'15px'">
+    <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px">
+  <span>Dragon drop (hah!) image here</span>
+  <span>— or —</span>
+  <button mat-stroked-button (click)="_fileInput.click()">
+    <mat-icon>image</mat-icon>
+    <span>Select File</span>
+  </button>
+    </div>
+  </div>
 </ly-img-cropper>
+</div>
 
 <div *ngIf="ready" [className]="classes.sliderContainer">
   <ly-slider
@@ -39,12 +50,17 @@
     [min]="minScale"
     [max]="1"
     [(ngModel)]="scale"
-    (input)="scale = $event.value"
+    (input)="this.scale = $event.value"
     step="0.000001"></ly-slider>
 </div>
 
-<button *ngIf="ready" color="accent" (click)="cropper.crop()" ly-button>
+<div class="button-row" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+<button mat-stroked-button color="accent" *ngIf="ready" (click)="cropper.crop()">
   <ly-icon>crop</ly-icon>crop
 </button>
+<button mat-flat-button color="accent" *ngIf="ready" [disabled]="!this.croppedImage">Set as profile avatar</button>
+</div>
 
-<div><img *ngIf="croppedImage" [src]="croppedImage" alt=""></div>
+<div>
+  <img *ngIf="croppedImage" [src]="croppedImage" alt="Cropped image preview">
+</div>

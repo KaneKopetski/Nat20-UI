@@ -21,7 +21,7 @@
 .profile-avatar-button {
   height: 40px;
   width: 40px;
-  margin-left: 15px;
+  margin-left: 10px;
   border-radius: 100%;
   background-color: #2b2929;
   position: relative;
@@ -40,7 +40,6 @@
 .menu-profile-avatar-container {
   height: 70px;
   width: 70px;
-  margin-left: 15px;
   border-radius: 100%;
   background-color: #2b2929;
   position: relative;
@@ -64,7 +63,17 @@
   font-family: 'Material Icons', serif;
 }
 
-.mat-badge-medium.mat-badge-above .mat-badge-content {
+.mat-badge-large.mat-badge-above .mat-badge-content {
   top: 45px;
-  left: 55px;
+  left: 45px;
+}
+
+
+.change-image {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 65%;
+  left: 65%;
+  cursor: pointer;
 }

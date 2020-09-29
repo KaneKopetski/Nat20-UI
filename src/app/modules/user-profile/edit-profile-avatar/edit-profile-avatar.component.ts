@@ -7,7 +7,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 const STYLES = () => ({
   cropper: lyl `{
     max-width: 400px
-    height: 300px
+    height: 400px
+    border: 1px orange dashed
   }`,
   sliderContainer: lyl `{
     text-align: center
@@ -57,7 +58,7 @@ export class EditProfileAvatarComponent implements WithStyles, AfterViewInit {
     // this is supported only for browsers
     if (this.platform.isBrowser) {
       const config = {
-        scale: 0.745864772531767,
+        scale: 0.145864772531767,
         position: {
           xOrigin: 642.380608078103,
           yOrigin: 236.26357452128866
