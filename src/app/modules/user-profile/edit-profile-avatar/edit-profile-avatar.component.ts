@@ -6,14 +6,10 @@ import { MatDialogRef } from '@angular/material/dialog';
 
 const STYLES = () => ({
   cropper: lyl `{
-    max-width: 400px
+    width: 400px
     height: 400px
-    border: 1px orange dashed
-  }`,
-  sliderContainer: lyl `{
-    text-align: center
-    max-width: 400px
-    margin: 14px
+    border: 1px dashed orange
+    margin-bottom: 15px
   }`
 });
 
@@ -25,7 +21,7 @@ const STYLES = () => ({
     StyleRenderer
   ]
 })
-export class EditProfileAvatarComponent implements WithStyles, AfterViewInit {
+export class EditProfileAvatarComponent implements WithStyles {
   classes = this.sRenderer.renderSheet(STYLES);
   croppedImage?: string;
   scale: number;
@@ -38,7 +34,7 @@ export class EditProfileAvatarComponent implements WithStyles, AfterViewInit {
     // autoCrop: true,
     width: 300, // Default `250`
     height: 300, // Default `200`
-    // fill: '#ff2997', // Default transparent if type = png else #000
+    fill: '#ff2997', // Default transparent if type = png else #000
     type: 'image/png', // Or you can also use `image/jpeg`
     output: {
       width: 300,
@@ -49,32 +45,6 @@ export class EditProfileAvatarComponent implements WithStyles, AfterViewInit {
   constructor(readonly sRenderer: StyleRenderer,
               private platform: Platform,
               public dialogRef: MatDialogRef<EditProfileAvatarComponent>) {
-  }
-
-
-
-  ngAfterViewInit() {
-    // demo: Load image from URL and update position, scale, rotate
-    // this is supported only for browsers
-    if (this.platform.isBrowser) {
-      const config = {
-        scale: 0.145864772531767,
-        position: {
-          xOrigin: 642.380608078103,
-          yOrigin: 236.26357452128866
-        }
-      };
-      this.cropper.setImageUrl(
-        'empty.png',
-        () => {
-          this.cropper.setScale(config.scale, true);
-          this.cropper.updatePosition(config.position.xOrigin, config.position.yOrigin);
-          // You can also rotate the image
-          // this.cropper.rotate(90);
-        }
-      );
-    }
-
   }
 
   onCropped(e: ImgCropperEvent) {

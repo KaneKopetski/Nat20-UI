@@ -59,20 +59,18 @@
   width: 300px;
 }
 
-.mat-badge-content {
-  font-family: 'Material Icons', serif;
-}
+/*.mat-badge-content {*/
+/*  font-family: 'Material Icons', serif;*/
+/*}*/
 
-.mat-badge-large.mat-badge-above .mat-badge-content {
-  top: 45px;
-  left: 45px;
-}
+/*.mat-badge-large.mat-badge-above .mat-badge-content {*/
+/*  top: 45px;*/
+/*  left: 45px;*/
+/*}*/
 
 
 .change-image {
   position: absolute;
-  width: 100%;
-  height: 100%;
   top: 65%;
   left: 65%;
   cursor: pointer;

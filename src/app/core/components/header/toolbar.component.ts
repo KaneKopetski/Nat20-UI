@@ -60,7 +60,7 @@ export class ToolbarComponent implements OnInit {
 
   openDialog(): void {
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.width = '400px';
+    dialogConfig.width = '450px';
     dialogConfig.data = this.userProfileService.userProfile.profileAvatarUrl;
 
     const dialogRef = this.dialog.open(EditProfileAvatarComponent, dialogConfig);
