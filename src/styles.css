@@ -21,3 +21,8 @@ button:focus, button:active:focus, button.active:focus, img {
 .card-list > .character-summary-card {
   width: 50%;
 }
+
+.submit-throttled-with-spinner {
+  width: 40%;
+  height: 35px;
+}

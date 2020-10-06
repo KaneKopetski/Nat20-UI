@@ -21,6 +21,7 @@
         </mat-form-field>
 
         <button mat-stroked-button appPreventDoubleClick
+                class="submit-throttled-with-spinner"
                 [throttleTime]="2000"
                 (throttledClick)="this.submitProfile()"
                 [class.spinner]="loading"

@@ -3,11 +3,6 @@
   width: 100%;
 }
 
-.mat-stroked-button {
-  width: 50%;
-  height: 35px;
-}
-
 @keyframes spinner {
   to {transform: rotate(360deg);}
 }

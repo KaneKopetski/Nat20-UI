@@ -18,6 +18,7 @@ const STYLES = () => ({
 @Component({
   selector: 'app-edit-profile-avatar',
   templateUrl: './edit-profile-avatar.component.html',
+  styleUrls: ['./edit-profile-avatar.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     StyleRenderer
@@ -29,6 +30,9 @@ export class EditProfileAvatarComponent implements WithStyles {
   scale: number;
   ready: boolean;
   minScale: number;
+  loading = false;
+  submitButtonText = 'Set as profile avatar';
+
   @ViewChild(LyImageCropper) cropper: LyImageCropper;
   myConfig: ImgCropperConfig = {
     resizableArea: true,
@@ -58,13 +62,14 @@ export class EditProfileAvatarComponent implements WithStyles {
   }
 
   uploadCroppedImage(e: ImgCropperEvent) {
+    this.runSpinner();
     const userProfileForm = new FormData();
     const blob = this.b64toBlob(e.dataURL, e.type);
     userProfileForm.append('uid', this.data.uid);
     userProfileForm.append('newProfileAvatar', blob);
     this.userProfileService.updateProfile(userProfileForm).subscribe(result => {
       this.userProfileService.userProfile = result;
-      this.cropper.clean();
+      this.close();
     });
   }
 
@@ -86,6 +91,11 @@ export class EditProfileAvatarComponent implements WithStyles {
     return new Blob([this.b64toArrayBuffer(dataURI)], {
       type: mimetype
     });
+  }
+
+  runSpinner() {
+    this.loading = true;
+    this.submitButtonText = '';
   }
 
 }
