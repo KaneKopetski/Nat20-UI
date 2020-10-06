@@ -1,8 +1,10 @@
-import {Component, ChangeDetectionStrategy, ViewChild, AfterViewInit, Inject, OnInit} from '@angular/core';
+import { Component, ChangeDetectionStrategy, ViewChild, Inject } from '@angular/core';
 import { StyleRenderer, lyl, WithStyles } from '@alyle/ui';
 import { ImgCropperConfig, ImgCropperEvent, LyImageCropper, ImgCropperErrorEvent } from '@alyle/ui/image-cropper';
 import { Platform } from '@angular/cdk/platform';
-import { MatDialogRef } from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {UserProfileResponse} from '../user-profile-response';
+import {UserProfileService} from '../user-profile.service';
 
 const STYLES = () => ({
   cropper: lyl `{
@@ -31,11 +33,9 @@ export class EditProfileAvatarComponent implements WithStyles {
   myConfig: ImgCropperConfig = {
     resizableArea: true,
     keepAspectRatio: true,
-    // autoCrop: true,
-    width: 300, // Default `250`
-    height: 300, // Default `200`
-    fill: '#ff2997', // Default transparent if type = png else #000
-    type: 'image/png', // Or you can also use `image/jpeg`
+    width: 300,
+    height: 300,
+    type: 'image/png',
     output: {
       width: 300,
       height: 300
@@ -44,12 +44,9 @@ export class EditProfileAvatarComponent implements WithStyles {
 
   constructor(readonly sRenderer: StyleRenderer,
               private platform: Platform,
-              public dialogRef: MatDialogRef<EditProfileAvatarComponent>) {
-  }
-
-  onCropped(e: ImgCropperEvent) {
-    this.croppedImage = e.dataURL;
-    console.log('cropped img: ', e);
+              public dialogRef: MatDialogRef<EditProfileAvatarComponent>,
+              private userProfileService: UserProfileService,
+              @Inject(MAT_DIALOG_DATA)private data: UserProfileResponse) {
   }
 
   onLoaded(e: ImgCropperEvent) {
@@ -60,12 +57,35 @@ export class EditProfileAvatarComponent implements WithStyles {
     console.warn(`'${e.name}' is not a valid image`, e);
   }
 
-  uploadCroppedImage() {
-
+  uploadCroppedImage(e: ImgCropperEvent) {
+    const userProfileForm = new FormData();
+    const blob = this.b64toBlob(e.dataURL, e.type);
+    userProfileForm.append('uid', this.data.uid);
+    userProfileForm.append('newProfileAvatar', blob);
+    this.userProfileService.updateProfile(userProfileForm).subscribe(result => {
+      this.userProfileService.userProfile = result;
+      this.cropper.clean();
+    });
   }
 
   close(): void {
     this.dialogRef.close();
+  }
+
+  b64toArrayBuffer(dataURI) {
+    const byteString = atob(dataURI.split(',')[1]);
+    const buffer = new ArrayBuffer(byteString.length);
+    const array = new Uint8Array(buffer);
+    for (let i = 0; i < byteString.length; i++) {
+      array[i] = byteString.charCodeAt(i);
+    }
+    return array;
+  }
+
+  private b64toBlob(dataURI, mimetype) {
+    return new Blob([this.b64toArrayBuffer(dataURI)], {
+      type: mimetype
+    });
   }
 
 }

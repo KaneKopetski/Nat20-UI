@@ -2,7 +2,6 @@
   <span [lyFlex]="1"></span>
   <!-- Hidden input -->
   <input #_fileInput type="file" (change)="cropper.selectInputEvent($event)" accept="image/*" hidden>
-  <button raised ly-button bg="accent" *ngIf="croppedImage">Upload</button>
 </div>
 
 <div *ngIf="ready" fxLayout="column" fxLayoutAlign="center center" [style.margin-bottom]="'15px'">
@@ -26,7 +25,7 @@
                 (minScale)="minScale = $event"
                 (ready)="ready = true"
                 (cleaned)="ready = false"
-                (cropped)="onCropped($event)"
+                (cropped)="this.uploadCroppedImage($event)"
                 (loaded)="onLoaded($event)"
                 (error)="onError($event)"
 >
@@ -45,9 +44,6 @@
 </ly-img-cropper>
 
 <div class="button-row" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
-  <button mat-flat-button color="accent" (click)="this.close()">Cancel</button>
-  <button mat-stroked-button color="accent" *ngIf="ready" (click)="cropper.crop()">
-    <ly-icon>crop</ly-icon>crop
-  </button>
-  <button mat-flat-button color="accent" *ngIf="ready" [disabled]="!this.croppedImage">Set as profile avatar</button>
+  <button mat-stroked-button color="accent" (click)="this.close()">Cancel</button>
+  <button mat-flat-button color="accent" *ngIf="ready" (click)="cropper.crop()">Set as profile avatar</button>
 </div>

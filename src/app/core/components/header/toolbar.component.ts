@@ -28,7 +28,6 @@ export class ToolbarComponent implements OnInit {
   userProfileService: UserProfileService;
   ready: boolean;
   scale: number;
-  minScale: number;
   photoUrl: string;
 
   constructor(private matIconRegistry: MatIconRegistry,
@@ -61,7 +60,7 @@ export class ToolbarComponent implements OnInit {
   openDialog(): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.width = '450px';
-    dialogConfig.data = this.userProfileService.userProfile.profileAvatarUrl;
+    dialogConfig.data = this.userProfileService.userProfile;
 
     const dialogRef = this.dialog.open(EditProfileAvatarComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {

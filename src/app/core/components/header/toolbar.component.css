@@ -34,7 +34,8 @@
   top: 50%;
   left: 50%;
   margin-right: -50%;
-  transform: translate(-50%, -50%)
+  transform: translate(-50%, -50%);
+  border-radius: 100%;
 }
 
 .menu-profile-avatar-container {
@@ -52,22 +53,14 @@
   top: 50%;
   left: 50%;
   margin-right: -50%;
-  transform: translate(-50%, -50%)
+  transform: translate(-50%, -50%);
+  border-radius: 100%;
+
 }
 
 .profile-menu {
   width: 300px;
 }
-
-/*.mat-badge-content {*/
-/*  font-family: 'Material Icons', serif;*/
-/*}*/
-
-/*.mat-badge-large.mat-badge-above .mat-badge-content {*/
-/*  top: 45px;*/
-/*  left: 45px;*/
-/*}*/
-
 
 .change-image {
   position: absolute;
