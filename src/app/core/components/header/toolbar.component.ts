@@ -25,17 +25,15 @@ export class ToolbarComponent implements OnInit {
   userData: User;
   userProfile: UserProfileResponse;
   apps: AppButton[];
-  userProfileService: UserProfileService;
   ready: boolean;
   scale: number;
   photoUrl: string;
 
   constructor(private matIconRegistry: MatIconRegistry,
               private domSanitizer: DomSanitizer,
-              private authService: AuthService,
-              userProfileService: UserProfileService,
+              public authService: AuthService,
+              public userProfileService: UserProfileService,
               private dialog: MatDialog) {
-    this.userProfileService = userProfileService;
   }
 
   ngOnInit(): void {

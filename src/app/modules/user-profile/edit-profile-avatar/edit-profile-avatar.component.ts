@@ -66,7 +66,10 @@ export class EditProfileAvatarComponent implements WithStyles {
     const userProfileForm = new FormData();
     const blob = this.b64toBlob(e.dataURL, e.type);
     userProfileForm.append('uid', this.data.uid);
+    userProfileForm.append('displayName', this.data.displayName);
     userProfileForm.append('newProfileAvatar', blob);
+    userProfileForm.append('email', this.data.email);
+    userProfileForm.append('aboutMe', this.data.aboutMe);
     this.userProfileService.updateProfile(userProfileForm).subscribe(result => {
       this.userProfileService.userProfile = result;
       this.close();
