@@ -1,10 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import * as firebase from 'firebase';
 import {UserProfileService} from '../user-profile.service';
-import {UserProfileRequest} from '../user-profile-request';
 import {ToastrService, ToastContainerDirective} from 'ngx-toastr';
-import {AuthService} from '../../../core/modules/authentication/auth.service';
 
 @Component({
   selector: 'app-edit-user-profile',
@@ -15,41 +12,47 @@ export class ManageAccountComponent implements OnInit {
 
   @ViewChild(ToastContainerDirective, {static: true}) toastContainer: ToastContainerDirective;
   userProfileForm: FormGroup;
-  user: firebase.User;
   loading = false;
   submitButtonText = 'Finish';
 
   constructor(private fb: FormBuilder,
               private userProfileService: UserProfileService,
-              private toastr: ToastrService,
-              private authService: AuthService) {
+              private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
-    this.user = this.authService.getCurrentUser();
     this.createForm();
     this.toastr.overlayContainer = this.toastContainer;
-
   }
 
   createForm() {
     this.userProfileForm = this.fb.group({
-      email: [  this.user.email,
-        [Validators.email, Validators.maxLength(50)]
+      email: [
+        this.userProfileService.userProfile.email, Validators.compose([
+          Validators.email,
+          Validators.maxLength(50)
+        ])
       ],
-      displayName: [ this.user.displayName, Validators.compose(
-        [Validators.maxLength(50),
-          Validators.minLength(3)])]
+      displayName: [
+        this.userProfileService.userProfile.displayName, Validators.compose([
+          Validators.maxLength(50),
+          Validators.minLength(3)
+        ])
+      ],
+      aboutMe: [
+        this.userProfileService.userProfile.aboutMe ? this.userProfileService.userProfile.aboutMe : '', Validators.maxLength(3000)
+      ]
     });
   }
 
   submitProfile() {
     this.runSpinner();
-    const userProfile: UserProfileRequest = new UserProfileRequest();
-    userProfile.displayName = this.userProfileForm.get(['email']).value;
-    userProfile.email = this.userProfileForm.get(['displayName']).value;
-    userProfile.uid = this.user.uid;
-    this.userProfileService.saveProfile(userProfile).subscribe(
+    const userProfile = new FormData();
+    userProfile.append('email', this.userProfileForm.get(['email']).value);
+    userProfile.append('displayName', this.userProfileForm.get(['displayName']).value);
+    userProfile.append('uid', this.userProfileService.userProfile.uid);
+    userProfile.append('aboutMe', this.userProfileForm.get(['aboutMe']).value);
+    this.userProfileService.updateProfile(userProfile).subscribe(
       success => this.successMessage(),
       error => this.errorMessage());
   }

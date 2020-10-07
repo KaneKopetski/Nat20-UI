@@ -20,6 +20,12 @@
           <mat-error></mat-error>
         </mat-form-field>
 
+        <mat-form-field appearance="outline" color="accent">
+          <mat-label>About</mat-label>
+          <textarea matInput cdkTextareaAutosize formControlName="aboutMe"></textarea>
+          <mat-error></mat-error>
+        </mat-form-field>
+
         <button mat-stroked-button appPreventDoubleClick
                 class="submit-throttled-with-spinner"
                 [throttleTime]="2000"

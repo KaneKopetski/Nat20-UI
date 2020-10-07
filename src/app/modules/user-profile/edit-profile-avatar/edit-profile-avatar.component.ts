@@ -63,18 +63,12 @@ export class EditProfileAvatarComponent implements WithStyles {
 
   uploadCroppedImage(e: ImgCropperEvent) {
     this.runSpinner();
-    const userProfileForm = new FormData();
-    const blob = this.b64toBlob(e.dataURL, e.type);
-    userProfileForm.append('uid', this.data.uid);
-    userProfileForm.append('displayName', this.data.displayName);
-    userProfileForm.append('newProfileAvatar', blob);
-    userProfileForm.append('email', this.data.email);
-    userProfileForm.append('aboutMe', this.data.aboutMe);
-    this.userProfileService.updateProfile(userProfileForm).subscribe(result => {
+    this.userProfileService.updateProfile(this.buildRequestObject(e)).subscribe(result => {
       this.userProfileService.userProfile = result;
       this.close();
     });
   }
+
 
   close(): void {
     this.dialogRef.close();
@@ -99,6 +93,17 @@ export class EditProfileAvatarComponent implements WithStyles {
   runSpinner() {
     this.loading = true;
     this.submitButtonText = '';
+  }
+
+  buildRequestObject(e: ImgCropperEvent) {
+    const userProfileForm = new FormData();
+    const blob = this.b64toBlob(e.dataURL, e.type);
+    userProfileForm.append('uid', this.data.uid);
+    userProfileForm.append('displayName', this.data.displayName);
+    userProfileForm.append('newProfileAvatar', blob);
+    userProfileForm.append('email', this.data.email);
+    userProfileForm.append('aboutMe', this.data.aboutMe);
+    return userProfileForm;
   }
 
 }
