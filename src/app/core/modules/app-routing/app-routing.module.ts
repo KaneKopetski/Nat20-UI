@@ -27,11 +27,8 @@ const ROUTES = [
   { path: 'reset-password-confirmation', component: ResetPasswordConfirmationComponent },
   { path: 'reset-password-email', component: ResetPasswordEmailSentComponent },
   { path: 'characters', component: CharactersLandingComponent, canActivate: [AuthGuard] },
-  { path: 'character', component: CharactersLandingComponent, canActivate: [AuthGuard] },
-  { path: 'c', component: CharactersLandingComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ManageAccountComponent, canActivate: [AuthGuard, OwnerGuard] },
   { path: 'view-profile/:uid', component: ProfileDetailComponent },
-  { path: 'cropper-test', component: EditProfileAvatarComponent },
   { path: 'not-found', component: PageNotFoundComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }

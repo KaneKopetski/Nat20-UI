@@ -2,6 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {UserProfileService} from '../user-profile.service';
 import {ToastrService, ToastContainerDirective} from 'ngx-toastr';
+import {UserProfileRequest} from '../user-profile-request';
 
 @Component({
   selector: 'app-edit-user-profile',
@@ -40,19 +41,31 @@ export class ManageAccountComponent implements OnInit {
         ])
       ],
       aboutMe: [
-        this.userProfileService.userProfile.aboutMe ? this.userProfileService.userProfile.aboutMe : '', Validators.maxLength(3000)
+        this.handleAboutMe(), Validators.maxLength(3000)
       ]
     });
   }
 
+  // submitProfile() {
+  //   this.runSpinner();
+  //   const userProfile = new FormData();
+  //   userProfile.append('email', this.userProfileForm.get(['email']).value);
+  //   userProfile.append('displayName', this.userProfileForm.get(['displayName']).value);
+  //   userProfile.append('uid', this.userProfileService.userProfile.uid);
+  //   userProfile.append('aboutMe', this.userProfileForm.get(['aboutMe']).value);
+  //   this.userProfileService.updateProfile(userProfile).subscribe(
+  //     success => this.successMessage(),
+  //     error => this.errorMessage());
+  // }
+
   submitProfile() {
     this.runSpinner();
-    const userProfile = new FormData();
-    userProfile.append('email', this.userProfileForm.get(['email']).value);
-    userProfile.append('displayName', this.userProfileForm.get(['displayName']).value);
-    userProfile.append('uid', this.userProfileService.userProfile.uid);
-    userProfile.append('aboutMe', this.userProfileForm.get(['aboutMe']).value);
-    this.userProfileService.updateProfile(userProfile).subscribe(
+    const userProfile = new UserProfileRequest();
+    userProfile.uid = this.userProfileService.userProfile.uid;
+    userProfile.displayName = this.userProfileForm.get(['displayName']).value;
+    userProfile.aboutMe = this.userProfileForm.get(['aboutMe']).value;
+    userProfile.email = this.userProfileForm.get(['email']).value;
+    this.userProfileService.manageProfile(userProfile).subscribe(
       success => this.successMessage(),
       error => this.errorMessage());
   }
@@ -72,6 +85,14 @@ export class ManageAccountComponent implements OnInit {
   runSpinner() {
     this.submitButtonText = '';
     this.loading = true;
+  }
+
+  handleAboutMe() {
+    if (this.userProfileService.userProfile.aboutMe === 'null' || this.userProfileService.userProfile.aboutMe === undefined) {
+      return '';
+    } else {
+      return this.userProfileService.userProfile.aboutMe;
+    }
   }
 
 }

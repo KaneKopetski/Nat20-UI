@@ -2,3 +2,15 @@
   margin-top: 5%;
   width: 100%;
 }
+
+.mat-card {
+  width: 450px;
+}
+
+.mat-form-field {
+  width: 95%;
+}
+
+.no-scroll::-webkit-scrollbar {
+  display: none;
+}
