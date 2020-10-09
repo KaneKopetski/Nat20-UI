@@ -23,11 +23,8 @@
             SIGN IN
           </button>
         </div>
-
-        <div *ngIf="this.userData">
-          <button mat-flat-button color="accent" aria-hidden="false" aria-label="apps icon" class="toolbar-button" (click)="authService.signOutAndRedirect()">
-            SIGN OUT
-          </button>
+        <div class="profile-avatar-button" *ngIf="this.userProfileService.userProfile && this.userData" [matMenuTriggerFor]="profileMenu">
+          <img class="toolbar-profile-avatar" [src]="this.userProfileService.getUserProfileAvatarUrl()" alt="Mini profile avatar">
         </div>
 
       </div>
@@ -67,6 +64,29 @@
         <mat-icon class="{{ app.iconClass }}" svgIcon="{{ app.iconName }}"></mat-icon>
         <span class="text">{{ app.name }}</span>
       </button>
+    </div>
+  </div>
+</mat-menu>
+
+<mat-menu class="profile-menu" #profileMenu="matMenu" xPosition="before">
+  <div class="menu-container" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px">
+    <div class="menu-profile-container" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="5px" *ngIf="this.userProfileService.userProfile">
+      <div class="menu-profile-avatar-container">
+        <img class="menu-profile-avatar" [src]="userProfileService.userProfile.profileAvatarUrl" alt="Profile avatar">
+        <mat-icon class="change-image" color="warn" (click)="openDialog()">image</mat-icon>
+      </div>
+      <div>
+        <span>{{ this.userProfileService.userProfile.displayName }}</span>
+      </div>
+      <div>
+        <span>{{ this.userProfileService.userProfile.email }}</span>
+      </div>
+    </div>
+    <div>
+      <button mat-flat-button color="accent" [routerLink]="'/profile'">Manage Account</button>
+    </div>
+    <div>
+      <button mat-stroked-button color="accent" (click)="this.signOut()">SIGN OUT</button>
     </div>
   </div>
 </mat-menu>

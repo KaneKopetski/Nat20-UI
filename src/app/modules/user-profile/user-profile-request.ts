@@ -3,10 +3,5 @@ export class UserProfileRequest {
   email: string;
   displayName: string;
   aboutMe?: string;
-  newProfileAvatar?: {
-    imageId: number;
-    fileName: string;
-    fileType: string;
-    data: any;
-  };
+  newProfileAvatar?: Blob;
 }

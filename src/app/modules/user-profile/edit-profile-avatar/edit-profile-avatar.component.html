@@ -1,0 +1,57 @@
+<div [lyDisplay]="'flex'">
+  <span [lyFlex]="1"></span>
+  <!-- Hidden input -->
+  <input #_fileInput type="file" (change)="cropper.selectInputEvent($event)" accept="image/*" hidden>
+</div>
+
+<div *ngIf="ready" fxLayout="column" fxLayoutAlign="center center" [style.margin-bottom]="'15px'">
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="15px">
+    <button (click)="cropper.zoomIn()" mat-icon-button color="accent"><mat-icon>zoom_in</mat-icon></button>
+    <button (click)="cropper.zoomOut()" mat-icon-button color="accent"><mat-icon>zoom_out</mat-icon></button>
+    <button (click)="cropper.center()" mat-icon-button color="accent"><ly-icon>filter_center_focus</ly-icon></button>
+    <button (click)="cropper.rotate(-90)" mat-icon-button color="accent"><ly-icon>rotate_90_degrees_ccw</ly-icon></button>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="15px">
+    <button (click)="cropper.fit()" mat-stroked-button color="accent">Fit</button>
+    <button (click)="cropper.fitToScreen()" mat-stroked-button color="accent">Fit to screen</button>
+    <button (click)="cropper.setScale(1)" mat-stroked-button color="accent">1:1</button>
+    <button (click)="cropper.clean()" mat-stroked-button color="accent">Reset</button>
+  </div>
+</div>
+
+<ly-img-cropper [withClass]="classes.cropper"
+                [config]="myConfig"
+                [(scale)]="scale"
+                (minScale)="minScale = $event"
+                (ready)="ready = true"
+                (cleaned)="ready = false"
+                (cropped)="this.uploadCroppedImage($event)"
+                (loaded)="onLoaded($event)"
+                (error)="onError($event)"
+>
+
+  <div fxLayout="column" fxLayoutAlign="center center">
+    <img class="upload-to-cloud-icon" src="assets/upload-to-cloud.png" alt="Upload to cloud" [style.width]="'150px'" [style.margin-bottom]="'15px'">
+    <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="15px">
+      <span>Dragon drop (hah!) image here</span>
+      <span>— or —</span>
+      <button mat-stroked-button (click)="_fileInput.click()">
+        <mat-icon>image</mat-icon>
+        <span>Select File</span>
+      </button>
+    </div>
+  </div>
+</ly-img-cropper>
+
+<div class="button-row" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+  <button mat-stroked-button color="accent" (click)="this.close()">Cancel</button>
+  <button mat-flat-button
+          class="submit-throttled-with-spinner"
+          color="accent"
+          type="submit"
+          appPreventDoubleClick
+          [throttleTime]="2000"
+          (throttledClick)="cropper.crop()"
+          [class.spinner]="loading"
+          *ngIf="ready || this.loading">{{ this.submitButtonText }}</button>
+</div>

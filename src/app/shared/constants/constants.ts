@@ -26,7 +26,8 @@ export abstract class Constants {
     getById: '/getById/',
     getOrCreate: '/getOrCreate',
     saveProfile: '/save',
-    update: '/update'
+    update: '/update',
+    manage: '/manage'
  };
 
 }

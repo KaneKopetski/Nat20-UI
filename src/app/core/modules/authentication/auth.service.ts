@@ -62,10 +62,7 @@ export class AuthService implements OnDestroy {
       userProfileForm.append('uid', user.uid);
       userProfileForm.append('displayName', user.displayName);
       userProfileForm.append('email', user.email);
-      this.userProfileService.getOrCreateProfile(userProfileForm)
-        .subscribe(result => {
-          console.log(result);
-        });
+      this.userProfileService.getOrCreateProfile(userProfileForm);
   }
 
   signInWithEmail(email: string, password: string) {
@@ -77,7 +74,7 @@ export class AuthService implements OnDestroy {
   }
 
   signOutAndRedirect() {
-    return this.afAuth.signOut().then(() => {
+    this.afAuth.signOut().then(() => {
       this.removeTokensFromSessionStorage();
       this.userData = null;
       this.router.navigate(['/home']);
