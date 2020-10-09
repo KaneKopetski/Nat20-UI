@@ -46,18 +46,6 @@ export class ManageAccountComponent implements OnInit {
     });
   }
 
-  // submitProfile() {
-  //   this.runSpinner();
-  //   const userProfile = new FormData();
-  //   userProfile.append('email', this.userProfileForm.get(['email']).value);
-  //   userProfile.append('displayName', this.userProfileForm.get(['displayName']).value);
-  //   userProfile.append('uid', this.userProfileService.userProfile.uid);
-  //   userProfile.append('aboutMe', this.userProfileForm.get(['aboutMe']).value);
-  //   this.userProfileService.updateProfile(userProfile).subscribe(
-  //     success => this.successMessage(),
-  //     error => this.errorMessage());
-  // }
-
   submitProfile() {
     this.runSpinner();
     const userProfile = new UserProfileRequest();
