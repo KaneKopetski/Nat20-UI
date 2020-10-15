@@ -1,6 +1,10 @@
-<div fxLayout="row" fxLayoutAlign="space-between center">
-  <span>Test</span>
-  <div class="button-row">
+<div class="container">
+<div fxLayout="row" fxLayoutAlign="space-between center" class="button-row">
+  <div fxLayout="column" fxLayoutAlign="center center">
+    <mat-panel-title>Test2</mat-panel-title>
+    <mat-panel-description>Test</mat-panel-description>
+  </div>
+  <div>
     <button color="primary" mat-flat-button class="scroll-left">
       <mat-icon>navigate_before</mat-icon>
     </button>
@@ -16,4 +20,5 @@
     <app-character-template [character]="character"></app-character-template>
   </div>
 
+</div>
 </div>
