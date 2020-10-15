@@ -1,5 +1,19 @@
-<div fxLayout="row wrap" fxLayoutAlign="start" fxLayoutGap="25px" class="card-list">
-  <div *ngFor="let character of characters">
+<div fxLayout="row" fxLayoutAlign="space-between center">
+  <span>Test</span>
+  <div class="button-row">
+    <button color="primary" mat-flat-button class="scroll-left">
+      <mat-icon>navigate_before</mat-icon>
+    </button>
+    <button color="primary" mat-flat-button class="scroll-right">
+      <mat-icon>navigate_next</mat-icon>
+    </button>
+  </div>
+</div>
+
+<div class="card-list-container" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="25px">
+
+  <div class="card-list" *ngFor="let character of characters">
     <app-character-template [character]="character"></app-character-template>
   </div>
+
 </div>
