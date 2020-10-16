@@ -1,8 +1,8 @@
 <div class="container">
 <div fxLayout="row" fxLayoutAlign="space-between center" class="button-row">
-  <div fxLayout="column" fxLayoutAlign="center center">
-    <mat-panel-title>Test2</mat-panel-title>
-    <mat-panel-description>Test</mat-panel-description>
+  <div fxLayout="column" fxLayoutAlign="center start">
+    <mat-panel-title class="title-text">{{ this.titleText ? this.titleText : 'Title Text' }}</mat-panel-title>
+    <mat-panel-description class="subtitle-text">{{ this.subtitleText ? this.subtitleText : 'Subtitle Text' }}</mat-panel-description>
   </div>
   <div>
     <button color="primary" mat-flat-button class="scroll-left">

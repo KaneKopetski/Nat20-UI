@@ -9,6 +9,7 @@ import { CharacterTemplateModel } from '../model/character-template-model';
 export class CharacterTemplateListComponent  {
 
   @Input('characterList') characters: Array<CharacterTemplateModel>;
-  @Input('rowHeader') rowText: string;
+  @Input('titleText') titleText: string;
+  @Input('subtitleText') subtitleText: string;
 
 }
