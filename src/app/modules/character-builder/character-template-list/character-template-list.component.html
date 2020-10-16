@@ -1,24 +1,40 @@
+<!--<div class="container">-->
+<!--<div fxLayout="row" fxLayoutAlign="space-between center" class="button-row">-->
+<!--  <div fxLayout="column" fxLayoutAlign="center start">-->
+<!--    <mat-panel-title class="title-text">{{ this.titleText ? this.titleText : 'Title Text' }}</mat-panel-title>-->
+<!--    <mat-panel-description class="subtitle-text">{{ this.subtitleText ? this.subtitleText : 'Subtitle Text' }}</mat-panel-description>-->
+<!--  </div>-->
+<!--  <div>-->
+<!--    <button color="primary" mat-flat-button class="scroll-left">-->
+<!--      <mat-icon>navigate_before</mat-icon>-->
+<!--    </button>-->
+<!--    <button color="primary" mat-flat-button class="scroll-right">-->
+<!--      <mat-icon>navigate_next</mat-icon>-->
+<!--    </button>-->
+<!--  </div>-->
+<!--</div>-->
+
 <div class="container">
-<div fxLayout="row" fxLayoutAlign="space-between center" class="button-row">
-  <div fxLayout="column" fxLayoutAlign="center start">
-    <mat-panel-title class="title-text">{{ this.titleText ? this.titleText : 'Title Text' }}</mat-panel-title>
-    <mat-panel-description class="subtitle-text">{{ this.subtitleText ? this.subtitleText : 'Subtitle Text' }}</mat-panel-description>
+  <div fxLayout="row" fxLayoutAlign="space-between center" class="button-row">
+    <div fxLayout="column" fxLayoutAlign="center start">
+      <mat-panel-title class="title-text">{{ this.titleText ? this.titleText : 'Title Text' }}</mat-panel-title>
+      <mat-panel-description class="subtitle-text">{{ this.subtitleText ? this.subtitleText : 'Subtitle Text' }}</mat-panel-description>
+    </div>
   </div>
-  <div>
-    <button color="primary" mat-flat-button class="scroll-left">
-      <mat-icon>navigate_before</mat-icon>
-    </button>
-    <button color="primary" mat-flat-button class="scroll-right">
-      <mat-icon>navigate_next</mat-icon>
-    </button>
-  </div>
-</div>
 
 <div class="card-list-container" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="25px">
-
+  <button color="primary" mat-flat-button class="scroll-left">
+    <mat-icon>navigate_before</mat-icon>
+  </button>
   <div class="card-list" *ngFor="let character of characters">
     <app-character-template [character]="character"></app-character-template>
   </div>
+  <button color="primary" mat-flat-button class="scroll-right">
+    <mat-icon>navigate_next</mat-icon>
+  </button>
+</div>
+</div>
 
-</div>
-</div>
+
+
+
