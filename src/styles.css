@@ -1,6 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+.mat-typography::-webkit-scrollbar {
+  display: none;
+}
 
 .mat-form-field.no-padding > .mat-form-field-wrapper {
   margin-bottom: -1em;
