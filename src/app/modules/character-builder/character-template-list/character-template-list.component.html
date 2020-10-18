@@ -1,22 +1,35 @@
-<div class="list-container">
-  <div fxLayout="row" fxLayoutAlign="space-between center" class="button-row">
-    <div fxLayout="column" fxLayoutAlign="center start">
-      <mat-panel-title class="title-text">{{ this.titleText ? this.titleText : 'Title Text' }}</mat-panel-title>
-      <mat-panel-description class="subtitle-text">{{ this.subtitleText ? this.subtitleText : 'Subtitle Text' }}</mat-panel-description>
-      <div>
-      <button color="primary" mat-flat-button class="scroll-left">
-        <mat-icon>navigate_before</mat-icon>
-      </button>
-      <button color="primary" mat-flat-button class="scroll-right">
-        <mat-icon>navigate_next</mat-icon>
-      </button>
-      </div>
-    </div>
-  </div>
+<!--<div class="list-container">-->
+<!--  <div fxLayout="row" fxLayoutAlign="space-between center" class="button-row">-->
+<!--    <div fxLayout="column" fxLayoutAlign="center start">-->
+<!--      <mat-panel-title class="title-text">{{ this.titleText ? this.titleText : 'Title Text' }}</mat-panel-title>-->
+<!--      <mat-panel-description class="subtitle-text">{{ this.subtitleText ? this.subtitleText : 'Subtitle Text' }}</mat-panel-description>-->
+<!--      <div>-->
+<!--      <button color="primary" mat-flat-button class="scroll-left">-->
+<!--        <mat-icon>navigate_before</mat-icon>-->
+<!--      </button>-->
+<!--      <button color="primary" mat-flat-button class="scroll-right">-->
+<!--        <mat-icon>navigate_next</mat-icon>-->
+<!--      </button>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
 
-  <div class="card-list-container" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="25px">
-    <div class="card-list" *ngFor="let character of characters">
+<!--  <div class="card-list-container" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="25px">-->
+<!--    <div class="card-list" *ngFor="let character of characters">-->
+<!--      <app-character-template [character]="character"></app-character-template>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+
+<mat-panel-title class="title-text">{{ this.titleText ? this.titleText : 'Title Text' }}</mat-panel-title>
+<mat-panel-description class="subtitle-text">{{ this.subtitleText ? this.subtitleText : 'Subtitle Text' }}</mat-panel-description>
+<owl-carousel-o [options]="customOptions">
+
+  <ng-container *ngFor="let character of characters">
+    <ng-template carouselSlide [width]="365">
       <app-character-template [character]="character"></app-character-template>
-    </div>
-  </div>
-</div>
+    </ng-template>
+  </ng-container>
+
+</owl-carousel-o>

@@ -3,8 +3,8 @@ import { CharactersLandingComponent } from './characters-landing/characters-land
 import { SharedModule } from '../../shared/shared.module';
 import { CharacterTemplateListComponent } from './character-template-list/character-template-list.component';
 import { CharacterTemplateComponent } from './character-template/character-template.component';
-
-
+import { CarouselModule } from 'ngx-owl-carousel-o';
+import { NguCarouselModule } from '@ngu/carousel';
 
 @NgModule({
   declarations: [
@@ -13,7 +13,9 @@ import { CharacterTemplateComponent } from './character-template/character-templ
     CharacterTemplateComponent
   ],
   imports: [
-    SharedModule
+    SharedModule,
+    CarouselModule,
+    NguCarouselModule
   ]
 })
 export class CharacterBuilderModule { }
