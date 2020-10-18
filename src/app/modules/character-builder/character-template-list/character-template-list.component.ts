@@ -14,10 +14,10 @@ export class CharacterTemplateListComponent {
   @Input('subtitleText') subtitleText: string;
 
   customOptions: OwlOptions = {
-    merge: true,
-    center: true,
+    dots: true,
     autoWidth: true,
     loop: false,
+    freeDrag: true,
     mouseDrag: true,
     touchDrag: true,
     pullDrag: true,
