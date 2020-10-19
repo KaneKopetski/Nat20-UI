@@ -22,7 +22,7 @@ export class CharacterTemplateListComponent {
     touchDrag: true,
     pullDrag: true,
     navSpeed: 700,
-    navText: ['<', '>'],
+    navText: [ '<', '>' ],
     nav: true,
     responsive: {
       0: {
