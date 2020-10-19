@@ -9,21 +9,34 @@
   font-size: 14px;
   margin: 5px;
   padding: 4px 7px;
-  background: #cf6a32;
+  /*background: #455a64;*/
   display: inline-block;
   cursor: pointer;
   border-radius: 3px;
+  border: white 1px solid;
+  height: 25px;
   width: 150px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.owl-prev {
+  background-image: url("src/assets/keyboard_arrow_left-24px.png");
+}
+
+.owl-next {
+  background-image: url("src/assets/keyboard_arrow_right-24px.png");
 }
 
 .owl-theme .owl-nav [class*='owl-']:hover {
-  background: #f3670d;
-  color: #FFF;
-  text-decoration: none;
+  /*background: #37474f;*/
+  /*color: #FFF;*/
+  /*text-decoration: none;*/
 }
 
 .owl-theme .owl-nav .disabled {
-  opacity: 0.5;
+  opacity: 0.3;
   cursor: default;
 }
 

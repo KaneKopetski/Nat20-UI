@@ -4,7 +4,6 @@ import { SharedModule } from '../../shared/shared.module';
 import { CharacterTemplateListComponent } from './character-template-list/character-template-list.component';
 import { CharacterTemplateComponent } from './character-template/character-template.component';
 import { CarouselModule } from 'ngx-owl-carousel-o';
-import { NguCarouselModule } from '@ngu/carousel';
 
 @NgModule({
   declarations: [
@@ -14,8 +13,7 @@ import { NguCarouselModule } from '@ngu/carousel';
   ],
   imports: [
     SharedModule,
-    CarouselModule,
-    NguCarouselModule
+    CarouselModule
   ]
 })
 export class CharacterBuilderModule { }
