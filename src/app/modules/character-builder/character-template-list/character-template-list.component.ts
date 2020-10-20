@@ -19,7 +19,7 @@ export class CharacterTemplateListComponent {
     autoWidth: true,
     loop: false,
     freeDrag: true,
-    mouseDrag: true,
+    mouseDrag: false,
     touchDrag: true,
     pullDrag: true,
     navSpeed: 700,
