@@ -1,0 +1,71 @@
+<div class='card-container'>
+  <div class='flippable-card' *ngIf="character" [ngClass]="{'flipped':this.character.isFlipped}" (click)='this.character.isFlipped = !this.character.isFlipped'>
+
+    <mat-card appMaterialElevation>
+
+      <mat-card-content>
+
+        <div class="card-content" fxLayout="column" fxLayoutAlign="space-between center">
+
+          <div class="card-header-block" fxLayout="column" fxLayoutAlign="start">
+            <div class="header-row" fxLayout="row" fxLayoutAlign="space-around start" fxLayoutGap="100px">
+              <mat-card-title class="character-name">{{ this.character.basicAttributes.name }}</mat-card-title>
+              <div class="character-level" fxLayoutAlign="center center" matTooltip="Effective character level">20</div>
+            </div>
+            <mat-card-subtitle>Barbarian 2/Ranger 5/Horizon Walker 10/Rogue 3</mat-card-subtitle>
+          </div>
+
+          <img mat-card-image class="character-portrait" src="../../../../assets/rsz_405ea3c3f6bad6365fff6cd73719fb66.png" alt="Character Portrait">
+
+          <div class="character-physical-traits" fxLayout="row" fxLayoutAlign="space-between center">
+            <div>{{ this.character.basicAttributes.race.name }}</div>
+            <div>{{ this.character.basicAttributes.gender | titlecase }}</div>
+            <div>{{ this.character.basicAttributes.height.feet + '\''}}
+              {{ this.character.basicAttributes.height.inches + '"'}}</div>
+            <div>{{ this.character.basicAttributes.weight + ' lbs.' }}</div>
+          </div>
+
+          <div class="desc-box" fxLayout="column" fxLayoutAlign="start start">
+            <div class="character-desc">This dude has a beard and blonde hair. And ears. Yeah. Ears. He's a human so the ears aren't super pointy. Oh, he's totally fucking white, too.</div>
+            <div class="character-quote">"I could stab you a lot. Like, a lot a lot. A super lot you might say."</div>
+          </div>
+
+          <mat-card-footer class="misc-info" fxLayout="row" fxLayoutAlign="space-between center">
+            <div class="character-creator" matTooltip="Character creator" [routerLink]="['/view-profile/', this.character.creator.uid]">
+              {{ this.character.creator.displayName }}
+            </div>
+            <div matTooltip="DND Edition">3.5</div>
+          </mat-card-footer>
+
+
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+
+
+    <mat-card class='back'>
+      <mat-card-title>{{ this.character.basicAttributes.name + '\'s ' }}Statistics</mat-card-title>
+      <div class="base-attack-bonus">
+        BAB: BAB GOES HERE
+      </div>
+      <div class="saving-throws-chart">
+        <div>Saving Throws</div>
+        <div>
+          <div>Fort: FORT SAVE HERE</div>
+          <div>Will: WILL SAVE HERE</div>
+          <div>Reflex: REFLEX SAVE HERE</div>
+        </div>
+        <div class="ability-scores-chart">Ability Scores</div>
+        <div>
+          <div>Str: {{ this.character.baseAbilities.STRENGTH.inherentScore }} Mod: {{ this.character.baseAbilities.STRENGTH.enhancementModifier }}</div>
+          <div>Dex: {{ this.character.baseAbilities.DEXTERITY.inherentScore }} Mod: {{ this.character.baseAbilities.DEXTERITY.enhancementModifier }}</div>
+          <div>Con: {{ this.character.baseAbilities.CONSTITUTION.inherentScore }} Mod: {{ this.character.baseAbilities.CONSTITUTION.enhancementModifier }}</div>
+          <div>Wis: {{ this.character.baseAbilities.WISDOM.inherentScore }} Mod: {{ this.character.baseAbilities.WISDOM.enhancementModifier }}</div>
+          <div>Int: {{ this.character.baseAbilities.INTELLIGENCE.inherentScore }} Mod: {{ this.character.baseAbilities.INTELLIGENCE.enhancementModifier }}</div>
+          <div>Cha: {{ this.character.baseAbilities.CHARISMA.inherentScore }} Mod: {{ this.character.baseAbilities.CHARISMA.enhancementModifier }}</div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>
