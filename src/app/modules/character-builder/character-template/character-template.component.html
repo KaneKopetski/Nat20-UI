@@ -1,40 +1,118 @@
+<!--<div class='card-container'>-->
+<!--  <div class='flippable-card' *ngIf="character" [ngClass]="{'flipped':this.character.isFlipped}" (click)='this.character.isFlipped = !this.character.isFlipped'>-->
+<!--    -->
+<!--    <mat-card appMaterialElevation>-->
+<!--      <mat-card-content>-->
+<!--        <div class="card-header-block" fxLayout="column" fxLayoutAlign="start">-->
+<!--          <div fxLayout="row" fxLayoutAlign="space-between start">-->
+<!--            <mat-card-title class="character-name">{{ this.character.basicAttributes.name }}</mat-card-title>-->
+<!--            <div class="character-level" fxLayoutAlign="center center" matTooltip="Character level">20</div>-->
+<!--          </div>-->
+<!--          <mat-card-subtitle>Class Summary goes here</mat-card-subtitle>-->
+<!--        </div>-->
+<!--        <img mat-card-image src="data:image/jpeg;base64,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" alt="Photo of a Shiba Inu">-->
+<!--        <div class="physical-traits-container" fxLayoutAlign="center start">-->
+<!--          <div class="character-physical-traits" fxLayout="row" fxLayoutAlign="space-between center">-->
+<!--            <div>Sex: {{ this.character.basicAttributes.gender | titlecase }}</div>-->
+<!--            <div>Race: {{ this.character.basicAttributes.race.name }}</div>-->
+<!--            <div>Ht: {{ this.character.basicAttributes.height.feet + '\''}}-->
+<!--              {{ this.character.basicAttributes.height.inches + '"'}}</div>-->
+<!--            <div>Wt: {{ this.character.basicAttributes.weight + ' lbs.' }}</div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="character-summary-container" fxLayoutAlign="center start">-->
+<!--        </div>-->
+<!--        <div class="desc-box" fxLayout="column" fxLayoutAlign="start space-between">-->
+<!--          <div class="character-desc">Placeholder for a short character description.</div>-->
+<!--          <div class="character-quote" fxLayout="column" fxLayoutAlign="center start">-->
+<!--            QUOTE GOES HERE-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <mat-card-footer class="character-summary" fxLayout="row" fxLayoutAlign="space-between center">-->
+<!--          <div class="character-creator" matTooltip="Info about the action" [matTooltipPosition]="this.position.value" [routerLink]="['/view-profile/', this.character.creator.uid]">-->
+<!--            {{ this.character.creator.displayName }}-->
+<!--          </div>-->
+<!--          <div matTooltip="DND Edition">Edition: EDITION GOES HERE</div>-->
+<!--        </mat-card-footer>-->
+<!--      </mat-card-content>-->
+<!--    </mat-card>-->
+<!--    -->
+<!--    -->
+<!--    <mat-card class='back'>-->
+<!--      <mat-card-title>{{ this.character.basicAttributes.name + '\'s ' }}Statistics</mat-card-title>-->
+<!--      <div class="base-attack-bonus">-->
+<!--        BAB: BAB GOES HERE-->
+<!--      </div>-->
+<!--      <div class="saving-throws-chart">-->
+<!--        <div>Saving Throws</div>-->
+<!--        <div>-->
+<!--          <div>Fort: FORT SAVE HERE</div>-->
+<!--          <div>Will: WILL SAVE HERE</div>-->
+<!--          <div>Reflex: REFLEX SAVE HERE</div>-->
+<!--        </div>-->
+<!--        <div class="ability-scores-chart">Ability Scores</div>-->
+<!--        <div>-->
+<!--          <div>Str: {{ this.character.baseAbilities.STRENGTH.inherentScore }} Mod: {{ this.character.baseAbilities.STRENGTH.enhancementModifier }}</div>-->
+<!--          <div>Dex: {{ this.character.baseAbilities.DEXTERITY.inherentScore }} Mod: {{ this.character.baseAbilities.DEXTERITY.enhancementModifier }}</div>-->
+<!--          <div>Con: {{ this.character.baseAbilities.CONSTITUTION.inherentScore }} Mod: {{ this.character.baseAbilities.CONSTITUTION.enhancementModifier }}</div>-->
+<!--          <div>Wis: {{ this.character.baseAbilities.WISDOM.inherentScore }} Mod: {{ this.character.baseAbilities.WISDOM.enhancementModifier }}</div>-->
+<!--          <div>Int: {{ this.character.baseAbilities.INTELLIGENCE.inherentScore }} Mod: {{ this.character.baseAbilities.INTELLIGENCE.enhancementModifier }}</div>-->
+<!--          <div>Cha: {{ this.character.baseAbilities.CHARISMA.inherentScore }} Mod: {{ this.character.baseAbilities.CHARISMA.enhancementModifier }}</div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </mat-card>-->
+<!--  </div>-->
+<!--</div>-->
+
 <div class='card-container'>
   <div class='flippable-card' *ngIf="character" [ngClass]="{'flipped':this.character.isFlipped}" (click)='this.character.isFlipped = !this.character.isFlipped'>
+
     <mat-card appMaterialElevation>
+
       <mat-card-content>
-        <div class="card-header-block" fxLayout="column" fxLayoutAlign="start">
-          <div fxLayout="row" fxLayoutAlign="space-between start">
-            <mat-card-title class="character-name">{{ this.character.basicAttributes.name }}</mat-card-title>
-            <div class="character-level" fxLayoutAlign="center center" matTooltip="Character level">CHARACTER LEVEL WILL GO HERE</div>
+
+        <div class="card-content" fxLayout="column" fxLayoutAlign="space-between center">
+
+          <div class="card-header-block" fxLayout="column" fxLayoutAlign="start">
+            <div class="header-row" fxLayout="row" fxLayoutAlign="space-around start" fxLayoutGap="100px">
+              <mat-card-title class="character-name">{{ this.character.basicAttributes.name }}</mat-card-title>
+              <div class="character-level" fxLayoutAlign="center center" matTooltip="Character level">20</div>
+            </div>
+            <mat-card-subtitle>Barbarian 2/Ranger5/Horizon Walker 10</mat-card-subtitle>
           </div>
-          <mat-card-subtitle>Class Summary goes here</mat-card-subtitle>
-        </div>
-        <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-        <div class="physical-traits-container" fxLayoutAlign="center start">
+
+          <img mat-card-image class="character-portrait" src="../../../../assets/rsz_405ea3c3f6bad6365fff6cd73719fb66.png" alt="Character Portrait">
+
           <div class="character-physical-traits" fxLayout="row" fxLayoutAlign="space-between center">
-            <div>Sex: {{ this.character.basicAttributes.gender | titlecase }}</div>
-            <div>Race: {{ this.character.basicAttributes.race.name }}</div>
-            <div>Ht: {{ this.character.basicAttributes.height.feet + '\''}}
+            <div>{{ this.character.basicAttributes.race.name }}</div>
+            <div>{{ this.character.basicAttributes.gender | titlecase }}</div>
+            <div>{{ this.character.basicAttributes.height.feet + '\''}}
               {{ this.character.basicAttributes.height.inches + '"'}}</div>
-            <div>Wt: {{ this.character.basicAttributes.weight + ' lbs.' }}</div>
+            <div>{{ this.character.basicAttributes.weight + ' lbs.' }}</div>
           </div>
-        </div>
-        <div class="character-summary-container" fxLayoutAlign="center start">
-        </div>
-        <div class="desc-box" fxLayout="column" fxLayoutAlign="start space-between">
-          <div class="character-desc">Placeholder for a short character description.</div>
-          <div class="character-quote" fxLayout="column" fxLayoutAlign="center start">
-            QUOTE GOES HERE
+
+          <div class="desc-box" fxLayout="column" fxLayoutAlign="start space-between">
+            <div class="character-desc">Placeholder for a short character description.</div>
+            <div class="character-quote" fxLayout="column" fxLayoutAlign="center start">QUOTE GOES HERE</div>
           </div>
+
+          <mat-card-footer class="misc-info" fxLayout="row" fxLayoutAlign="space-between center">
+            <div class="character-creator" matTooltip="Character creator"
+                 [matTooltipPosition]="'above'"
+                 [routerLink]="['/view-profile/', this.character.creator.uid]">
+              {{ this.character.creator.displayName }}
+            </div>
+            <div matTooltip="DND Edition">3.5</div>
+          </mat-card-footer>
+
+
+
         </div>
-        <mat-card-footer class="character-summary" fxLayout="row" fxLayoutAlign="space-between center">
-          <div class="character-creator" matTooltip="Info about the action" [matTooltipPosition]="this.position.value" [routerLink]="['/view-profile/', this.character.creator.uid]">
-            {{ this.character.creator.displayName }}
-          </div>
-          <div matTooltip="DND Edition">Edition: EDITION GOES HERE</div>
-        </mat-card-footer>
+
       </mat-card-content>
     </mat-card>
+
+
     <mat-card class='back'>
       <mat-card-title>{{ this.character.basicAttributes.name + '\'s ' }}Statistics</mat-card-title>
       <div class="base-attack-bonus">

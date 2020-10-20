@@ -14,6 +14,7 @@ export class CharacterTemplateListComponent {
   @Input('subtitleText') subtitleText: string;
 
   customOptions: OwlOptions = {
+    margin: 25,
     dots: true,
     autoWidth: true,
     loop: false,
