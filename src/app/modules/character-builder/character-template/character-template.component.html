@@ -1,18 +1,18 @@
 <div class='card-container'>
   <div class='flippable-card' *ngIf="character" [ngClass]="{'flipped':this.character.isFlipped}" (click)='this.character.isFlipped = !this.character.isFlipped'>
 
-    <mat-card appMaterialElevation>
+    <mat-card class="character-template" appMaterialElevation>
 
       <mat-card-content>
 
         <div class="card-content" fxLayout="column" fxLayoutAlign="space-between center">
 
-          <div class="card-header-block" fxLayout="column" fxLayoutAlign="start">
-            <div class="header-row" fxLayout="row" fxLayoutAlign="space-around start" fxLayoutGap="100px">
+          <div class="card-header-block" fxLayout="column" fxLayoutAlign="start start">
+            <div class="header-row" fxLayout="row" fxLayoutAlign="space-between start">
               <mat-card-title class="character-name">{{ this.character.basicAttributes.name }}</mat-card-title>
               <div class="character-level" fxLayoutAlign="center center" matTooltip="Effective character level">20</div>
             </div>
-            <mat-card-subtitle>Barbarian 2/Ranger 5/Horizon Walker 10/Rogue 3</mat-card-subtitle>
+            <mat-card-subtitle class="class-summary">Barbarian 2/Ranger 5/Horizon Walker 10/Rogue 3</mat-card-subtitle>
           </div>
 
           <img mat-card-image class="character-portrait" src="../../../../assets/rsz_405ea3c3f6bad6365fff6cd73719fb66.png" alt="Character Portrait">
