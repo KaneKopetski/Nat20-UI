@@ -110,6 +110,7 @@ export interface CharacterTemplateModel {
     'grappleModifier': number,
     'hitPoints': number
   };
-  'creator': UserProfileRequest;
+  'creatorUid': string;
+  'creatorDisplayName': string;
   isFlipped?: boolean;
 }

@@ -31,8 +31,8 @@
           </div>
 
           <mat-card-footer class="misc-info" fxLayout="row" fxLayoutAlign="space-between center">
-            <div class="character-creator" matTooltip="Character creator" [routerLink]="['/view-profile/', this.character.creator.uid]">
-              {{ this.character.creator.displayName }}
+            <div class="character-creator" matTooltip="Character creator" [routerLink]="['/view-profile/', this.character.creatorUid]">
+              {{ this.character.creatorDisplayName }}
             </div>
             <div matTooltip="DND Edition">3.5</div>
           </mat-card-footer>

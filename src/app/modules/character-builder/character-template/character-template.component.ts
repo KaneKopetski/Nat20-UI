@@ -10,6 +10,5 @@ import { FormControl } from '@angular/forms';
 export class CharacterTemplateComponent {
 
   @Input('character') character: CharacterTemplateModel;
-  position = new FormControl('above');
 
 }
