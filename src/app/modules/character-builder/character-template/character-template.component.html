@@ -15,7 +15,7 @@
             <mat-card-subtitle class="class-summary">Barbarian 2/Ranger 5/Horizon Walker 10/Rogue 3</mat-card-subtitle>
           </div>
 
-          <img mat-card-image class="character-portrait" src="../../../../assets/rsz_405ea3c3f6bad6365fff6cd73719fb66.png" alt="Character Portrait">
+          <img mat-card-image class="character-portrait" [src]="character.portraitUrl" alt="Character Portrait">
 
           <div class="character-physical-traits" fxLayout="row" fxLayoutAlign="space-between center">
             <div>{{ this.character.basicAttributes.race.name }}</div>
@@ -26,15 +26,15 @@
           </div>
 
           <div class="desc-box" fxLayout="column" fxLayoutAlign="start start">
-            <div class="character-desc">This dude has a beard and blonde hair. And ears. Yeah. Ears. He's a human so the ears aren't super pointy. Oh, he's totally fucking white, too.</div>
-            <div class="character-quote">"I could stab you a lot. Like, a lot a lot. A super lot you might say."</div>
+            <div class="character-desc">{{ this.character.basicAttributes.description }}</div>
+            <div class="character-quote">{{ '"' + this.character.basicAttributes.quote + '"' }}</div>
           </div>
 
           <mat-card-footer class="misc-info" fxLayout="row" fxLayoutAlign="space-between center">
             <div class="character-creator" matTooltip="Character creator" [routerLink]="['/view-profile/', this.character.creatorUid]">
               {{ this.character.creatorDisplayName }}
             </div>
-            <div matTooltip="DND Edition">3.5</div>
+            <div matTooltip="DND Edition">{{ this.character.edition }}</div>
           </mat-card-footer>
 
 

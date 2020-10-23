@@ -59,6 +59,8 @@ export interface CharacterTemplateModel {
       'name': string;
     },
     'gender': string;
+    'quote': string;
+    'description': string;
   };
   'baseAbilities': {
     'CONSTITUTION': {
@@ -112,5 +114,7 @@ export interface CharacterTemplateModel {
   };
   'creatorUid': string;
   'creatorDisplayName': string;
+  'portraitUrl': string;
+  'edition': string;
   isFlipped?: boolean;
 }

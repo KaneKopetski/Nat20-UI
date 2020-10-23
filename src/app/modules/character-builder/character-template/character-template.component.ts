@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { CharacterTemplateModel } from '../model/character-template-model';
-import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-character-template',
