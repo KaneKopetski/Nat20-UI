@@ -52,18 +52,32 @@
       <div class="saving-throws-chart">
         <div>Saving Throws</div>
         <div>
-          <div>Fort: FORT SAVE HERE</div>
-          <div>Will: WILL SAVE HERE</div>
-          <div>Reflex: REFLEX SAVE HERE</div>
+          <div><span matTooltip="{{ this.character.fortitude.description }}" [matTooltipShowDelay]="this.toolTipDelayInMs">{{ this.character.fortitude.readable }}: </span>
+            {{ this.calculateSavingThrowTotal(this.character.savingThrows.FORTITUDE) + this.calculateAbilityModifier(this.calculateBaseAbilityTotal(this.character.baseAbilities.CONSTITUTION)) }}</div>
+          <div><span matTooltip="{{ this.character.will.description }}" [matTooltipShowDelay]="this.toolTipDelayInMs">{{ this.character.will.readable }}: </span>
+            {{ this.calculateSavingThrowTotal(this.character.savingThrows.WILL) + this.calculateAbilityModifier(this.calculateBaseAbilityTotal(this.character.baseAbilities.WISDOM)) }}</div>
+          <div><span matTooltip="{{ this.character.reflex.description }}" [matTooltipShowDelay]="this.toolTipDelayInMs">{{ this.character.reflex.readable }}: </span>
+            {{ this.calculateSavingThrowTotal(this.character.savingThrows.REFLEX) + this.calculateAbilityModifier(this.calculateBaseAbilityTotal(this.character.baseAbilities.DEXTERITY)) }}</div>
         </div>
         <div class="ability-scores-chart">Ability Scores</div>
         <div>
-          <div>Str: {{ this.character.baseAbilities.STRENGTH.inherentScore }} Mod: {{ this.character.baseAbilities.STRENGTH.enhancementModifier }}</div>
-          <div>Dex: {{ this.character.baseAbilities.DEXTERITY.inherentScore }} Mod: {{ this.character.baseAbilities.DEXTERITY.enhancementModifier }}</div>
-          <div>Con: {{ this.character.baseAbilities.CONSTITUTION.inherentScore }} Mod: {{ this.character.baseAbilities.CONSTITUTION.enhancementModifier }}</div>
-          <div>Wis: {{ this.character.baseAbilities.WISDOM.inherentScore }} Mod: {{ this.character.baseAbilities.WISDOM.enhancementModifier }}</div>
-          <div>Int: {{ this.character.baseAbilities.INTELLIGENCE.inherentScore }} Mod: {{ this.character.baseAbilities.INTELLIGENCE.enhancementModifier }}</div>
-          <div>Cha: {{ this.character.baseAbilities.CHARISMA.inherentScore }} Mod: {{ this.character.baseAbilities.CHARISMA.enhancementModifier }}</div>
+          <div><span matTooltip="{{ this.character.strength.description }}" [matTooltipShowDelay]="this.toolTipDelayInMs">{{ this.character.strength.abbreviation }}: </span>
+            {{ this.character.baseAbilities.STRENGTH.inherentScore }} Mod: {{ this.calculateAbilityModifier(this.calculateBaseAbilityTotal(this.character.baseAbilities.STRENGTH)) }}</div>
+
+          <div><span matTooltip="{{ this.character.dexterity.description }}" [matTooltipShowDelay]="this.toolTipDelayInMs">{{ this.character.dexterity.abbreviation }}: </span>
+            {{ this.character.baseAbilities.DEXTERITY.inherentScore }} Mod: {{ this.calculateAbilityModifier(this.calculateBaseAbilityTotal(this.character.baseAbilities.DEXTERITY)) }}</div>
+
+          <div><span matTooltip="{{ this.character.constitution.description }}" [matTooltipShowDelay]="this.toolTipDelayInMs">{{ this.character.constitution.abbreviation }}: </span>
+            {{ this.character.baseAbilities.CONSTITUTION.inherentScore }} Mod: {{ this.calculateAbilityModifier(this.calculateBaseAbilityTotal(this.character.baseAbilities.CONSTITUTION)) }}</div>
+
+          <div><span matTooltip="{{ this.character.strength.description }}" [matTooltipShowDelay]="this.toolTipDelayInMs">{{ this.character.wisdom.abbreviation }}: </span>
+            {{ this.character.baseAbilities.WISDOM.inherentScore }} Mod: {{ this.calculateAbilityModifier(this.calculateBaseAbilityTotal(this.character.baseAbilities.WISDOM)) }}</div>
+
+          <div><span matTooltip="{{ this.character.constitution.description }}" [matTooltipShowDelay]="this.toolTipDelayInMs">{{ this.character.intelligence.abbreviation }}: </span>
+            {{ this.character.baseAbilities.INTELLIGENCE.inherentScore }} Mod: {{ this.calculateAbilityModifier(this.calculateBaseAbilityTotal(this.character.baseAbilities.INTELLIGENCE)) }}</div>
+
+          <div><span matTooltip="{{ this.character.constitution.description }}" [matTooltipShowDelay]="this.toolTipDelayInMs">{{ this.character.charisma.abbreviation }}: </span>
+            {{ this.character.baseAbilities.CHARISMA.inherentScore }} Mod: {{ this.calculateAbilityModifier(this.calculateBaseAbilityTotal(this.character.baseAbilities.CHARISMA)) }}</div>
         </div>
       </div>
     </mat-card>

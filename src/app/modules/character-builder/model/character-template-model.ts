@@ -1,4 +1,7 @@
-import {UserProfileRequest} from '../../user-profile/user-profile-request';
+import {CharacterTemplateBaseAbilityLineModel} from './character-template-base-ability-line-model';
+import {CharacterTemplateSavingThrowLineModel} from './character-template-saving-throw-line-model';
+import {BaseAbilityModel} from './base-ability-model';
+import {SavingThrowModel} from './saving-throw-model';
 
 export interface CharacterTemplateModel {
   'id': number;
@@ -63,48 +66,17 @@ export interface CharacterTemplateModel {
     'description': string;
   };
   'baseAbilities': {
-    'CONSTITUTION': {
-      'id': number;
-      'inherentScore': number;
-      'enhancementModifier': number;
-      'temporaryModifier': number;
-      'miscModifier': number;
-    },
-    'WISDOM': {
-      'id': number;
-      'inherentScore': number;
-      'enhancementModifier': number;
-      'temporaryModifier': number;
-      'miscModifier': number;
-    },
-    'CHARISMA': {
-      'id': number;
-      'inherentScore': number;
-      'enhancementModifier': number;
-      'temporaryModifier': number;
-      'miscModifier': number;
-    },
-    'DEXTERITY': {
-      'id': number;
-      'inherentScore': number;
-      'enhancementModifier': number;
-      'temporaryModifier': number;
-      'miscModifier': number;
-    },
-    'STRENGTH': {
-      'id': number;
-      'inherentScore': number;
-      'enhancementModifier': number;
-      'temporaryModifier': number;
-      'miscModifier': number;
-    },
-    'INTELLIGENCE': {
-      'id': number;
-      'inherentScore': number;
-      'enhancementModifier': number;
-      'temporaryModifier': number;
-      'miscModifier': number;
-    }
+    'CONSTITUTION': CharacterTemplateBaseAbilityLineModel,
+    'WISDOM': CharacterTemplateBaseAbilityLineModel,
+    'CHARISMA': CharacterTemplateBaseAbilityLineModel,
+    'DEXTERITY': CharacterTemplateBaseAbilityLineModel,
+    'STRENGTH': CharacterTemplateBaseAbilityLineModel,
+    'INTELLIGENCE': CharacterTemplateBaseAbilityLineModel,
+  };
+  'savingThrows': {
+    'FORTITUDE': CharacterTemplateSavingThrowLineModel,
+    'REFLEX': CharacterTemplateSavingThrowLineModel,
+    'WILL': CharacterTemplateSavingThrowLineModel,
   };
   'combatAttributes': {
     'armorClass': number,
@@ -116,5 +88,14 @@ export interface CharacterTemplateModel {
   'creatorDisplayName': string;
   'portraitUrl': string;
   'edition': string;
-  isFlipped?: boolean;
+  'strength': BaseAbilityModel;
+  'dexterity': BaseAbilityModel;
+  'constitution': BaseAbilityModel;
+  'wisdom': BaseAbilityModel;
+  'intelligence': BaseAbilityModel;
+  'charisma': BaseAbilityModel;
+  'fortitude': SavingThrowModel;
+  'reflex': SavingThrowModel;
+  'will': SavingThrowModel;
+  'isFlipped'?: boolean;
 }
