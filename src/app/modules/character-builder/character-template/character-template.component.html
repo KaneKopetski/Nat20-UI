@@ -10,7 +10,7 @@
           <div class="card-header-block" fxLayout="column" fxLayoutAlign="start start">
             <div class="header-row" fxLayout="row" fxLayoutAlign="space-between start">
               <mat-card-title class="character-name">{{ this.character.basicAttributes.name }}</mat-card-title>
-              <div class="character-level" fxLayoutAlign="center center" matTooltip="Effective character level">20</div>
+              <div class="character-level" fxLayoutAlign="center center" matTooltip="Effective character level" [matTooltipShowDelay]="this.toolTipDelayInMs">20</div>
             </div>
             <mat-card-subtitle class="class-summary">Barbarian 2/Ranger 5/Horizon Walker 10/Rogue 3</mat-card-subtitle>
           </div>
@@ -31,10 +31,10 @@
           </div>
 
           <mat-card-footer class="misc-info" fxLayout="row" fxLayoutAlign="space-between center">
-            <div class="character-creator" matTooltip="Character creator" [routerLink]="['/view-profile/', this.character.creatorUid]">
+            <div class="character-creator" matTooltip="Character creator" [matTooltipShowDelay]="this.toolTipDelayInMs" [routerLink]="['/view-profile/', this.character.creatorUid]">
               {{ this.character.creatorDisplayName }}
             </div>
-            <div matTooltip="DND Edition">{{ this.character.edition }}</div>
+            <div matTooltip="DND Edition" [matTooltipShowDelay]="this.toolTipDelayInMs">{{ this.character.edition }}</div>
           </mat-card-footer>
 
 
@@ -52,31 +52,37 @@
       <div class="saving-throws-chart">
         <div>Saving Throws</div>
         <div>
-          <div><span matTooltip="{{ this.character.fortitude.description }}" [matTooltipShowDelay]="this.toolTipDelayInMs">{{ this.character.fortitude.readable }}: </span>
+          <div><span matTooltip="{{ this.character.attributeDetails.savingThrowDetails.fortitude.description }}" [matTooltipShowDelay]="this.toolTipDelayInMs">{{ this.character.attributeDetails.savingThrowDetails.fortitude.readable }}: </span>
             {{ this.calculateSavingThrowTotal(this.character.savingThrows.FORTITUDE) + this.calculateAbilityModifier(this.calculateBaseAbilityTotal(this.character.baseAbilities.CONSTITUTION)) }}</div>
-          <div><span matTooltip="{{ this.character.will.description }}" [matTooltipShowDelay]="this.toolTipDelayInMs">{{ this.character.will.readable }}: </span>
+          <div><span matTooltip="{{ this.character.attributeDetails.savingThrowDetails.will.description }}" [matTooltipShowDelay]="this.toolTipDelayInMs">{{ this.character.attributeDetails.savingThrowDetails.will.readable }}: </span>
             {{ this.calculateSavingThrowTotal(this.character.savingThrows.WILL) + this.calculateAbilityModifier(this.calculateBaseAbilityTotal(this.character.baseAbilities.WISDOM)) }}</div>
-          <div><span matTooltip="{{ this.character.reflex.description }}" [matTooltipShowDelay]="this.toolTipDelayInMs">{{ this.character.reflex.readable }}: </span>
+          <div><span matTooltip="{{ this.character.attributeDetails.savingThrowDetails.reflex.description }}" [matTooltipShowDelay]="this.toolTipDelayInMs">{{ this.character.attributeDetails.savingThrowDetails.reflex.readable }}: </span>
             {{ this.calculateSavingThrowTotal(this.character.savingThrows.REFLEX) + this.calculateAbilityModifier(this.calculateBaseAbilityTotal(this.character.baseAbilities.DEXTERITY)) }}</div>
         </div>
         <div class="ability-scores-chart">Ability Scores</div>
         <div>
-          <div><span matTooltip="{{ this.character.strength.description }}" [matTooltipShowDelay]="this.toolTipDelayInMs">{{ this.character.strength.abbreviation }}: </span>
+          <div><span matTooltip="{{ this.character.attributeDetails.baseAbilityDetails.strength.description }}"
+                     [matTooltipShowDelay]="this.toolTipDelayInMs">{{ this.character.attributeDetails.baseAbilityDetails.strength.abbreviation }}: </span>
             {{ this.character.baseAbilities.STRENGTH.inherentScore }} Mod: {{ this.calculateAbilityModifier(this.calculateBaseAbilityTotal(this.character.baseAbilities.STRENGTH)) }}</div>
 
-          <div><span matTooltip="{{ this.character.dexterity.description }}" [matTooltipShowDelay]="this.toolTipDelayInMs">{{ this.character.dexterity.abbreviation }}: </span>
+          <div><span matTooltip="{{ this.character.attributeDetails.baseAbilityDetails.dexterity.description }}"
+                     [matTooltipShowDelay]="this.toolTipDelayInMs">{{ this.character.attributeDetails.baseAbilityDetails.dexterity.abbreviation }}: </span>
             {{ this.character.baseAbilities.DEXTERITY.inherentScore }} Mod: {{ this.calculateAbilityModifier(this.calculateBaseAbilityTotal(this.character.baseAbilities.DEXTERITY)) }}</div>
 
-          <div><span matTooltip="{{ this.character.constitution.description }}" [matTooltipShowDelay]="this.toolTipDelayInMs">{{ this.character.constitution.abbreviation }}: </span>
+          <div><span matTooltip="{{ this.character.attributeDetails.baseAbilityDetails.constitution.description }}"
+                     [matTooltipShowDelay]="this.toolTipDelayInMs">{{ this.character.attributeDetails.baseAbilityDetails.constitution.abbreviation }}: </span>
             {{ this.character.baseAbilities.CONSTITUTION.inherentScore }} Mod: {{ this.calculateAbilityModifier(this.calculateBaseAbilityTotal(this.character.baseAbilities.CONSTITUTION)) }}</div>
 
-          <div><span matTooltip="{{ this.character.strength.description }}" [matTooltipShowDelay]="this.toolTipDelayInMs">{{ this.character.wisdom.abbreviation }}: </span>
+          <div><span matTooltip="{{ this.character.attributeDetails.baseAbilityDetails.wisdom.description }}"
+                     [matTooltipShowDelay]="this.toolTipDelayInMs">{{ this.character.attributeDetails.baseAbilityDetails.wisdom.abbreviation }}: </span>
             {{ this.character.baseAbilities.WISDOM.inherentScore }} Mod: {{ this.calculateAbilityModifier(this.calculateBaseAbilityTotal(this.character.baseAbilities.WISDOM)) }}</div>
 
-          <div><span matTooltip="{{ this.character.constitution.description }}" [matTooltipShowDelay]="this.toolTipDelayInMs">{{ this.character.intelligence.abbreviation }}: </span>
+          <div><span matTooltip="{{ this.character.attributeDetails.baseAbilityDetails.intelligence.description }}"
+                     [matTooltipShowDelay]="this.toolTipDelayInMs">{{ this.character.attributeDetails.baseAbilityDetails.intelligence.abbreviation }}: </span>
             {{ this.character.baseAbilities.INTELLIGENCE.inherentScore }} Mod: {{ this.calculateAbilityModifier(this.calculateBaseAbilityTotal(this.character.baseAbilities.INTELLIGENCE)) }}</div>
 
-          <div><span matTooltip="{{ this.character.constitution.description }}" [matTooltipShowDelay]="this.toolTipDelayInMs">{{ this.character.charisma.abbreviation }}: </span>
+          <div><span matTooltip="{{ this.character.attributeDetails.baseAbilityDetails.charisma.description }}"
+                     [matTooltipShowDelay]="this.toolTipDelayInMs">{{ this.character.attributeDetails.baseAbilityDetails.charisma.abbreviation }}: </span>
             {{ this.character.baseAbilities.CHARISMA.inherentScore }} Mod: {{ this.calculateAbilityModifier(this.calculateBaseAbilityTotal(this.character.baseAbilities.CHARISMA)) }}</div>
         </div>
       </div>

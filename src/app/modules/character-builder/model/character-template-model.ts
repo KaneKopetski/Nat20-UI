@@ -1,7 +1,8 @@
 import {CharacterTemplateBaseAbilityLineModel} from './character-template-base-ability-line-model';
 import {CharacterTemplateSavingThrowLineModel} from './character-template-saving-throw-line-model';
-import {BaseAbilityModel} from './base-ability-model';
-import {SavingThrowModel} from './saving-throw-model';
+import {CharacterTemplateAttributeDetailsModel} from './character-template-attribute-details-model';
+import {BaseAbilityDescriptionModel} from './base-ability-description-model';
+import {SavingThrowDescriptionModel} from './saving-throw-description-model';
 
 export interface CharacterTemplateModel {
   'id': number;
@@ -88,14 +89,19 @@ export interface CharacterTemplateModel {
   'creatorDisplayName': string;
   'portraitUrl': string;
   'edition': string;
-  'strength': BaseAbilityModel;
-  'dexterity': BaseAbilityModel;
-  'constitution': BaseAbilityModel;
-  'wisdom': BaseAbilityModel;
-  'intelligence': BaseAbilityModel;
-  'charisma': BaseAbilityModel;
-  'fortitude': SavingThrowModel;
-  'reflex': SavingThrowModel;
-  'will': SavingThrowModel;
-  'isFlipped'?: boolean;
+  'attributeDetails': {
+    'baseAbilityDetails': {
+      'charisma': BaseAbilityDescriptionModel;
+      'dexterity': BaseAbilityDescriptionModel;
+      'wisdom': BaseAbilityDescriptionModel;
+      'intelligence': BaseAbilityDescriptionModel;
+      'strength': BaseAbilityDescriptionModel;
+      'constitution': BaseAbilityDescriptionModel;
+    },
+    'savingThrowDetails': {
+      'reflex': SavingThrowDescriptionModel;
+      'will': SavingThrowDescriptionModel;
+      'fortitude': SavingThrowDescriptionModel;
+    }
+  };  'isFlipped'?: boolean;
 }
