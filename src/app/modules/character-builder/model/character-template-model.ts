@@ -1,8 +1,9 @@
 import {CharacterTemplateBaseAbilityLineModel} from './character-template-base-ability-line-model';
 import {CharacterTemplateSavingThrowLineModel} from './character-template-saving-throw-line-model';
-import {CharacterTemplateAttributeDetailsModel} from './character-template-attribute-details-model';
 import {BaseAbilityDescriptionModel} from './base-ability-description-model';
 import {SavingThrowDescriptionModel} from './saving-throw-description-model';
+import {SizeModel} from './size-model';
+import {RaceModel} from './race-model';
 
 export interface CharacterTemplateModel {
   'id': number;
@@ -17,46 +18,8 @@ export interface CharacterTemplateModel {
     'eyeColor': string;
     'hairColor': string;
     'skinColor': string
-    'race': {
-      'id': number;
-      'name': string;
-      'size': {
-        'readable': string;
-        'attackAndACModifier': number;
-        'specialAttacksModifier': number;
-        'hideModifier': number;
-        'heightOrLength': string;
-        'weightRange': string;
-        'space': number;
-        'naturalReachLong': number;
-        'naturalReachTall': number;
-        'carryingCapacityModifierBiped': number
-        'carryingCapacityModifierQuadruped': number;
-      },
-      'baseSpeed': number;
-      'levelAdjustment': number;
-      'raceBaseAbilityModifiers': {
-        'STRENGTH'?: number;
-        'CONSTITUTION'?: number;
-        'DEXTERITY'?: number;
-        'WISDOM'?: number;
-        'INTELLIGENCE'?: number;
-        'CHARISMA'?: number;
-      }
-    },
-  'size': {
-    'readable': string;
-      'attackAndACModifier': number;
-      'specialAttacksModifier': number;
-      'hideModifier': number;
-      'heightOrLength': string;
-      'weightRange': string;
-      'space': number;
-      'naturalReachLong': number;
-      'naturalReachTall': number;
-      'carryingCapacityModifierBiped': number;
-      'carryingCapacityModifierQuadruped': number;
-  },
+    'race': RaceModel,
+  'size': SizeModel,
     'age': number;
     'deity': {
       'id': number;

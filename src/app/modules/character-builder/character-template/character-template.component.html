@@ -18,7 +18,24 @@
           <img mat-card-image class="character-portrait" [src]="character.portraitUrl" alt="Character Portrait">
 
           <div class="character-physical-traits" fxLayout="row" fxLayoutAlign="space-between center">
-            <div>{{ this.character.basicAttributes.race.name }}</div>
+            <div>
+              <div [matMenuTriggerFor]="menu" #menuTrigger="matMenuTrigger" (mouseover)="menuTrigger.openMenu()">
+                {{ this.character.basicAttributes.race.name }}
+              </div>
+
+              <mat-menu #menu="matMenu" [overlapTrigger]="false">
+                <div (mouseleave)="menuTrigger.closeMenu()">
+                  <div>Race Info</div>
+                  <div>{{ this.character.basicAttributes.race.name }}</div>
+                  <div>Level Adjustment: {{ this.character.basicAttributes.race.levelAdjustment }}</div>
+                  <div>Base Size: {{ this.character.basicAttributes.race.size.readable }}</div>
+                  <div>Base Speed: {{ this.character.basicAttributes.race.baseSpeed }}</div>
+                  <div>Racial Ability Modifiers</div>
+                  <div *ngFor="let abilityModifier of this.getRacialAbilityModifiers()">{{ abilityModifier }}</div>
+                </div>
+              </mat-menu>
+
+            </div>
             <div>{{ this.character.basicAttributes.gender | titlecase }}</div>
             <div>{{ this.character.basicAttributes.height.feet + '\''}}
               {{ this.character.basicAttributes.height.inches + '"'}}</div>
@@ -89,3 +106,5 @@
     </mat-card>
   </div>
 </div>
+
+
