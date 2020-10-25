@@ -33,24 +33,4 @@ export class CharacterTemplateComponent {
       savingThrowLine.temporaryModifier;
   }
 
-  getRacialAbilityModifiers(): Array<string> {
-    const modifiers = new Array<string>();
-
-    this.character.basicAttributes.race.raceBaseAbilityModifiers.STRENGTH ?
-      modifiers.push('Strength: ' + this.character.basicAttributes.race.raceBaseAbilityModifiers.STRENGTH) : modifiers.push('Strength: 0');
-    this.character.basicAttributes.race.raceBaseAbilityModifiers.DEXTERITY ?
-      modifiers.push('Dexterity: ' + this.character.basicAttributes.race.raceBaseAbilityModifiers.DEXTERITY) : modifiers.push('Dexterity: 0');
-    this.character.basicAttributes.race.raceBaseAbilityModifiers.CONSTITUTION ?
-      modifiers.push('Constitution: ' + this.character.basicAttributes.race.raceBaseAbilityModifiers.CONSTITUTION) : modifiers.push('Constitution: 0');
-    this.character.basicAttributes.race.raceBaseAbilityModifiers.WISDOM ?
-      modifiers.push('Wisdom: ' + this.character.basicAttributes.race.raceBaseAbilityModifiers.WISDOM) : modifiers.push('Wisdom: 0');
-    this.character.basicAttributes.race.raceBaseAbilityModifiers.INTELLIGENCE ?
-      modifiers.push('Intelligence: ' + this.character.basicAttributes.race.raceBaseAbilityModifiers.INTELLIGENCE) : modifiers.push('Intelligence: 0');
-    this.character.basicAttributes.race.raceBaseAbilityModifiers.CHARISMA ?
-      modifiers.push('Charisma: ' + this.character.basicAttributes.race.raceBaseAbilityModifiers.CHARISMA) : modifiers.push('Charisma: 0');
-
-    return modifiers;
-
-  }
-
 }
