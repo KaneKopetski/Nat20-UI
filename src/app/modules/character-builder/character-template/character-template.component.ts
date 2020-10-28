@@ -2,7 +2,6 @@ import { Component, Input } from '@angular/core';
 import { CharacterTemplateModel } from '../model/character-template-model';
 import {CharacterTemplateSavingThrowLineModel} from '../model/character-template-saving-throw-line-model';
 import {CharacterTemplateBaseAbilityLineModel} from '../model/character-template-base-ability-line-model';
-import {mod} from 'ngx-bootstrap/chronos/utils';
 
 @Component({
   selector: 'app-character-template',
