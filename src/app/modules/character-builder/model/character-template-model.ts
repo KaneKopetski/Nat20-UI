@@ -1,4 +1,11 @@
-import {UserProfileRequest} from '../../user-profile/user-profile-request';
+import {CharacterTemplateBaseAbilityLineModel} from './character-template-base-ability-line-model';
+import {CharacterTemplateSavingThrowLineModel} from './character-template-saving-throw-line-model';
+import {BaseAbilityDescriptionModel} from './base-ability-description-model';
+import {SavingThrowDescriptionModel} from './saving-throw-description-model';
+import {SizeModel} from './size-model';
+import {RaceModel} from './race-model';
+import {SkillResponseModel} from './skill-response-model';
+import {FeatResponseModel} from './feat-response-model';
 
 export interface CharacterTemplateModel {
   'id': number;
@@ -13,96 +20,29 @@ export interface CharacterTemplateModel {
     'eyeColor': string;
     'hairColor': string;
     'skinColor': string
-    'race': {
-      'id': number;
-      'name': string;
-      'size': {
-        'readable': string;
-        'attackAndACModifier': number;
-        'specialAttacksModifier': number;
-        'hideModifier': number;
-        'heightOrLength': string;
-        'weightRange': string;
-        'space': number;
-        'naturalReachLong': number;
-        'naturalReachTall': number;
-        'carryingCapacityModifierBiped': number
-        'carryingCapacityModifierQuadruped': number;
-      },
-      'baseSpeed': number;
-      'levelAdjustment': number;
-      'raceBaseAbilityModifiers': {
-        'STRENGTH'?: number;
-        'CONSTITUTION'?: number;
-        'DEXTERITY'?: number;
-        'WISDOM'?: number;
-        'INTELLIGENCE'?: number;
-        'CHARISMA'?: number;
-      }
-    },
-  'size': {
-    'readable': string;
-      'attackAndACModifier': number;
-      'specialAttacksModifier': number;
-      'hideModifier': number;
-      'heightOrLength': string;
-      'weightRange': string;
-      'space': number;
-      'naturalReachLong': number;
-      'naturalReachTall': number;
-      'carryingCapacityModifierBiped': number;
-      'carryingCapacityModifierQuadruped': number;
-  },
+    'race': RaceModel,
+  'size': SizeModel,
     'age': number;
     'deity': {
       'id': number;
       'name': string;
     },
     'gender': string;
+    'quote': string;
+    'description': string;
   };
   'baseAbilities': {
-    'CONSTITUTION': {
-      'id': number;
-      'inherentScore': number;
-      'enhancementModifier': number;
-      'temporaryModifier': number;
-      'miscModifier': number;
-    },
-    'WISDOM': {
-      'id': number;
-      'inherentScore': number;
-      'enhancementModifier': number;
-      'temporaryModifier': number;
-      'miscModifier': number;
-    },
-    'CHARISMA': {
-      'id': number;
-      'inherentScore': number;
-      'enhancementModifier': number;
-      'temporaryModifier': number;
-      'miscModifier': number;
-    },
-    'DEXTERITY': {
-      'id': number;
-      'inherentScore': number;
-      'enhancementModifier': number;
-      'temporaryModifier': number;
-      'miscModifier': number;
-    },
-    'STRENGTH': {
-      'id': number;
-      'inherentScore': number;
-      'enhancementModifier': number;
-      'temporaryModifier': number;
-      'miscModifier': number;
-    },
-    'INTELLIGENCE': {
-      'id': number;
-      'inherentScore': number;
-      'enhancementModifier': number;
-      'temporaryModifier': number;
-      'miscModifier': number;
-    }
+    'CONSTITUTION': CharacterTemplateBaseAbilityLineModel,
+    'WISDOM': CharacterTemplateBaseAbilityLineModel,
+    'CHARISMA': CharacterTemplateBaseAbilityLineModel,
+    'DEXTERITY': CharacterTemplateBaseAbilityLineModel,
+    'STRENGTH': CharacterTemplateBaseAbilityLineModel,
+    'INTELLIGENCE': CharacterTemplateBaseAbilityLineModel,
+  };
+  'savingThrows': {
+    'FORTITUDE': CharacterTemplateSavingThrowLineModel,
+    'REFLEX': CharacterTemplateSavingThrowLineModel,
+    'WILL': CharacterTemplateSavingThrowLineModel,
   };
   'combatAttributes': {
     'armorClass': number,
@@ -112,5 +52,25 @@ export interface CharacterTemplateModel {
   };
   'creatorUid': string;
   'creatorDisplayName': string;
-  isFlipped?: boolean;
+  'portraitUrl': string;
+  'edition': string;
+  'skills': [SkillResponseModel];
+  'feats': [FeatResponseModel];
+  'attributeDetails': {
+    'baseAbilityDetails': {
+      'charisma': BaseAbilityDescriptionModel;
+      'dexterity': BaseAbilityDescriptionModel;
+      'wisdom': BaseAbilityDescriptionModel;
+      'intelligence': BaseAbilityDescriptionModel;
+      'strength': BaseAbilityDescriptionModel;
+      'constitution': BaseAbilityDescriptionModel;
+    },
+    'savingThrowDetails': {
+      'reflex': SavingThrowDescriptionModel;
+      'will': SavingThrowDescriptionModel;
+      'fortitude': SavingThrowDescriptionModel;
+    }
+  };
+
+  'isFlipped'?: boolean;
 }
