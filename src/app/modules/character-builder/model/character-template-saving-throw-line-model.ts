@@ -1,5 +1,6 @@
 export interface CharacterTemplateSavingThrowLineModel {
 
+  'id': number;
   'baseSave': number;
   'abilityModifier': number;
   'epicSaveBonus': number;

@@ -4,6 +4,8 @@ import {BaseAbilityDescriptionModel} from './base-ability-description-model';
 import {SavingThrowDescriptionModel} from './saving-throw-description-model';
 import {SizeModel} from './size-model';
 import {RaceModel} from './race-model';
+import {SkillResponseModel} from './skill-response-model';
+import {FeatResponseModel} from './feat-response-model';
 
 export interface CharacterTemplateModel {
   'id': number;
@@ -52,6 +54,8 @@ export interface CharacterTemplateModel {
   'creatorDisplayName': string;
   'portraitUrl': string;
   'edition': string;
+  'skills': [SkillResponseModel];
+  'feats': [FeatResponseModel];
   'attributeDetails': {
     'baseAbilityDetails': {
       'charisma': BaseAbilityDescriptionModel;
@@ -66,5 +70,7 @@ export interface CharacterTemplateModel {
       'will': SavingThrowDescriptionModel;
       'fortitude': SavingThrowDescriptionModel;
     }
-  };  'isFlipped'?: boolean;
+  };
+
+  'isFlipped'?: boolean;
 }

@@ -85,6 +85,17 @@
                      [matTooltipShowDelay]="this.toolTipDelayInMs">{{ this.character.attributeDetails.baseAbilityDetails.charisma.abbreviation }}: </span>
             {{ this.character.baseAbilities.CHARISMA.inherentScore }} Mod: {{ this.calculateAbilityModifier(this.calculateBaseAbilityTotal(this.character.baseAbilities.CHARISMA)) }}</div>
         </div>
+
+
+        <div *ngFor="let skill of character.skills">
+          <div>{{ skill.skill.id }}</div>
+        </div>
+
+        <div *ngFor="let feat of character.feats">
+          <div>{{ feat.id }}</div>
+        </div>
+
+
       </div>
     </mat-card>
   </div>
