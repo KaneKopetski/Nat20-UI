@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CharacterService } from '../character.service';
-import { CharacterPageModel } from '../model/character-page-model';
-import { CharacterTemplateModel } from '../model/character-template-model';
+import { CharacterPageModel } from '../model/character/character-page-model';
+import { CharacterTemplateModel } from '../model/character/character-template-model';
 
 @Component({
   selector: 'app-characters-landing',
