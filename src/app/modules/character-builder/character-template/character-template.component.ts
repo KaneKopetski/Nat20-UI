@@ -1,7 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { CharacterTemplateModel } from '../model/character-template-model';
-import {CharacterTemplateSavingThrowLineModel} from '../model/character-template-saving-throw-line-model';
-import {CharacterTemplateBaseAbilityLineModel} from '../model/character-template-base-ability-line-model';
+import { CharacterTemplateModel } from '../model/character/character-template-model';
+import {CharacterTemplateSavingThrowLineModel} from '../model/character/character-template-saving-throw-line-model';
+import {CharacterTemplateBaseAbilityLineModel} from '../model/character/character-template-base-ability-line-model';
+import {SkillService} from '../skill.service';
+import {SkillResponseModel} from '../model/skill/skill-response-model';
 
 @Component({
   selector: 'app-character-template',
@@ -12,6 +14,12 @@ export class CharacterTemplateComponent {
 
   @Input('character') character: CharacterTemplateModel;
   public toolTipDelayInMs = 750;
+
+  public skillTest: SkillResponseModel;
+
+  constructor(private skillService: SkillService) {
+  }
+
 
   calculateBaseAbilityTotal(abilityLine: CharacterTemplateBaseAbilityLineModel): number {
     return abilityLine.inherentScore +
@@ -30,6 +38,10 @@ export class CharacterTemplateComponent {
       savingThrowLine.magicModifier +
       savingThrowLine.miscModifier +
       savingThrowLine.temporaryModifier;
+  }
+
+  getSkill(id: number) {
+    this.skillService.getSkillById(id).subscribe(res => this.skillTest = res);
   }
 
 }

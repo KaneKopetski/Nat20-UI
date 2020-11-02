@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CharacterTemplateModel } from '../model/character-template-model';
+import { CharacterTemplateModel } from '../model/character/character-template-model';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 
 @Component({

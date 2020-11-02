@@ -1,4 +1,4 @@
-import {SizeModel} from './size-model';
+import {SizeModel} from '../size/size-model';
 
 export interface RaceModel {
   'id': number;

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import {environment} from '../../../environments/environment';
-import {HttpClient} from '@angular/common/http';
-import {CharacterTemplateModel} from './model/character-template-model';
-import {Observable} from 'rxjs';
-import {CharacterPageModel} from './model/character-page-model';
+import { environment } from '../../../environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { CharacterTemplateModel } from './model/character/character-template-model';
+import { Observable } from 'rxjs';
+import { CharacterPageModel } from './model/character/character-page-model';
 
 @Injectable({
   providedIn: 'root'

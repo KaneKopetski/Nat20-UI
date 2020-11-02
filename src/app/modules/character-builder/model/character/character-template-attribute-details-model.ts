@@ -1,5 +1,5 @@
-import {BaseAbilityDescriptionModel} from './base-ability-description-model';
-import {SavingThrowDescriptionModel} from './saving-throw-description-model';
+import {BaseAbilityDescriptionModel} from '../base-ability/base-ability-description-model';
+import {SavingThrowDescriptionModel} from '../saving-throw/saving-throw-description-model';
 
 export interface CharacterTemplateAttributeDetailsModel {
 
