@@ -5,7 +5,7 @@ import {SavingThrowDescriptionModel} from '../saving-throw/saving-throw-descript
 import {SizeModel} from '../size/size-model';
 import {RaceModel} from '../race/race-model';
 import {SimpleSkillResponseModel} from '../skill/simple-skill-response-model';
-import {FeatResponseModel} from '../feat/feat-response-model';
+import {SimpleFeatResponseModel} from '../feat/simple-feat-response-model';
 
 export interface CharacterTemplateModel {
   'id': number;
@@ -55,7 +55,7 @@ export interface CharacterTemplateModel {
   'portraitUrl': string;
   'edition': string;
   'skills': [SimpleSkillResponseModel];
-  'feats': [FeatResponseModel];
+  'feats': [SimpleFeatResponseModel];
   'attributeDetails': {
     'baseAbilityDetails': {
       'charisma': BaseAbilityDescriptionModel;

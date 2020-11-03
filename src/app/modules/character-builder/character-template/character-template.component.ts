@@ -1,9 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { CharacterTemplateModel } from '../model/character/character-template-model';
-import {CharacterTemplateSavingThrowLineModel} from '../model/character/character-template-saving-throw-line-model';
-import {CharacterTemplateBaseAbilityLineModel} from '../model/character/character-template-base-ability-line-model';
-import {SkillService} from '../skill.service';
-import {SkillResponseModel} from '../model/skill/skill-response-model';
+import { SkillResponseModel } from '../model/skill/skill-response-model';
+import { SkillService } from '../skill.service';
+import { CharacterTemplateBaseAbilityLineModel } from '../model/character/character-template-base-ability-line-model';
+import { CharacterTemplateSavingThrowLineModel } from '../model/character/character-template-saving-throw-line-model';
+
 
 @Component({
   selector: 'app-character-template',
