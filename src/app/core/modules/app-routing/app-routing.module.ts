@@ -14,7 +14,6 @@ import { AuthGuard } from '../authentication/guard/auth-guard/auth.guard';
 import { ManageAccountComponent } from '../../../modules/user-profile/manage-account/manage-account.component';
 import { ProfileDetailComponent } from '../../../modules/user-profile/profile-detail/profile-detail.component';
 import { OwnerGuard } from '../authentication/guard/owner-guard/owner.guard';
-import {EditProfileAvatarComponent} from '../../../modules/user-profile/edit-profile-avatar/edit-profile-avatar.component';
 
 const ROUTES = [
   { path: 'home', component: WelcomeComponent },
