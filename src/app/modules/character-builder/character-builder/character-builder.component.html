@@ -1,6 +1,5 @@
-<p>character-builder works!</p>
-
-<div>
+<div fxLayout="row" fxLayoutAlign="space-around center">
+  <div>
 <form [formGroup]="this.characterBuilderForm" fxLayout="column" fxLayoutAlign="start start">
 
   <mat-form-field appearance="fill">
@@ -9,18 +8,60 @@
   </mat-form-field>
 
   <mat-form-field appearance="fill">
+    <mat-label>Pick a Race</mat-label>
+    <mat-select [(value)]="this.selectedRaceId" formControlName="race">
+      <mat-option *ngFor="let race of availableRaces" [value]="race.id">
+        {{race.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
     <mat-label>Pick a Class</mat-label>
-    <mat-select [(value)]="this.selected" formControlName="characterClass">
+    <mat-select [(value)]="this.selectedClassId" formControlName="characterClass">
       <mat-option *ngFor="let characterClass of availableCharacterClasses" [value]="characterClass.id">
         {{characterClass.name}}
       </mat-option>
     </mat-select>
   </mat-form-field>
 
+  <button mat-button aria-hidden="false" aria-label="add-class-to-build" (click)="this.addClassToBuild()">
+    Add Class
+  </button>
+
 </form>
+  </div>
+
+  <div>
+    Build Summary:
+    <table mat-table [dataSource]="this.getSelectedClassesAsArray()">
+
+      <ng-container matColumnDef="level">
+        <th mat-header-cell *matHeaderCellDef>Level</th>
+        <td mat-cell *matCellDef="let classLevel"> {{classLevel[0]}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="class">
+        <th mat-header-cell *matHeaderCellDef>Class</th>
+        <td mat-cell *matCellDef="let charClass"> {{charClass[1].name}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <div *ngIf="selectedRace">
+    Size: {{ this.selectedRace.size.readable }}
+    </div>
+
+  </div>
+
 </div>
 
 <br>Available classes: {{ this.availableCharacterClasses | json }}
-<!--<br>Available classes: {{ this.characterBuilderForm | json }}-->
-<br>Selected class details: {{ this.selectedClassDetails | json }}
-<br>You selected: {{selected}}
+<br>Form details: {{ this.characterBuilderForm.value | json }}
+<br>Selected race details: {{ this.selectedRace | json }}
+<br>Selected class details: {{ this.selectedClass | json }}
+<br>Classes added: {{ this.characterClasses.size }}
+<br>You selected class: {{selectedClassId}}
+<br>You selected race: {{selectedRaceId}}

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CharacterClass} from '../model/character-class/character-class';
 import {CharacterClassService} from '../character-class-service/character-class.service';
+import {RaceService} from '../race-service/race.service';
+import {RaceModel} from '../model/race/race-model';
 
 @Component({
   selector: 'app-character-builder',
@@ -13,26 +15,36 @@ export class CharacterBuilderComponent implements OnInit {
   characterBuilderForm: FormGroup;
   characterClasses: Map<number, CharacterClass>;
   availableCharacterClasses: Array<CharacterClass>;
-  selected: number;
-  selectedClassDetails: CharacterClass;
+  availableRaces: Array<RaceModel>;
+  selectedClassId: number;
+  selectedClass: CharacterClass;
+  displayedColumns: string[] = ['level', 'class'];
+  selectedRaceId: any;
+  selectedRace: RaceModel;
 
-  constructor(private fb: FormBuilder, private characterClassService: CharacterClassService) { }
+  constructor(private fb: FormBuilder, private characterClassService: CharacterClassService, private raceService: RaceService) { }
 
   ngOnInit(): void {
     this.createForm();
     this.characterClasses = new Map();
     this.getCharacterClassesDropdownValues();
+    this.getAvailableRaces();
     this.getCharacterClassDetailsById();
+    this.getRaceDetailsById();
   }
 
   private createForm() {
     this.characterBuilderForm = this.fb.group({
       buildName: [  '',
-        [ Validators.required, Validators.email ]
+        [ Validators.required ]
       ],
       characterClass: [ '', Validators.compose([
         Validators.required
-      ])]});
+      ])],
+      race: [  '',
+      [ Validators.required ]
+  ],
+    });
   }
 
   private getCharacterClassesDropdownValues() {
@@ -43,12 +55,37 @@ export class CharacterBuilderComponent implements OnInit {
   }
 
   private getCharacterClassDetailsById() {
-    this.characterBuilderForm.get('characterClass').valueChanges.subscribe(newValue => {
-      return this.characterClassService.getCharacterClassById(this.selected)
+    this.characterBuilderForm.get('characterClass').valueChanges.subscribe(() => {
+      return this.characterClassService.getCharacterClassById(this.selectedClassId)
         .subscribe(res => {
-          this.selectedClassDetails = res;
+          this.selectedClass = res;
         });
     });
   }
 
+  private getRaceDetailsById() {
+    this.characterBuilderForm.get('race').valueChanges.subscribe(() => {
+      return this.raceService.getRaceById(this.selectedRaceId)
+        .subscribe(res => {
+          this.selectedRace = res;
+        });
+    });
+  }
+
+  private getAvailableRaces() {
+    this.raceService.getAllRaces().subscribe(res => {
+      this.availableRaces = res;
+    });
+  }
+
+  addClassToBuild() {
+    if (this.selectedClass) {
+      const characterBuildLevel = this.characterClasses.size + 1;
+      this.characterClasses.set(characterBuildLevel, this.selectedClass);
+    }
+  }
+
+  getSelectedClassesAsArray(): [number, CharacterClass][] {
+    return Array.from(this.characterClasses);
+  }
 }
