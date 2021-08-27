@@ -1,0 +1,26 @@
+<p>character-builder works!</p>
+
+<div>
+<form [formGroup]="this.characterBuilderForm" fxLayout="column" fxLayoutAlign="start start">
+
+  <mat-form-field appearance="fill">
+    <mat-label>Build Name</mat-label>
+    <input matInput formControlName="buildName">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Pick a Class</mat-label>
+    <mat-select [(value)]="this.selected" formControlName="characterClass">
+      <mat-option *ngFor="let characterClass of availableCharacterClasses" [value]="characterClass.id">
+        {{characterClass.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+</form>
+</div>
+
+<br>Available classes: {{ this.availableCharacterClasses | json }}
+<!--<br>Available classes: {{ this.characterBuilderForm | json }}-->
+<br>Selected class details: {{ this.selectedClassDetails | json }}
+<br>You selected: {{selected}}
