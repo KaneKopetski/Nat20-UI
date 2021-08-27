@@ -21,6 +21,7 @@ export class CharacterBuilderComponent implements OnInit {
   displayedColumns: string[] = ['level', 'class'];
   selectedRaceId: any;
   selectedRace: RaceModel;
+  private effectiveClassLevel: number;
 
   constructor(private fb: FormBuilder, private characterClassService: CharacterClassService, private raceService: RaceService) { }
 
@@ -88,4 +89,26 @@ export class CharacterBuilderComponent implements OnInit {
   getSelectedClassesAsArray(): [number, CharacterClass][] {
     return Array.from(this.characterClasses);
   }
+
+  countInstancesOfEachCharacterClass(): Map<CharacterClass, number> {
+    const characterClassCount: Map<CharacterClass, number> = new Map();
+    this.characterClasses.forEach((characterClass) => {
+      if (characterClassCount.has(characterClass)) {
+      characterClassCount.set(characterClass, characterClassCount.get(characterClass) + 1);
+      } else {
+        characterClassCount.set(characterClass, 1);
+      }
+    });
+    return characterClassCount;
+  }
+
+  calculateBab(): number {
+    const classCount = this.countInstancesOfEachCharacterClass();
+    let bab = 0;
+    classCount.forEach((count: number, charClass: CharacterClass) => {
+      bab += Math.floor(count * charClass.baseAttackBonusProgression);
+    });
+    return bab;
+  }
+
 }

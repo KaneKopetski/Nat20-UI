@@ -25,7 +25,7 @@
     </mat-select>
   </mat-form-field>
 
-  <button mat-button aria-hidden="false" aria-label="add-class-to-build" (click)="this.addClassToBuild()">
+  <button mat-raised-button aria-hidden="false" aria-label="add-class-to-build" (click)="this.addClassToBuild()">
     Add Class
   </button>
 
@@ -34,6 +34,16 @@
 
   <div>
     Build Summary:
+
+    <div *ngIf="selectedRace">
+      Race: {{ this.selectedRace.name }}
+      Size: {{ this.selectedRace.size.readable }}
+    </div>
+
+    <div *ngIf="characterClasses.size !== 0">
+      BAB: {{ this.calculateBab() }}
+    </div>
+
     <table mat-table [dataSource]="this.getSelectedClassesAsArray()">
 
       <ng-container matColumnDef="level">
@@ -49,10 +59,6 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-
-    <div *ngIf="selectedRace">
-    Size: {{ this.selectedRace.size.readable }}
-    </div>
 
   </div>
 
