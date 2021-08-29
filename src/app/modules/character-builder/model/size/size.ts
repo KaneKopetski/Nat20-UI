@@ -1,4 +1,4 @@
-export interface SizeModel {
+export interface Size {
 
   'readable': string;
   'attackAndACModifier': number;

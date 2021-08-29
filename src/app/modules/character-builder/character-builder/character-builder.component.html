@@ -2,6 +2,38 @@
   <div>
 <form [formGroup]="this.characterBuilderForm" fxLayout="column" fxLayoutAlign="start start">
 
+  <div fxLayout="row" fxLayoutAlign="space-between start">
+  <mat-form-field appearance="fill">
+    <mat-label>Strength Score</mat-label>
+    <input matInput formControlName="strengthScore">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Dexterity Score</mat-label>
+    <input matInput formControlName="dexterityScore">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Constitution Score</mat-label>
+    <input matInput formControlName="constitutionScore">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Wisdom Score</mat-label>
+    <input matInput formControlName="wisdomScore">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Intelligence Score</mat-label>
+    <input matInput formControlName="intelligenceScore">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Charisma Score</mat-label>
+    <input matInput formControlName="charismaScore">
+  </mat-form-field>
+  </div>
+
   <mat-form-field appearance="fill">
     <mat-label>Build Name</mat-label>
     <input matInput formControlName="buildName">
@@ -29,6 +61,10 @@
     Add Class
   </button>
 
+  <button mat-raised-button aria-hidden="false" aria-label="add-class-to-build" (click)="this.calculateAndSetSavingThrow()">
+    Test Saving Throw Calc
+  </button>
+
 </form>
   </div>
 
@@ -44,6 +80,22 @@
       BAB: {{ this.calculateBab() }}
     </div>
 
+    <table mat-table [dataSource]="this.getBaseAbilitiesAsArray()">
+
+      <ng-container matColumnDef="base-ability">
+        <th mat-header-cell *matHeaderCellDef>Base Ability</th>
+        <td mat-cell *matCellDef="let baseAbility"> {{baseAbility[0]}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="score">
+        <th mat-header-cell *matHeaderCellDef>Score</th>
+        <td mat-cell *matCellDef="let score"> {{score[1]}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="baseAbilitiesDisplayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: baseAbilitiesDisplayedColumns;"></tr>
+    </table>
+
     <table mat-table [dataSource]="this.getSelectedClassesAsArray()">
 
       <ng-container matColumnDef="level">
@@ -56,8 +108,8 @@
         <td mat-cell *matCellDef="let charClass"> {{charClass[1].name}} </td>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-header-row *matHeaderRowDef="classLevelsDisplayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: classLevelsDisplayedColumns;"></tr>
     </table>
 
   </div>
@@ -66,8 +118,10 @@
 
 <br>Available classes: {{ this.availableCharacterClasses | json }}
 <br>Form details: {{ this.characterBuilderForm.value | json }}
-<br>Selected race details: {{ this.selectedRace | json }}
-<br>Selected class details: {{ this.selectedClass | json }}
+<br>Base ability scores: {{ this.getBaseAbilitiesAsArray() | json }}
+<br>Saving throws: {{ this.getSavingThrowsAsArray() | json }}
 <br>Classes added: {{ this.characterClasses.size }}
 <br>You selected class: {{selectedClassId}}
 <br>You selected race: {{selectedRaceId}}
+<br>Selected race details: {{ this.selectedRace | json }}
+<br>Selected class details: {{ this.selectedClass | json }}

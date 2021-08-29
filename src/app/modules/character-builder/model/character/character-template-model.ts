@@ -2,8 +2,8 @@ import {CharacterTemplateBaseAbilityLineModel} from './character-template-base-a
 import {CharacterTemplateSavingThrowLineModel} from './character-template-saving-throw-line-model';
 import {BaseAbilityDescriptionModel} from '../base-ability/base-ability-description-model';
 import {SavingThrowDescriptionModel} from '../saving-throw/saving-throw-description-model';
-import {SizeModel} from '../size/size-model';
-import {RaceModel} from '../race/race-model';
+import {Size} from '../size/size';
+import {Race} from '../race/race';
 import {SimpleSkillResponseModel} from '../skill/simple-skill-response-model';
 import {SimpleFeatResponseModel} from '../feat/simple-feat-response-model';
 
@@ -20,8 +20,8 @@ export interface CharacterTemplateModel {
     'eyeColor': string;
     'hairColor': string;
     'skinColor': string
-    'race': RaceModel,
-  'size': SizeModel,
+    'race': Race,
+  'size': Size,
     'age': number;
     'deity': {
       'id': number;
