@@ -3,7 +3,7 @@ import { StyleRenderer, lyl, WithStyles } from '@alyle/ui';
 import { ImgCropperConfig, ImgCropperEvent, LyImageCropper, ImgCropperErrorEvent } from '@alyle/ui/image-cropper';
 import { Platform } from '@angular/cdk/platform';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {UserProfileResponse} from '../user-profile-response';
+import {UserProfile} from '../user-profile';
 import {UserProfileService} from '../user-profile.service';
 
 const STYLES = () => ({
@@ -50,7 +50,7 @@ export class EditProfileAvatarComponent implements WithStyles {
               private platform: Platform,
               public dialogRef: MatDialogRef<EditProfileAvatarComponent>,
               private userProfileService: UserProfileService,
-              @Inject(MAT_DIALOG_DATA)private data: UserProfileResponse) {
+              @Inject(MAT_DIALOG_DATA)private data: UserProfile) {
   }
 
   onLoaded(e: ImgCropperEvent) {

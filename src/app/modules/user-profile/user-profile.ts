@@ -1,4 +1,4 @@
-export class UserProfileResponse {
+export class UserProfile {
   uid: string;
   email: string;
   displayName: string;

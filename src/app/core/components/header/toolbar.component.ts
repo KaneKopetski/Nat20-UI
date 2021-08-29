@@ -4,7 +4,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { AppButton } from './app-button-model';
 import { MatDrawer } from '@angular/material/sidenav';
 import { AuthService } from '../../modules/authentication/auth.service';
-import { UserProfileResponse } from '../../../modules/user-profile/user-profile-response';
+import { UserProfile } from '../../../modules/user-profile/user-profile';
 import { UserProfileService } from '../../../modules/user-profile/user-profile.service';
 import { User } from 'firebase';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -23,7 +23,7 @@ export class ToolbarComponent implements OnInit {
   @Input() deviceLg: boolean;
   @Input() sideNav: MatDrawer;
   userData: User;
-  userProfile: UserProfileResponse;
+  userProfile: UserProfile;
   apps: AppButton[];
   ready: boolean;
   scale: number;

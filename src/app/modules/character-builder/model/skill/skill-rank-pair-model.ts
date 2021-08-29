@@ -1,5 +1,7 @@
+import {Skill} from "./skill";
+
 export interface SkillRankPair {
   id: number;
   skill: Skill;
-  private Integer ranks;
+  ranks: number;
 }

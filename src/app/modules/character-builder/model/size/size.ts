@@ -1,5 +1,4 @@
 export interface Size {
-
   'readable': string;
   'attackAndACModifier': number;
   'specialAttacksModifier': number;
@@ -11,5 +10,4 @@ export interface Size {
   'naturalReachTall': number;
   'carryingCapacityModifierBiped': number;
   'carryingCapacityModifierQuadruped': number;
-
 }

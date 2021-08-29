@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserProfileService } from '../user-profile.service';
-import { UserProfileResponse } from '../user-profile-response';
+import { UserProfile } from '../user-profile';
 
 @Component({
   selector: 'app-profile-detail',
@@ -10,7 +10,7 @@ import { UserProfileResponse } from '../user-profile-response';
 })
 export class ProfileDetailComponent implements OnInit {
 
-  profile: UserProfileResponse;
+  profile: UserProfile;
 
   constructor(private route: ActivatedRoute, private profileService: UserProfileService, private router: Router) { }
 

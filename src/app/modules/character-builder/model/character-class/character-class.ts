@@ -1,6 +1,6 @@
-import {SkillResponseModel} from '../skill/skill-response-model';
-import {ClassFeature} from '../class-feature/class-feature-model';
-import {CharacterClassPrerequisite} from '../character-class-prerequisite/character-class-prerequisite-model';
+import {Skill} from "../skill/skill";
+import {CharacterClassPrerequisite} from "./character-class-prerequisite-model";
+import {ClassFeature} from "./class-feature-model";
 
 export interface CharacterClass {
    id: number;
@@ -15,5 +15,5 @@ export interface CharacterClass {
    willSaveProgression: string;
    classFeatures: Array<ClassFeature>;
    prerequisites: Array<CharacterClassPrerequisite>;
-   classSkills: Array<SkillResponseModel>;
+   classSkills: Array<Skill>;
 }
