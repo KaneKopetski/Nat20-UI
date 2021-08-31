@@ -1,3 +1,5 @@
+import {Source} from "../../modules/character-builder/model/source/source-model";
+
 export abstract class Constants {
   public static readonly VALID_EMAIL_MESSAGE: string = 'Email is valid';
 
@@ -29,5 +31,21 @@ export abstract class Constants {
     update: '/update',
     manage: '/manage'
  };
+
+  public static readonly selectAllSource: Source = {
+    sourceEnum: 'SELECT_ALL',
+    readable: 'Select All'
+  }
+
+  public static readonly coreSources: Source = {
+    sourceEnum: 'CORE',
+    readable: 'Core Only'
+  }
+
+  public static readonly srdSources: Source = {
+    sourceEnum: 'SRD_ONLY',
+    readable: 'SRD Only'
+  }
+
 
 }

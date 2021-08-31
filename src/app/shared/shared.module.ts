@@ -12,7 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     MaterialElevationDirective,
-    PreventDoubleClickDirective,
+    PreventDoubleClickDirective
   ],
   imports: [
     CommonModule,
@@ -36,7 +36,7 @@ import { HttpClientModule } from '@angular/common/http';
     ToastContainerModule,
     HttpClientModule,
     MaterialElevationDirective,
-    PreventDoubleClickDirective,
+    PreventDoubleClickDirective
   ]
 })
 export class SharedModule { }

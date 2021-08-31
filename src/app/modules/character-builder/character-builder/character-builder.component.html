@@ -1,127 +1,77 @@
-<div fxLayout="row" fxLayoutAlign="space-around center">
-  <div>
-<form [formGroup]="this.characterBuilderForm" fxLayout="column" fxLayoutAlign="start start">
+<button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
+  {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
+</button>
+<mat-horizontal-stepper [linear]="isLinear" #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>Select Sources to Use</ng-template>
 
-  <div fxLayout="row" fxLayoutAlign="space-between start">
-  <mat-form-field appearance="fill">
-    <mat-label>Strength Score</mat-label>
-    <input matInput formControlName="strengthScore">
-  </mat-form-field>
+      <mat-chip-list selectable>
+        <mat-chip #chip="matChip" (click)="specialSourceHandling(chip)"
+                  *ngFor="let option of ['Core Only', 'SRD Only', this.selectAll ? 'Select none' : 'Select all']">
+          {{option}}
+        </mat-chip>
+      </mat-chip-list>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Dexterity Score</mat-label>
-    <input matInput formControlName="dexterityScore">
-  </mat-form-field>
-
-  <mat-form-field appearance="fill">
-    <mat-label>Constitution Score</mat-label>
-    <input matInput formControlName="constitutionScore">
-  </mat-form-field>
-
-  <mat-form-field appearance="fill">
-    <mat-label>Wisdom Score</mat-label>
-    <input matInput formControlName="wisdomScore">
-  </mat-form-field>
-
-  <mat-form-field appearance="fill">
-    <mat-label>Intelligence Score</mat-label>
-    <input matInput formControlName="intelligenceScore">
-  </mat-form-field>
-
-  <mat-form-field appearance="fill">
-    <mat-label>Charisma Score</mat-label>
-    <input matInput formControlName="charismaScore">
-  </mat-form-field>
-  </div>
-
-  <mat-form-field appearance="fill">
-    <mat-label>Build Name</mat-label>
-    <input matInput formControlName="buildName">
-  </mat-form-field>
-
-  <mat-form-field appearance="fill">
-    <mat-label>Pick a Race</mat-label>
-    <mat-select [(value)]="this.selectedRaceId" formControlName="race">
-      <mat-option *ngFor="let race of availableRaces" [value]="race.id">
-        {{race.name}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <mat-form-field appearance="fill">
-    <mat-label>Pick a Class</mat-label>
-    <mat-select [(value)]="this.selectedClassId" formControlName="characterClass">
-      <mat-option *ngFor="let characterClass of availableCharacterClasses" [value]="characterClass.id">
-        {{characterClass.name}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <button mat-raised-button aria-hidden="false" aria-label="add-class-to-build" (click)="this.addClassToBuild()">
-    Add Class
-  </button>
-
-  <button mat-raised-button aria-hidden="false" aria-label="add-class-to-build" (click)="this.calculateAndSetSavingThrow()">
-    Test Saving Throw Calc
-  </button>
-
-</form>
-  </div>
-
-  <div>
-    Build Summary:
-
-    <div *ngIf="selectedRace">
-      Race: {{ this.selectedRace.name }}
-      Size: {{ this.selectedRace.size.readable }}
+      <div class="checkbox-list" fxLayout="column" fxLayoutAlign="space-evenly stretch">
+        <mat-form-field *ngIf="this.allSources">
+          <mat-chip-list selectable multiple formControlName="chipsControl">
+            <mat-chip #chip="matChip" [color]="'warn'" (click)="chip.toggleSelected(true)" [value]="source.sourceEnum"
+                      *ngFor="let source of this.allSources">{{source.readable}}</mat-chip>
+          </mat-chip-list>
+        </mat-form-field>
+      </div>
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup" label="Fill out your address">
+    <form [formGroup]="secondFormGroup">
+      <mat-form-field appearance="fill">
+        <mat-label>Address</mat-label>
+        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
+               required>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    <p>You are now done.</p>
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
     </div>
+  </mat-step>
+</mat-horizontal-stepper>
 
-    <div *ngIf="characterClasses.size !== 0">
-      BAB: {{ this.calculateBab() }}
-    </div>
 
-    <table mat-table [dataSource]="this.getBaseAbilitiesAsArray()">
-
-      <ng-container matColumnDef="base-ability">
-        <th mat-header-cell *matHeaderCellDef>Base Ability</th>
-        <td mat-cell *matCellDef="let baseAbility"> {{baseAbility[0]}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="score">
-        <th mat-header-cell *matHeaderCellDef>Score</th>
-        <td mat-cell *matCellDef="let score"> {{score[1]}} </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="baseAbilitiesDisplayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: baseAbilitiesDisplayedColumns;"></tr>
-    </table>
-
-    <table mat-table [dataSource]="this.getSelectedClassesAsArray()">
-
-      <ng-container matColumnDef="level">
-        <th mat-header-cell *matHeaderCellDef>Level</th>
-        <td mat-cell *matCellDef="let classLevel"> {{classLevel[0]}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="class">
-        <th mat-header-cell *matHeaderCellDef>Class</th>
-        <td mat-cell *matCellDef="let charClass"> {{charClass[1].name}} </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="classLevelsDisplayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: classLevelsDisplayedColumns;"></tr>
-    </table>
-
-  </div>
-
-</div>
-
-<br>Available classes: {{ this.availableCharacterClasses | json }}
-<br>Form details: {{ this.characterBuilderForm.value | json }}
-<br>Base ability scores: {{ this.getBaseAbilitiesAsArray() | json }}
-<br>Saving throws: {{ this.getSavingThrowsAsArray() | json }}
-<br>Classes added: {{ this.characterClasses.size }}
-<br>You selected class: {{selectedClassId}}
-<br>You selected race: {{selectedRaceId}}
-<br>Selected race details: {{ this.selectedRace | json }}
-<br>Selected class details: {{ this.selectedClass | json }}
+<br>Sources: {{ this.allSources | json }}
+<br>-------------
+<br>-------------
+<br>-------------
+<br>Races: {{ this.availableRaces | json }}
+<br>-------------
+<br>-------------
+<br>-------------
+<br>Classes: {{ this.availableCharacterClasses | json }}
+<br>-------------
+<br>-------------
+<br>-------------
+<br>Deities: {{ this.availableDeities | json }}
+<br>-------------
+<br>-------------
+<br>-------------
+<br>Skills: {{ this.availableSkills | json }}
+<br>-------------
+<br>-------------
+<br>-------------
+<br>Feats: {{ this.availableFeats | json }}
+<br>-------------
+<br>-------------
+<br>-------------
+<br>Form Values: {{ this.firstFormGroup.get('chipsControl').value | json }}
