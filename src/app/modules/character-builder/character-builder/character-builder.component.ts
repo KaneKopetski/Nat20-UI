@@ -42,6 +42,8 @@ const ELEMENT_DATA: BaseAbilityScore[] = [
 })
 export class CharacterBuilderComponent implements OnInit {
 
+  baseAbilities: Array<string> = ['Strength', 'Dexterity', 'Constitution', 'Wisdom', 'Intelligence', 'Charisma'];
+
   @ViewChild(ToastContainerDirective, {static: true}) toastContainer: ToastContainerDirective;
   characterBuild: CharacterBuild;
   characterBuildRequest: CharacterBuildRequest;
@@ -77,6 +79,7 @@ export class CharacterBuilderComponent implements OnInit {
     status: 500,
     message: 'Something went wrong. Please try again later.'
   }
+  baseAbilityStyle: string;
 
   get sourceChipsSelected() {
     return this.sourceSelectionForm.get('sourcesSelected');
@@ -102,7 +105,13 @@ export class CharacterBuilderComponent implements OnInit {
     });
     this.characterBuilderForm = this.fb.group({
       buildName: ['', Validators.required],
-      characterClasses: ['', Validators.required]
+      characterClasses: ['', Validators.required],
+      strengthScore: ['', Validators.required],
+      dexterityScore: ['', Validators.required],
+      constitutionScore: ['', Validators.required],
+      wisdomScore: ['', Validators.required],
+      intelligenceScore: ['', Validators.required],
+      charismaScore: ['', Validators.required],
     });
   }
 

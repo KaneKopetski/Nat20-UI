@@ -15,36 +15,29 @@
         <div fxLayout="column">
 
         <div class="build-stats">
-
-
-
-          <table mat-table [dataSource]="abilityScoreDisplayData" class="mat-elevation-z8">
+          <table mat-table [dataSource]="abilityScoreDisplayData" class="mat-elevation-z8 base-ability-totals">
             <ng-container [matColumnDef]="column" *ngFor="let column of abilityScoreDisplayColumns">
               <td mat-cell *matCellDef="let element"> {{ element[column] }} </td>
             </ng-container>
 
             <tr mat-row *matRowDef="let row; columns: abilityScoreDisplayColumns;"></tr>
           </table>
-
-
-
-
         </div>
 
-<!--        <div class="class-levels">-->
-<!--          <table mat-table [dataSource]="this.getCharacterClassLevelsAsArray()">-->
-<!--            <ng-container matColumnDef="level">-->
-<!--              <th mat-header-cell *matHeaderCellDef>Level</th>-->
-<!--              <td mat-cell *matCellDef="let classLevel"> {{ classLevel[0] }} </td>-->
-<!--            </ng-container>-->
-<!--            <ng-container matColumnDef="class">-->
-<!--              <th mat-header-cell *matHeaderCellDef>Class</th>-->
-<!--              <td mat-cell *matCellDef="let charClass"> {{ charClass[1].name }} </td>-->
-<!--            </ng-container>-->
-<!--            <tr mat-header-row *matHeaderRowDef="characterClassLevelsDisplayHeaders"></tr>-->
-<!--            <tr mat-row *matRowDef="let row; columns: characterClassLevelsDisplayHeaders;"></tr>-->
-<!--          </table>-->
-<!--        </div>-->
+        <div class="class-levels">
+          <table mat-table [dataSource]="this.getCharacterClassLevelsAsArray()" class="mat-elevation-z8 class-levels">
+            <ng-container matColumnDef="level">
+              <th mat-header-cell *matHeaderCellDef>Level</th>
+              <td mat-cell *matCellDef="let classLevel"> {{ classLevel[0] }} </td>
+            </ng-container>
+            <ng-container matColumnDef="class">
+              <th mat-header-cell *matHeaderCellDef>Class</th>
+              <td mat-cell *matCellDef="let charClass"> {{ charClass[1].name }} </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="characterClassLevelsDisplayHeaders"></tr>
+            <tr mat-row *matRowDef="let row; columns: characterClassLevelsDisplayHeaders;"></tr>
+          </table>
+        </div>
 
       </div>
     </div>
@@ -76,10 +69,7 @@
           </div>
 
           <div>
-            <button mat-raised-button matStepperNext (click)="this.getCharacterBuilderFormSelectionValues()">Next:
-              Create
-              a Build
-            </button>
+            <button mat-raised-button matStepperNext (click)="this.getCharacterBuilderFormSelectionValues()">Next: Create a Build</button>
           </div>
 
         </form>
@@ -107,6 +97,24 @@
                 <button mat-flat-button color="accent" (click)="addSelectedClassToClassLevels()">Add class</button>
               </div>
             </div>
+
+            <div class="base-ability-scores" fxLayout="row">
+              <div class="base-ability-score-input" *ngFor="let baseAbility of baseAbilities">
+              <mat-form-field appearance="fill">
+                <mat-label>{{ baseAbility + ' Score' }}</mat-label>
+                <input matInput formControlName="strengthScore">
+              </mat-form-field>
+                <mat-form-field appearance="fill">
+                  <mat-label></mat-label>
+                  <mat-select [(value)]="baseAbilityStyle">
+                    <mat-option [value]="baseAbilityStyle">Manual</mat-option>
+                    <mat-option [value]="baseAbilityStyle">Standard Array</mat-option>
+                    <mat-option [value]="baseAbilityStyle">Elite Array</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+
           </div>
 
           <div>
