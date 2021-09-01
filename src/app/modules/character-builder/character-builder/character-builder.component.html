@@ -1,117 +1,158 @@
-<mat-horizontal-stepper [linear]="isLinear" #stepper>
-  <mat-step [stepControl]="sourceSelectionForm">
-    <form [formGroup]="sourceSelectionForm">
-      <ng-template matStepLabel>Select Sources to Use</ng-template>
+<mat-drawer-container [hasBackdrop]="false">
+  <mat-drawer mode="over" #drawer [position]="'end'">
 
-      <mat-chip-list selectable>
-        <mat-chip #chip="matChip" (click)="specialSourceHandling(chip)"
-                  *ngFor="let option of ['Core Only', 'SRD Only', this.selectAll ? 'Select none' : 'Select all']">
-          {{option}}
-        </mat-chip>
-      </mat-chip-list>
+    <div fxLayout="column" fxLayoutAlign="space-around center">
+      <div class="summary-title">
+        <mat-panel-title>Build Summary</mat-panel-title>
+        <br>
+      </div>
+      <div class="build-name-title">
+        <mat-panel-title>{{ this.characterBuilderForm.get('buildName').value }}</mat-panel-title>
+        <br>
+      </div>
+      <div fxLayout="row" class="build-summary-by-numbers">
 
-      <div class="checkbox-list" fxLayout="column" fxLayoutAlign="space-evenly stretch">
-        <mat-form-field *ngIf="this.allSources">
-          <mat-chip-list selectable multiple formControlName="sourcesSelected">
-            <mat-chip #chip="matChip" [color]="'warn'" (click)="chip.toggleSelected(true)" [value]="source.sourceEnum"
-                      *ngFor="let source of this.allSources">{{source.readable}}</mat-chip>
+        <div fxLayout="column">
+
+        <div class="build-stats">
+
+
+
+          <table mat-table [dataSource]="abilityScoreDisplayData" class="mat-elevation-z8">
+            <ng-container [matColumnDef]="column" *ngFor="let column of abilityScoreDisplayColumns">
+              <td mat-cell *matCellDef="let element"> {{ element[column] }} </td>
+            </ng-container>
+
+            <tr mat-row *matRowDef="let row; columns: abilityScoreDisplayColumns;"></tr>
+          </table>
+
+
+
+
+        </div>
+
+<!--        <div class="class-levels">-->
+<!--          <table mat-table [dataSource]="this.getCharacterClassLevelsAsArray()">-->
+<!--            <ng-container matColumnDef="level">-->
+<!--              <th mat-header-cell *matHeaderCellDef>Level</th>-->
+<!--              <td mat-cell *matCellDef="let classLevel"> {{ classLevel[0] }} </td>-->
+<!--            </ng-container>-->
+<!--            <ng-container matColumnDef="class">-->
+<!--              <th mat-header-cell *matHeaderCellDef>Class</th>-->
+<!--              <td mat-cell *matCellDef="let charClass"> {{ charClass[1].name }} </td>-->
+<!--            </ng-container>-->
+<!--            <tr mat-header-row *matHeaderRowDef="characterClassLevelsDisplayHeaders"></tr>-->
+<!--            <tr mat-row *matRowDef="let row; columns: characterClassLevelsDisplayHeaders;"></tr>-->
+<!--          </table>-->
+<!--        </div>-->
+
+      </div>
+    </div>
+    </div>
+
+  </mat-drawer>
+  <mat-drawer-content>
+
+    <mat-horizontal-stepper [linear]="isLinear" #stepper>
+      <mat-step [stepControl]="sourceSelectionForm">
+        <form [formGroup]="sourceSelectionForm">
+          <ng-template matStepLabel>Select Sources to Use</ng-template>
+
+          <mat-chip-list selectable>
+            <mat-chip #chip="matChip" (click)="specialSourceHandling(chip)"
+                      *ngFor="let option of ['Core Only', 'SRD Only', this.selectAll ? 'Select none' : 'Select all']">
+              {{option}}
+            </mat-chip>
           </mat-chip-list>
-        </mat-form-field>
-      </div>
 
-      <div>
-        <button mat-raised-button matStepperNext (click)="this.getCharacterBuilderFormSelectionValues()">Next: Create
-          a Build
-        </button>
-      </div>
-
-    </form>
-  </mat-step>
-  <mat-step [stepControl]="characterBuilderForm" label="Create a build">
-
-    <form [formGroup]="characterBuilderForm">
-      <div fxLayout="column" fxLayoutAlign="space-around start">
-        <mat-form-field appearance="fill">
-          <mat-label>Build name</mat-label>
-          <input matInput formControlName="buildName">
-        </mat-form-field>
-
-        <div fxLayout="row" fxLayoutAlign="space-around start">
-          <mat-form-field appearance="fill">
-            <mat-label>Add class levels</mat-label>
-            <mat-select [(value)]="selectedClass" formControlName="characterClasses">
-              <mat-option [value]="characterClass" *ngFor="let characterClass of availableCharacterClasses">
-                {{ characterClass.name }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+          <div class="checkbox-list" fxLayout="column" fxLayoutAlign="space-evenly stretch">
+            <mat-form-field *ngIf="this.allSources">
+              <mat-chip-list selectable multiple formControlName="sourcesSelected">
+                <mat-chip #chip="matChip" [color]="'warn'" (click)="chip.toggleSelected(true)"
+                          [value]="source.sourceEnum"
+                          *ngFor="let source of this.allSources">{{source.readable}}</mat-chip>
+              </mat-chip-list>
+            </mat-form-field>
+          </div>
 
           <div>
-            <button mat-flat-button color="accent" (click)="addSelectedClassToClassLevels()">Add class</button>
+            <button mat-raised-button matStepperNext (click)="this.getCharacterBuilderFormSelectionValues()">Next:
+              Create
+              a Build
+            </button>
           </div>
+
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="characterBuilderForm" label="Create a build">
+
+        <form [formGroup]="characterBuilderForm">
+          <div fxLayout="column" fxLayoutAlign="space-around start">
+            <mat-form-field appearance="fill">
+              <mat-label>Build name</mat-label>
+              <input matInput formControlName="buildName">
+            </mat-form-field>
+
+            <div fxLayout="row" fxLayoutAlign="space-around start">
+              <mat-form-field appearance="fill">
+                <mat-label>Add class levels</mat-label>
+                <mat-select [(value)]="selectedClass" formControlName="characterClasses">
+                  <mat-option [value]="characterClass" *ngFor="let characterClass of availableCharacterClasses">
+                    {{ characterClass.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <div>
+                <button mat-flat-button color="accent" (click)="addSelectedClassToClassLevels()">Add class</button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Save build</button>
+            <button mat-flat-button (click)="drawer.toggle()">Show summary</button>
+          </div>
+        </form>
+
+      </mat-step>
+
+      <mat-step>
+        <ng-template matStepLabel>Done</ng-template>
+        <p>You are now done.</p>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button (click)="stepper.reset()">Reset</button>
         </div>
-      </div>
+      </mat-step>
+    </mat-horizontal-stepper>
 
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Save build</button>
-      </div>
-    </form>
+    <br>Sources: {{ this.allSources | json }}
+    <br>-------------
+    <br>-------------
+    <br>-------------
+    <br>Races: {{ this.availableRaces | json }}
+    <br>-------------
+    <br>-------------
+    <br>-------------
+    <br>Classes: {{ this.availableCharacterClasses | json }}
+    <br>-------------
+    <br>-------------
+    <br>-------------
+    <br>Deities: {{ this.availableDeities | json }}
+    <br>-------------
+    <br>-------------
+    <br>-------------
+    <br>Skills: {{ this.availableSkills | json }}
+    <br>-------------
+    <br>-------------
+    <br>-------------
+    <br>Feats: {{ this.availableFeats | json }}
+    <br>-------------
+    <br>-------------
+    <br>-------------
+    <br>Form Values: {{ this.sourceSelectionForm.get('sourcesSelected').value | json }}
 
-  </mat-step>
-
-  <mat-step>
-    <ng-template matStepLabel>Done</ng-template>
-    <p>You are now done.</p>
-    <div>
-      <button mat-button matStepperPrevious>Back</button>
-      <button mat-button (click)="stepper.reset()">Reset</button>
-    </div>
-  </mat-step>
-</mat-horizontal-stepper>
-
-
-<table mat-table [dataSource]="this.getCharacterClassLevelsAsArray()">
-
-  <ng-container matColumnDef="level">
-    <th mat-header-cell *matHeaderCellDef>Level</th>
-    <td mat-cell *matCellDef="let classLevel"> {{ classLevel[0] }} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="class">
-    <th mat-header-cell *matHeaderCellDef>Class</th>
-    <td mat-cell *matCellDef="let charClass"> {{ charClass[1].name }} </td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="characterClassLevelsDisplayHeaders"></tr>
-  <tr mat-row *matRowDef="let row; columns: characterClassLevelsDisplayHeaders;"></tr>
-</table>
-
-
-<br>Sources: {{ this.allSources | json }}
-<br>-------------
-<br>-------------
-<br>-------------
-<br>Races: {{ this.availableRaces | json }}
-<br>-------------
-<br>-------------
-<br>-------------
-<br>Classes: {{ this.availableCharacterClasses | json }}
-<br>-------------
-<br>-------------
-<br>-------------
-<br>Deities: {{ this.availableDeities | json }}
-<br>-------------
-<br>-------------
-<br>-------------
-<br>Skills: {{ this.availableSkills | json }}
-<br>-------------
-<br>-------------
-<br>-------------
-<br>Feats: {{ this.availableFeats | json }}
-<br>-------------
-<br>-------------
-<br>-------------
-<br>Form Values: {{ this.sourceSelectionForm.get('sourcesSelected').value | json }}
-
-
+  </mat-drawer-content>
+</mat-drawer-container>

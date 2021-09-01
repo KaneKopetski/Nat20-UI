@@ -19,6 +19,22 @@ import {Constants} from "../../../shared/constants/constants";
 import {ToastContainerDirective, ToastrService} from "ngx-toastr";
 import {ErrorResponse} from "../model/error-response/error-response-model";
 
+
+export interface BaseAbilityScore {
+  ability: string;
+  position: number;
+  score: number;
+}
+
+const ELEMENT_DATA: BaseAbilityScore[] = [
+  {position: 1, ability: 'Str', score: 0},
+  {position: 2, ability: 'Dex', score: 0},
+  {position: 3, ability: 'Con', score: 0},
+  {position: 4, ability: 'Wis', score: 0},
+  {position: 5, ability: 'Int', score: 0},
+  {position: 6, ability: 'Cha', score: 0},
+];
+
 @Component({
   selector: 'app-character-builder',
   templateUrl: './character-builder.component.html',
@@ -30,12 +46,10 @@ export class CharacterBuilderComponent implements OnInit {
   characterBuild: CharacterBuild;
   characterBuildRequest: CharacterBuildRequest;
 
-  characterClassLevelMap: Map<number, CharacterClass> = new Map<number, CharacterClass>();
-
+  private characterClassLevelMap: Map<number, CharacterClass> = new Map<number, CharacterClass>();
   characterClassLevelsDisplayHeaders: string[] = ['level', 'class'];
-  selectedClass: CharacterClass;
 
-  isExpanded = false;
+  selectedClass: CharacterClass;
 
   availableCharacterClasses: Array<CharacterClass>;
   availableRaces: Array<Race>;
@@ -52,6 +66,18 @@ export class CharacterBuilderComponent implements OnInit {
   sourceSelectionForm: FormGroup;
   characterBuilderForm: FormGroup;
 
+  abilityScoreInputColumns = ['ability', 'score'];
+  abilityScoreInputData = ELEMENT_DATA;
+
+  abilityScoreDisplayColumns: string[];
+  abilityScoreDisplayData: any[];
+
+  private defaultErrorResponse = {
+    timestamp: '',
+    status: 500,
+    message: 'Something went wrong. Please try again later.'
+  }
+
   get sourceChipsSelected() {
     return this.sourceSelectionForm.get('sourcesSelected');
   }
@@ -65,6 +91,8 @@ export class CharacterBuilderComponent implements OnInit {
     this.setupForms();
     this.getSourceOptions();
     this.toastr.overlayContainer = this.toastContainer;
+    this.abilityScoreDisplayColumns = ['0'].concat(this.abilityScoreInputData.map(x => x.position.toString()));
+    this.abilityScoreDisplayData = this.abilityScoreInputColumns.map(x => this.formatInputRow(x));
   }
 
   private setupForms() {
@@ -119,12 +147,6 @@ export class CharacterBuilderComponent implements OnInit {
     }
   }
 
-  private defaultErrorResponse = {
-    timestamp: '',
-    status: 500,
-    message: 'Something went wrong. Please try again later.'
-  }
-
   private handleError(error: ErrorResponse) {
     let errorMessage;
     let errorTitle;
@@ -174,6 +196,16 @@ export class CharacterBuilderComponent implements OnInit {
     return bab;
   }
 
+  formatInputRow(row) {
+    const output = {};
+
+    output[0] = row;
+    for (let i = 0; i < this.abilityScoreInputData.length; ++i) {
+      output[this.abilityScoreInputData[i].position] = this.abilityScoreInputData[i][row];
+    }
+
+    return output;
+  }
 }
 
 
