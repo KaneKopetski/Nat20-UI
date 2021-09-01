@@ -1,6 +1,6 @@
 html, body, app-root, .app-frame {
   overflow: scroll;
-  height: 100%;
+  height: 100vh;
 }
 
 .mat-drawer-container {

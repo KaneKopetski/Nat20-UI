@@ -1,5 +1,3 @@
-import {Source} from "../../modules/character-builder/model/source/source-model";
-
 export abstract class Constants {
   public static readonly VALID_EMAIL_MESSAGE: string = 'Email is valid';
 
@@ -23,6 +21,13 @@ export abstract class Constants {
   public static readonly USER_KEY: string = 'user';
   public static readonly USER_TOKEN_KEY: string = 'userToken';
 
+  public static readonly specialSourceCases = {
+    coreOnly: 'Core Only',
+    srdOnly: 'SRD Only',
+    selectAll: 'Select all',
+    selectNone: 'Select none',
+  };
+
   public static readonly userProfileUrls = {
     basePath: '/userProfile',
     getById: '/getById/',
@@ -31,21 +36,6 @@ export abstract class Constants {
     update: '/update',
     manage: '/manage'
  };
-
-  public static readonly selectAllSource: Source = {
-    sourceEnum: 'SELECT_ALL',
-    readable: 'Select All'
-  }
-
-  public static readonly coreSources: Source = {
-    sourceEnum: 'CORE',
-    readable: 'Core Only'
-  }
-
-  public static readonly srdSources: Source = {
-    sourceEnum: 'SRD_ONLY',
-    readable: 'SRD Only'
-  }
 
 
 }
