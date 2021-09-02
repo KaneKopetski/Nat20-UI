@@ -14,6 +14,7 @@ import { ManageAccountComponent } from '../../../modules/user-profile/manage-acc
 import { ProfileDetailComponent } from '../../../modules/user-profile/profile-detail/profile-detail.component';
 import { OwnerGuard } from '../authentication/guard/owner-guard/owner.guard';
 import {CharacterBuilderComponent} from '../../../modules/character-builder/character-builder/character-builder.component';
+import {ClassLevelManagerComponent} from "../../../modules/character-builder/class-level-manager/class-level-manager/class-level-manager.component";
 
 const ROUTES = [
   { path: 'home', component: WelcomeComponent },
@@ -26,6 +27,7 @@ const ROUTES = [
   { path: 'reset-password-confirmation', component: ResetPasswordConfirmationComponent },
   { path: 'reset-password-email', component: ResetPasswordEmailSentComponent },
   { path: 'characterBuilder', component: CharacterBuilderComponent, canActivate: [AuthGuard] },
+  { path: 'classLevelManager', component: ClassLevelManagerComponent },
   { path: 'profile', component: ManageAccountComponent, canActivate: [AuthGuard, OwnerGuard] },
   { path: 'view-profile/:uid', component: ProfileDetailComponent },
   { path: 'not-found', component: PageNotFoundComponent },

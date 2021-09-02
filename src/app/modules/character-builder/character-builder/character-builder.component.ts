@@ -1,24 +1,25 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CharacterClass} from '../model/character-class/character-class';
-import {CharacterClassService} from '../character-class-service/character-class.service';
-import {RaceService} from '../race-service/race.service';
+import {CharacterClassService} from '../services/character-class-service/character-class.service';
+import {RaceService} from '../services/race-service/race.service';
 import {Race} from '../model/race/race';
 import {CharacterBuild} from "../model/character-build/character-build-response-model";
 import {CharacterBuildRequest} from "../model/character-build/character-build-request-model";
-import {FeatService} from "../feat-service/feat.service";
+import {FeatService} from "../services/feat-service/feat.service";
 import {Feat} from "../model/feat/feat-model";
-import {DeityService} from "../deity-service/deity.service";
+import {DeityService} from "../services/deity-service/deity.service";
 import {Deity} from "../model/deity/deity-model";
 import {Skill} from "../model/skill/skill";
-import {SkillService} from "../skill-service/skill.service";
+import {SkillService} from "../services/skill-service/skill.service";
 import {Source} from "../model/source/source-model";
-import {SourceService} from "../source-service/source.service";
+import {SourceService} from "../services/source-service/source.service";
 import {MatChip} from "@angular/material/chips";
 import {Constants} from "../../../shared/constants/constants";
 import {ToastContainerDirective, ToastrService} from "ngx-toastr";
 import {ErrorResponse} from "../model/error-response/error-response-model";
 import {MatSelectChange} from "@angular/material/select";
+import {LevelClassPair} from "../model/level-class-pair/level-class-pair-model";
 
 
 export interface BaseAbilityScore {
@@ -49,6 +50,7 @@ export class CharacterBuilderComponent implements OnInit {
   characterBuild: CharacterBuild;
   characterBuildRequest: CharacterBuildRequest;
 
+  classLevels: Array<LevelClassPair> = [];
   private characterClassLevelMap: Map<number, CharacterClass> = new Map<number, CharacterClass>();
   characterClassLevelsDisplayHeaders: string[] = ['level', 'class', 'remove'];
 
@@ -180,6 +182,7 @@ export class CharacterBuilderComponent implements OnInit {
       console.log(this.selectedClass);
       const characterBuildLevel = this.characterClassLevelMap.size + 1;
       this.characterClassLevelMap.set(characterBuildLevel, this.selectedClass);
+      this.classLevels.push({level: characterBuildLevel, characterClass: this.selectedClass})
     }
   }
 
