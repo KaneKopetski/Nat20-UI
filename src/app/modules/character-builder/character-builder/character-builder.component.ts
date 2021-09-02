@@ -18,6 +18,7 @@ import {MatChip} from "@angular/material/chips";
 import {Constants} from "../../../shared/constants/constants";
 import {ToastContainerDirective, ToastrService} from "ngx-toastr";
 import {ErrorResponse} from "../model/error-response/error-response-model";
+import {MatSelectChange} from "@angular/material/select";
 
 
 export interface BaseAbilityScore {
@@ -42,14 +43,14 @@ const ELEMENT_DATA: BaseAbilityScore[] = [
 })
 export class CharacterBuilderComponent implements OnInit {
 
-  baseAbilities: Array<string> = ['Strength', 'Dexterity', 'Constitution', 'Wisdom', 'Intelligence', 'Charisma'];
+  baseAbilities: Array<string> = ['strength', 'dexterity', 'constitution', 'wisdom', 'intelligence', 'charisma'];
 
   @ViewChild(ToastContainerDirective, {static: true}) toastContainer: ToastContainerDirective;
   characterBuild: CharacterBuild;
   characterBuildRequest: CharacterBuildRequest;
 
   private characterClassLevelMap: Map<number, CharacterClass> = new Map<number, CharacterClass>();
-  characterClassLevelsDisplayHeaders: string[] = ['level', 'class'];
+  characterClassLevelsDisplayHeaders: string[] = ['level', 'class', 'remove'];
 
   selectedClass: CharacterClass;
 
@@ -74,12 +75,14 @@ export class CharacterBuilderComponent implements OnInit {
   abilityScoreDisplayColumns: string[];
   abilityScoreDisplayData: any[];
 
+  baseAbilityStyle: string = 'manual';
+  standardArray: Array<number> = [15, 14, 13, 12, 10, 8];
+
   private defaultErrorResponse = {
     timestamp: '',
     status: 500,
     message: 'Something went wrong. Please try again later.'
   }
-  baseAbilityStyle: string;
 
   get sourceChipsSelected() {
     return this.sourceSelectionForm.get('sourcesSelected');
@@ -214,6 +217,19 @@ export class CharacterBuilderComponent implements OnInit {
     }
 
     return output;
+  }
+
+  //TODO fix this
+  standardArraySelectionChange(event: MatSelectChange) {
+    console.log(event);
+    console.log(this.standardArray.indexOf(event.value));
+
+    let indexOfValueSelected: number = this.standardArray.indexOf(event.value);
+    this.standardArray.splice(indexOfValueSelected, indexOfValueSelected);
+  }
+
+  removeClass(row) {
+    console.log(row);
   }
 }
 

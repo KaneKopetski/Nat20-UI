@@ -3,6 +3,10 @@
   width: 100%;
 }
 
+.base-ability-scores {
+  margin-top: 25px;
+}
+
 .base-ability-totals {
   width: 550px;
 }
