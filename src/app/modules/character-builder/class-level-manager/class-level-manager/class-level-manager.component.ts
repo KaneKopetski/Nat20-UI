@@ -1,16 +1,15 @@
 import {AfterViewInit, Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
-import {CharacterClassService} from "../../services/character-class-service/character-class.service";
-import {Source} from "../../model/source/source-model";
-import {CharacterClass} from "../../model/character-class/character-class";
-import {ToastContainerDirective, ToastrService} from "ngx-toastr";
-import {LevelClassPair} from "../../model/level-class-pair/level-class-pair-model";
-import {Constants} from "../../../../shared/constants/constants";
-import {MatPaginator} from "@angular/material/paginator";
-import {MatTableDataSource} from "@angular/material/table";
-import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
-import {CharacterClassDetailComponent} from "../character-class-detail/character-class-detail.component";
-import {CharacterBuild} from "../../model/character-build/character-build-response-model";
-import {FormGroup} from "@angular/forms";
+import {CharacterClassService} from '../../services/character-class-service/character-class.service';
+import {Source} from '../../model/source/source-model';
+import {CharacterClass} from '../../model/character-class/character-class';
+import {ToastContainerDirective, ToastrService} from 'ngx-toastr';
+import {LevelClassPair} from '../../model/level-class-pair/level-class-pair-model';
+import {Constants} from '../../../../shared/constants/constants';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatTableDataSource} from '@angular/material/table';
+import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
+import {CharacterClassDetailComponent} from '../character-class-detail/character-class-detail.component';
+import {FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-class-level-manager',
@@ -51,16 +50,17 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
         this.dataSource = new MatTableDataSource<CharacterClass>(res);
         this.dataSource.paginator = this.paginator;
       },
-      error => this.toastr.error(error.message, 'Here be dragons?'))
+      error => this.toastr.error(error.message, 'Here be dragons?'));
   }
 
   private prepareSources() {
     if (!this.sourcesAllowed) {
-      let sources: string[] = [];
-      Constants.allSources.forEach((source: Source) => sources.push(source.sourceEnum))
+      const sources: string[] = [];
+      Constants.allSources.forEach((source: Source) => sources.push(source.sourceEnum));
       return sources;
-    } else
+    } else {
       return this.sourcesAllowed;
+    }
   }
 
   removeClass(row) {
