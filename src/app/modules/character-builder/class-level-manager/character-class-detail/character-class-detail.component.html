@@ -1,0 +1,60 @@
+<mat-dialog-content>
+  <mat-tab-group animationDuration="0ms">
+    <mat-tab label="Class Description">
+      <div class="character-class-details" fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="50px">
+        <div class="character-class-basic-info" fxLayout="column" fxLayoutAlign="space-between start">
+          <h1>Class Name: {{ this.characterClass.name }}</h1>
+          <span>Skill points at 1st level: </span>
+          <br>
+          <span>{{ '(Int modifier + ' + this.characterClass.skillPoints + ') x4' }}</span>
+          <br>
+          <span>Skill points at each additional level:</span>
+          <br>
+          <span>{{ 'Int modifier + ' + this.characterClass.skillPoints }}</span>
+          <div>
+            <br>
+            <span>Class Skills</span>
+            <br>
+            <span>{{ this.getClassSkillsAsString() }}</span>
+          </div>
+        </div>
+        <div class="class-table">
+          <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
+            <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
+              <th mat-header-cell *matHeaderCellDef> {{this.tableDisplayHeaders.get(column)}} </th>
+              <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="expandedDetail">
+              <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+                <div class="example-element-detail"
+                     [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                  <div class="example-element-weight"
+                       *ngFor="let classFeature of getClassFeaturesForLevelAsArray(element.levelNum)">
+                    <span>{{ classFeature }}</span>
+                    <br>
+                    <span>{{ getClassFeatureDescriptionByName(classFeature) }}</span>
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+            <tr mat-row *matRowDef="let element; columns: columnsToDisplay;" class="example-element-row"
+                [class.example-expanded-row]="expandedElement === element"
+                (click)="expandedElement = expandedElement === element ? null : element">
+            </tr>
+            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+          </table>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Attributes">Content 2</mat-tab>
+    <mat-tab label="Class Features">
+      <div fxLayout="row-wrap">
+        <span
+          *ngFor="let classFeature of characterClass.classFeatures">{{ classFeature.levelAttained + ' ' + classFeature.name }}</span>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</mat-dialog-content>

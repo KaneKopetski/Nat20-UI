@@ -1,5 +1,14 @@
-table, mat-paginator, .class-results {
+table {
   width: 100%;
+}
+
+.character-class-basic-info {
+  display: flex;
+  width: 50%;
+}
+
+.class-table {
+  width: 50%;
 }
 
 tr.example-detail-row {
@@ -11,7 +20,7 @@ tr.example-element-row:not(.example-expanded-row):hover {
 }
 
 tr.example-element-row:not(.example-expanded-row):active {
-  background: #efefef;
+  background: grey;
 }
 
 .example-element-row td {
@@ -23,7 +32,6 @@ tr.example-element-row:not(.example-expanded-row):active {
   display: flex;
 }
 
-
 .example-element-symbol {
   font-weight: bold;
   font-size: 40px;
@@ -32,14 +40,8 @@ tr.example-element-row:not(.example-expanded-row):active {
 
 .example-element-description {
   padding: 16px;
-  width: 100%;
 }
 
 .example-element-description-attribution {
   opacity: 0.5;
-}
-
-mat-paginator {
-  display: flex;
-  justify-content: center;
 }

@@ -1,43 +1,56 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
 import {CharacterClassService} from "../../services/character-class-service/character-class.service";
 import {Source} from "../../model/source/source-model";
 import {CharacterClass} from "../../model/character-class/character-class";
 import {ToastContainerDirective, ToastrService} from "ngx-toastr";
 import {LevelClassPair} from "../../model/level-class-pair/level-class-pair-model";
 import {Constants} from "../../../../shared/constants/constants";
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import {MatPaginator} from "@angular/material/paginator";
+import {MatTableDataSource} from "@angular/material/table";
+import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
+import {CharacterClassDetailComponent} from "../character-class-detail/character-class-detail.component";
+import {CharacterBuild} from "../../model/character-build/character-build-response-model";
+import {FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-class-level-manager',
   templateUrl: './class-level-manager.component.html',
-  styleUrls: ['./class-level-manager.component.css'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
+  styleUrls: ['./class-level-manager.component.css']
 })
-export class ClassLevelManagerComponent implements OnInit {
+export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
 
-  @Input()sourcesAllowed: any[];
+  @Input() sourcesAllowed: any[];
   @ViewChild(ToastContainerDirective, {static: true}) toastContainer: ToastContainerDirective;
-  public availableClasses: CharacterClass[];
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   private classLevels: LevelClassPair[] = [];
+  public characterBuildData: FormGroup;
   columnsToDisplay: string[] = ['name', 'hitDie', 'baseAttackBonusProgression', 'fortSaveProgression', 'reflexSaveProgression', 'willSaveProgression', 'add'];
-  expandedElement: CharacterClass | null;
+  dataSource;
+  babDisplayValues: Map<number, string> = new Map<number, string>([
+    [1, 'Full'],
+    [.75, 'Three-Quarters'],
+    [.5, 'Half']
+  ]);
 
-  constructor(private characterClassService: CharacterClassService, private toastr: ToastrService) { }
+  constructor(private characterClassService: CharacterClassService, private toastr: ToastrService,
+              private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) private data) { }
 
   ngOnInit(): void {
+    this.characterBuildData = this.data;
+    console.log(this.data);
     this.toastr.overlayContainer = this.toastContainer;
+  }
+
+  ngAfterViewInit(): void {
     this.fetchFirstPageOfClassesForSourcesProvided();
   }
 
   private fetchFirstPageOfClassesForSourcesProvided() {
     this.characterClassService.getClassesFromSources(this.prepareSources()).subscribe(
-      res => this.availableClasses = res,
+      res => {
+        this.dataSource = new MatTableDataSource<CharacterClass>(res);
+        this.dataSource.paginator = this.paginator;
+      },
       error => this.toastr.error(error.message, 'Here be dragons?'))
   }
 
@@ -56,5 +69,12 @@ export class ClassLevelManagerComponent implements OnInit {
 
   addClass(row) {
 
+  }
+
+  openDialog(row: CharacterClass) {
+    this.dialog.open(CharacterClassDetailComponent, {
+      data: row,
+      width: '90%'
+    });
   }
 }

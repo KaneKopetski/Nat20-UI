@@ -20,6 +20,8 @@ import {ToastContainerDirective, ToastrService} from "ngx-toastr";
 import {ErrorResponse} from "../model/error-response/error-response-model";
 import {MatSelectChange} from "@angular/material/select";
 import {LevelClassPair} from "../model/level-class-pair/level-class-pair-model";
+import {MatDialog} from "@angular/material/dialog";
+import {ClassLevelManagerComponent} from "../class-level-manager/class-level-manager/class-level-manager.component";
 
 
 export interface BaseAbilityScore {
@@ -47,7 +49,6 @@ export class CharacterBuilderComponent implements OnInit {
   baseAbilities: Array<string> = ['strength', 'dexterity', 'constitution', 'wisdom', 'intelligence', 'charisma'];
 
   @ViewChild(ToastContainerDirective, {static: true}) toastContainer: ToastContainerDirective;
-  characterBuild: CharacterBuild;
   characterBuildRequest: CharacterBuildRequest;
 
   classLevels: Array<LevelClassPair> = [];
@@ -92,7 +93,7 @@ export class CharacterBuilderComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private characterClassService: CharacterClassService, private raceService: RaceService,
               private featService: FeatService, private deityService: DeityService, private skillService: SkillService,
-              private sourceService: SourceService, private toastr: ToastrService) {
+              private sourceService: SourceService, private toastr: ToastrService, private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -233,6 +234,13 @@ export class CharacterBuilderComponent implements OnInit {
 
   removeClass(row) {
     console.log(row);
+  }
+
+  launchCharacterLevelManager() {
+    this.dialog.open(ClassLevelManagerComponent, {
+      data: this.characterBuilderForm,
+      width: '100%'
+    });
   }
 }
 

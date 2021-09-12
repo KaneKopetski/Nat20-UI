@@ -5,15 +5,16 @@ import {ClassFeature} from "./class-feature-model";
 export interface CharacterClass {
    id: number;
    name: string;
-   isHomebrew: boolean;
-   classTypes: Array<string>;
-   hitDie: string;
-   skillPoints: number;
-   baseAttackBonusProgression: number;
-   fortSaveProgression: string;
-   reflexSaveProgression: string;
-   willSaveProgression: string;
-   classFeatures: Array<ClassFeature>;
-   prerequisites: Array<CharacterClassPrerequisite>;
-   classSkills: Array<Skill>;
+   description?: string;
+   isHomebrew?: boolean;
+   classTypes?: Array<string>;
+   hitDie?: string;
+   skillPoints?: number;
+   baseAttackBonusProgression?: number;
+   fortSaveProgression?: string;
+   reflexSaveProgression?: string;
+   willSaveProgression?: string;
+   classFeatures?: Array<ClassFeature>;
+   prerequisites?: Array<CharacterClassPrerequisite>;
+   classSkills?: Array<Skill>;
 }
