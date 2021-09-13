@@ -4,11 +4,11 @@ table {
 
 .character-class-basic-info {
   display: flex;
-  width: 50%;
+  width: 40%;
 }
 
 .class-table {
-  width: 50%;
+  width: 60%;
 }
 
 tr.class-level-detail-row {
@@ -19,10 +19,6 @@ tr.class-level-row:not(.example-expanded-row):hover {
   background: grey;
 }
 
-tr.class-level-row:not(.example-expanded-row):active {
-  background: grey;
-}
-
 .class-level-row td {
   border-bottom-width: 0;
 }
@@ -30,4 +26,10 @@ tr.class-level-row:not(.example-expanded-row):active {
 .character-class-detail {
   overflow: hidden;
   display: flex;
+}
+
+.class-feature-name, .desc-header {
+  font-size: 1rem;
+  font-style: italic;
+  border-bottom: #d84315 1px solid;
 }
