@@ -2,23 +2,23 @@ table, mat-paginator, .class-results {
   width: 100%;
 }
 
-tr.example-detail-row {
+tr.class-level-detail-row {
   height: 0;
 }
 
-tr.example-element-row:not(.example-expanded-row):hover {
+tr.class-level-row:not(.example-expanded-row):hover {
   background: grey;
 }
 
-tr.example-element-row:not(.example-expanded-row):active {
+tr.class-level-row:not(.example-expanded-row):active {
   background: #efefef;
 }
 
-.example-element-row td {
+.class-level-row td {
   border-bottom-width: 0;
 }
 
-.example-element-detail {
+.character-class-detail {
   overflow: hidden;
   display: flex;
 }
