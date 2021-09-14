@@ -1,49 +1,82 @@
-<div>
-  <table mat-table [dataSource]="dataSource">
+<mat-tab-group animationDuration="0ms">
+  <mat-tab label="Class Search">
 
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td mat-cell *matCellDef="let characterClass"> {{characterClass.name}} </td>
-    </ng-container>
+    <table mat-table [dataSource]="searchTableDataSource">
 
-    <ng-container matColumnDef="hitDie">
-      <th mat-header-cell *matHeaderCellDef>Hit Die</th>
-      <td mat-cell *matCellDef="let characterClass"> {{characterClass.hitDie}} </td>
-    </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let characterClass"> {{characterClass.name}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="baseAttackBonusProgression">
-      <th mat-header-cell *matHeaderCellDef>BAB Progression</th>
-      <td mat-cell *matCellDef="let characterClass"> {{this.babDisplayValues.get(characterClass.baseAttackBonusProgression)}} </td>
-    </ng-container>
+      <ng-container matColumnDef="hitDie">
+        <th mat-header-cell *matHeaderCellDef>Hit Die</th>
+        <td mat-cell *matCellDef="let characterClass"> {{characterClass.hitDie}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="fortSaveProgression">
-      <th mat-header-cell *matHeaderCellDef>Fort Save Progression</th>
-      <td mat-cell *matCellDef="let characterClass"> {{characterClass.fortSaveProgression | titlecase}} </td>
-    </ng-container>
+      <ng-container matColumnDef="baseAttackBonusProgression">
+        <th mat-header-cell *matHeaderCellDef>BAB Progression</th>
+        <td mat-cell
+            *matCellDef="let characterClass"> {{this.babDisplayValues.get(characterClass.baseAttackBonusProgression)}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="reflexSaveProgression">
-      <th mat-header-cell *matHeaderCellDef>Reflex Save Progression</th>
-      <td mat-cell *matCellDef="let characterClass"> {{characterClass.reflexSaveProgression | titlecase}} </td>
-    </ng-container>
+      <ng-container matColumnDef="fortSaveProgression">
+        <th mat-header-cell *matHeaderCellDef>Fort Save Progression</th>
+        <td mat-cell *matCellDef="let characterClass"> {{characterClass.fortSaveProgression | titlecase}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="willSaveProgression">
-      <th mat-header-cell *matHeaderCellDef>Will Save Progression</th>
-      <td mat-cell *matCellDef="let characterClass"> {{characterClass.willSaveProgression | titlecase}} </td>
-    </ng-container>
+      <ng-container matColumnDef="reflexSaveProgression">
+        <th mat-header-cell *matHeaderCellDef>Reflex Save Progression</th>
+        <td mat-cell *matCellDef="let characterClass"> {{characterClass.reflexSaveProgression | titlecase}} </td>
+      </ng-container>
 
-    <ng-container matColumnDef="add">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let characterClass"></td>
-    </ng-container>
+      <ng-container matColumnDef="willSaveProgression">
+        <th mat-header-cell *matHeaderCellDef>Will Save Progression</th>
+        <td mat-cell *matCellDef="let characterClass"> {{characterClass.willSaveProgression | titlecase}} </td>
+      </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="this.columnsToDisplay"></tr>
-    <tr mat-row *matRowDef="let row; columns: this.columnsToDisplay;" (click)="openDialog(row)"></tr>}}
-  </table>
+      <ng-container matColumnDef="add">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let characterClass">
+          <button mat-icon-button class="add-class-button" (click)="addClass(characterClass)" title="Add class">
+            <mat-icon>add_circle</mat-icon>
+          </button>
+          <button mat-icon-button class="inspect-class-button" (click)="openDialog(characterClass)"
+                  title="Inspect class">
+            <mat-icon>info</mat-icon>
+          </button>
+        </td>
+      </ng-container>
 
-<mat-paginator [pageSizeOptions]="[25, 50, 100]"
-               [color]="'accent'"
-               showFirstLastButtons
-               aria-label="Select page of periodic characterClass">
-</mat-paginator>
-</div>
+      <tr mat-header-row *matHeaderRowDef="this.searchTableColumnsToDisplay"></tr>
+      <tr mat-row *matRowDef="let row; columns: this.searchTableColumnsToDisplay;"></tr>
 
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[25, 50, 100]"
+                   [color]="'accent'"
+                   showFirstLastButtons
+                   aria-label="Select page of periodic characterClass">
+    </mat-paginator>
+  </mat-tab>
+
+  <mat-tab label="Class Levels Selected">
+
+    <table mat-table [dataSource]="this.classLevelTableDataSource">
+
+      <ng-container matColumnDef="level">
+        <th mat-header-cell *matHeaderCellDef>Level</th>
+        <td mat-cell *matCellDef="let classLevelPair">{{classLevelPair.level}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="characterClass">
+        <th mat-header-cell *matHeaderCellDef>Class</th>
+        <td mat-cell *matCellDef="let classLevelPair">{{classLevelPair.characterClass.name}}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="this.classLevelTableColumnsToDisplay"></tr>
+      <tr mat-row *matRowDef="let row; columns: this.classLevelTableColumnsToDisplay;"></tr>
+    </table>
+
+  </mat-tab>
+
+</mat-tab-group>

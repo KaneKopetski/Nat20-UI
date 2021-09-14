@@ -31,5 +31,5 @@ tr.class-level-row:not(.example-expanded-row):hover {
 .class-feature-name, .desc-header {
   font-size: 1rem;
   font-style: italic;
-  border-bottom: #d84315 1px solid;
+  border-bottom: #FFFFFF 1px solid;
 }

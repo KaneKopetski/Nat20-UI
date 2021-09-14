@@ -21,23 +21,29 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   @Input() sourcesAllowed: any[];
   @ViewChild(ToastContainerDirective, {static: true}) toastContainer: ToastContainerDirective;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  private classLevels: LevelClassPair[] = [];
-  public characterBuildData: FormGroup;
-  columnsToDisplay: string[] = ['name', 'hitDie', 'baseAttackBonusProgression', 'fortSaveProgression', 'reflexSaveProgression', 'willSaveProgression', 'add'];
-  dataSource;
+  classLevels: LevelClassPair[] = [];
+  characterBuildData: FormGroup;
+  searchTableColumnsToDisplay: string[] = ['name', 'hitDie', 'baseAttackBonusProgression', 'fortSaveProgression', 'reflexSaveProgression', 'willSaveProgression', 'add'];
+  classLevelTableColumnsToDisplay: string[] = ['level', 'characterClass'];
+  searchTableDataSource;
+  classLevelTableDataSource;
   babDisplayValues: Map<number, string> = new Map<number, string>([
     [1, 'Full'],
     [.75, 'Three-Quarters'],
     [.5, 'Half']
   ]);
+  isExpanded: boolean = false
 
   constructor(private characterClassService: CharacterClassService, private toastr: ToastrService,
               private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) private data) { }
 
   ngOnInit(): void {
     this.characterBuildData = this.data;
-    console.log(this.data);
     this.toastr.overlayContainer = this.toastContainer;
+
+
+
+    this.classLevelTableDataSource = this.classLevels;
   }
 
   ngAfterViewInit(): void {
@@ -45,10 +51,15 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   }
 
   private fetchFirstPageOfClassesForSourcesProvided() {
-    this.characterClassService.getClassesFromSources(this.prepareSources()).subscribe(
-      res => {
-        this.dataSource = new MatTableDataSource<CharacterClass>(res);
-        this.dataSource.paginator = this.paginator;
+    this.characterClassService.getClassesFromSources(this.prepareSources()).subscribe(res => {
+        this.searchTableDataSource = new MatTableDataSource<CharacterClass>(res);
+        this.searchTableDataSource.paginator = this.paginator;
+
+        let counter = 1;
+        res.forEach((characterClass: CharacterClass) => {
+          this.classLevels.push({level: counter, characterClass});
+          counter = counter + 1;
+        })
       },
       error => this.toastr.error(error.message, 'Here be dragons?'));
   }
@@ -68,7 +79,12 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   }
 
   addClass(row) {
+    this.classLevels.push({
+      characterClass: row,
+      level: this.classLevels.length + 1
+    })
 
+    this.classLevels.forEach((classLevelPair: LevelClassPair) => console.log(classLevelPair.characterClass.name));
   }
 
   openDialog(row: CharacterClass) {

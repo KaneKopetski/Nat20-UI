@@ -180,7 +180,6 @@ export class CharacterBuilderComponent implements OnInit {
 
   public addSelectedClassToClassLevels() {
     if (this.selectedClass) {
-      console.log(this.selectedClass);
       const characterBuildLevel = this.characterClassLevelMap.size + 1;
       this.characterClassLevelMap.set(characterBuildLevel, this.selectedClass);
       this.classLevels.push({level: characterBuildLevel, characterClass: this.selectedClass})

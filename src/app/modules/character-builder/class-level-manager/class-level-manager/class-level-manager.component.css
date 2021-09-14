@@ -43,3 +43,7 @@ mat-paginator {
   display: flex;
   justify-content: center;
 }
+
+.add-class-button {
+  color: green;
+}
