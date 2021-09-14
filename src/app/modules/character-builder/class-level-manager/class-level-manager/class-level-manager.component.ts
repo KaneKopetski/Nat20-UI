@@ -25,8 +25,8 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   characterBuildData: FormGroup;
   searchTableColumnsToDisplay: string[] = ['name', 'hitDie', 'baseAttackBonusProgression', 'fortSaveProgression', 'reflexSaveProgression', 'willSaveProgression', 'add'];
   classLevelTableColumnsToDisplay: string[] = ['level', 'characterClass'];
-  searchTableDataSource;
-  classLevelTableDataSource;
+  searchTableDataSource: MatTableDataSource<CharacterClass>;
+  classLevelTableDataSource: MatTableDataSource<LevelClassPair>;
   babDisplayValues: Map<number, string> = new Map<number, string>([
     [1, 'Full'],
     [.75, 'Three-Quarters'],
@@ -40,10 +40,6 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.characterBuildData = this.data;
     this.toastr.overlayContainer = this.toastContainer;
-
-
-
-    this.classLevelTableDataSource = this.classLevels;
   }
 
   ngAfterViewInit(): void {
@@ -54,12 +50,6 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
     this.characterClassService.getClassesFromSources(this.prepareSources()).subscribe(res => {
         this.searchTableDataSource = new MatTableDataSource<CharacterClass>(res);
         this.searchTableDataSource.paginator = this.paginator;
-
-        let counter = 1;
-        res.forEach((characterClass: CharacterClass) => {
-          this.classLevels.push({level: counter, characterClass});
-          counter = counter + 1;
-        })
       },
       error => this.toastr.error(error.message, 'Here be dragons?'));
   }
@@ -79,12 +69,12 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   }
 
   addClass(row) {
-    this.classLevels.push({
-      characterClass: row,
-      level: this.classLevels.length + 1
-    })
-
-    this.classLevels.forEach((classLevelPair: LevelClassPair) => console.log(classLevelPair.characterClass.name));
+    let classLevel = {
+      level: this.classLevels.length + 1,
+      characterClass: row
+    }
+    this.classLevels.push(classLevel);
+    this.classLevelTableDataSource = new MatTableDataSource<LevelClassPair>(this.classLevels);
   }
 
   openDialog(row: CharacterClass) {
