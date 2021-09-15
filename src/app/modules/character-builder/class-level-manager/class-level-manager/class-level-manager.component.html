@@ -65,12 +65,37 @@
 
       <ng-container matColumnDef="level">
         <th mat-header-cell *matHeaderCellDef>Level</th>
-        <td mat-cell *matCellDef="let classLevelPair">{{classLevelPair.level}}</td>
+        <td mat-cell *matCellDef="let characterClass">{{characterClass.level}}</td>
       </ng-container>
 
       <ng-container matColumnDef="characterClass">
         <th mat-header-cell *matHeaderCellDef>Class</th>
-        <td mat-cell *matCellDef="let classLevelPair">{{classLevelPair.characterClass.name}}</td>
+        <td mat-cell *matCellDef="let characterClass">{{characterClass.characterClassName}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="babTotal">
+        <th mat-header-cell *matHeaderCellDef>Base Attack Bonus</th>
+        <td mat-cell *matCellDef="let characterClass">{{ characterClass.babTotal }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="fortSaveTotal">
+        <th mat-header-cell *matHeaderCellDef>Fort Save</th>
+        <td mat-cell *matCellDef="let characterClass">Fort Save Here</td>
+      </ng-container>
+
+      <ng-container matColumnDef="reflexSaveTotal">
+        <th mat-header-cell *matHeaderCellDef>Reflex Save</th>
+        <td mat-cell *matCellDef="let characterClass">Reflex Save Here</td>
+      </ng-container>
+
+      <ng-container matColumnDef="willSaveTotal">
+        <th mat-header-cell *matHeaderCellDef>Will Save</th>
+        <td mat-cell *matCellDef="let characterClass">Will Save Here</td>
+      </ng-container>
+
+      <ng-container matColumnDef="classFeatures">
+        <th mat-header-cell *matHeaderCellDef>Class Features</th>
+        <td mat-cell *matCellDef="let characterClass">Class Features Here</td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="this.classLevelTableColumnsToDisplay; sticky: true"></tr>

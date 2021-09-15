@@ -11,6 +11,17 @@ import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import {CharacterClassDetailComponent} from '../character-class-detail/character-class-detail.component';
 import {FormGroup} from '@angular/forms';
 
+export class ClassLevelTableRow {
+  level: number;
+  characterClassName: string;
+  babTotal: string;
+  fortSaveTotal: number;
+  reflexSaveTotal: number;
+  willSaveTotal: number;
+  classFeatures: string;
+
+}
+
 @Component({
   selector: 'app-class-level-manager',
   templateUrl: './class-level-manager.component.html',
@@ -24,9 +35,9 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   classLevels: LevelClassPair[] = [];
   characterBuildData: FormGroup;
   searchTableColumnsToDisplay: string[] = ['name', 'hitDie', 'baseAttackBonusProgression', 'fortSaveProgression', 'reflexSaveProgression', 'willSaveProgression', 'add'];
-  classLevelTableColumnsToDisplay: string[] = ['level', 'characterClass'];
+  classLevelTableColumnsToDisplay: string[] = ['level', 'characterClass', 'babTotal', 'fortSaveTotal', 'reflexSaveTotal', 'willSaveTotal', 'classFeatures'];
   searchTableDataSource: MatTableDataSource<CharacterClass>;
-  classLevelTableDataSource: MatTableDataSource<LevelClassPair>;
+  classLevelTableDataSource;
   babDisplayValues: Map<number, string> = new Map<number, string>([
     [1, 'Full'],
     [.75, 'Three-Quarters'],
@@ -35,7 +46,8 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   isExpanded: boolean = false
 
   constructor(private characterClassService: CharacterClassService, private toastr: ToastrService,
-              private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) private data) { }
+              private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) private data) {
+  }
 
   ngOnInit(): void {
     this.characterBuildData = this.data;
@@ -74,7 +86,29 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
       characterClass: row
     }
     this.classLevels.push(classLevel);
-    this.classLevelTableDataSource = new MatTableDataSource<LevelClassPair>(this.classLevels);
+    this.calculateClassLevelChanges();
+  }
+
+  calculateClassLevelChanges() {
+    let tableData: ClassLevelTableRow[] = [];
+    let babTotal: number = 0;
+
+    this.classLevels.forEach((levelClassPair: LevelClassPair) => {
+      babTotal = babTotal + levelClassPair.characterClass.baseAttackBonusProgression;
+      let row = new ClassLevelTableRow()
+
+      row.level = levelClassPair.level;
+      row.characterClassName = levelClassPair.characterClass.name;
+      row.babTotal = this.constructBabDescription(babTotal);
+      row.fortSaveTotal = this.calculateSavingThrowTotalForClassLevelsSelected('fort');
+      row.reflexSaveTotal = this.calculateSavingThrowTotalForClassLevelsSelected('reflex');
+      row.willSaveTotal = this.calculateSavingThrowTotalForClassLevelsSelected('will');
+      row.classFeatures = this.getClassFeaturesForClassLevelsSelected();
+
+      tableData.push(row)
+    })
+
+    this.classLevelTableDataSource = new MatTableDataSource<ClassLevelTableRow>(tableData);
   }
 
   openDialog(row: CharacterClass) {
@@ -83,4 +117,26 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
       width: '90%'
     });
   }
+
+  calculateSavingThrowTotalForClassLevelsSelected(savingThrow: string): number {
+    return 0;
+  }
+
+  getClassFeaturesForClassLevelsSelected(): string {
+    return "";
+  }
+
+  constructBabDescription(babTotal: number): string {
+    let babString: string = Math.floor(babTotal).toString();
+
+    if (babTotal >= 16) {
+      babString = babTotal + '/' + (babTotal - 5) + '/' + (babTotal - 10) + '/' + (babTotal - 15);
+    } else if (babTotal >= 11) {
+      babString = babTotal + '/' + (babTotal - 5) + '/' + (babTotal - 10);
+    } else if (babTotal >= 6) {
+      babString = babTotal + '/' + (babTotal - 5);
+    }
+    return babString;
+  }
+
 }
