@@ -19,7 +19,6 @@ export class ClassLevelTableRow {
   reflexSaveTotal: number;
   willSaveTotal: number;
   classFeatures: string;
-
 }
 
 @Component({
@@ -38,12 +37,10 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   classLevelTableColumnsToDisplay: string[] = ['level', 'characterClass', 'babTotal', 'fortSaveTotal', 'reflexSaveTotal', 'willSaveTotal', 'classFeatures'];
   searchTableDataSource: MatTableDataSource<CharacterClass>;
   classLevelTableDataSource;
-  babDisplayValues: Map<number, string> = new Map<number, string>([
-    [1, 'Full'],
-    [.75, 'Three-Quarters'],
-    [.5, 'Half']
-  ]);
-  isExpanded: boolean = false
+  babDisplayValues: Map<number, string> = Constants.babDisplayValues;
+  savingThrows: Map<string, number> = new Map([['fortSave', 0], ['reflexSave', 0], ['willSave', 0]]);
+  isExpanded: boolean = false;
+  tableData: ClassLevelTableRow[] = [];
 
   constructor(private characterClassService: CharacterClassService, private toastr: ToastrService,
               private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) private data) {
@@ -66,6 +63,7 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
       error => this.toastr.error(error.message, 'Here be dragons?'));
   }
 
+  //TODO change all sources to sources selected
   private prepareSources() {
     if (!this.sourcesAllowed) {
       const sources: string[] = [];
@@ -86,29 +84,53 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
       characterClass: row
     }
     this.classLevels.push(classLevel);
-    this.calculateClassLevelChanges();
+    this.calculateClassLevelChanges(classLevel);
   }
 
-  calculateClassLevelChanges() {
-    let tableData: ClassLevelTableRow[] = [];
+  private calculateClassLevelChanges(classLevel: LevelClassPair) {
     let babTotal: number = 0;
+    let goodFortSaveClassCount = 0;
+    let goodReflexSaveClassCount = 0;
+    let goodWillSaveClassCount = 0;
 
-    this.classLevels.forEach((levelClassPair: LevelClassPair) => {
-      babTotal = babTotal + levelClassPair.characterClass.baseAttackBonusProgression;
-      let row = new ClassLevelTableRow()
+    this.classLevels.forEach((classLevel: LevelClassPair) => {
+      babTotal = babTotal + classLevel.characterClass.baseAttackBonusProgression;
 
-      row.level = levelClassPair.level;
-      row.characterClassName = levelClassPair.characterClass.name;
-      row.babTotal = this.constructBabDescription(babTotal);
-      row.fortSaveTotal = this.calculateSavingThrowTotalForClassLevelsSelected('fort');
-      row.reflexSaveTotal = this.calculateSavingThrowTotalForClassLevelsSelected('reflex');
-      row.willSaveTotal = this.calculateSavingThrowTotalForClassLevelsSelected('will');
-      row.classFeatures = this.getClassFeaturesForClassLevelsSelected();
+      if (classLevel.characterClass.fortSaveProgression === 'GOOD') {
+        goodFortSaveClassCount = goodFortSaveClassCount + 1;
+      }
 
-      tableData.push(row)
+      if (classLevel.characterClass.reflexSaveProgression === 'GOOD') {
+        goodReflexSaveClassCount = goodReflexSaveClassCount + 1;
+      }
+
+      if (classLevel.characterClass.fortSaveProgression === 'GOOD') {
+        goodWillSaveClassCount = goodWillSaveClassCount + 1;
+      }
     })
 
-    this.classLevelTableDataSource = new MatTableDataSource<ClassLevelTableRow>(tableData);
+    let fortSaveTotal: number = Math.floor(Math.floor(2 + (Math.floor(goodFortSaveClassCount / 2)))
+      + ((Math.floor(this.classLevels.length - goodFortSaveClassCount)) / 3));
+
+    let reflexSaveTotal: number = Math.floor(Math.floor(2 + (Math.floor(goodReflexSaveClassCount / 2)))
+      + ((Math.floor(this.classLevels.length - goodReflexSaveClassCount)) / 3));
+
+    let willSaveTotal: number = Math.floor(Math.floor(2 + (Math.floor(goodWillSaveClassCount / 2)))
+      + ((Math.floor(this.classLevels.length - goodWillSaveClassCount)) / 3));
+
+    let row = new ClassLevelTableRow()
+
+    row.level = classLevel.level;
+    row.characterClassName = classLevel.characterClass.name;
+    row.babTotal = ClassLevelManagerComponent.constructBabDescription(babTotal);
+    row.fortSaveTotal = fortSaveTotal;
+    row.reflexSaveTotal = reflexSaveTotal;
+    row.willSaveTotal = willSaveTotal;
+    row.classFeatures = this.getClassFeaturesForClassLevelsSelected();
+
+    this.tableData.push(row)
+
+    this.classLevelTableDataSource = new MatTableDataSource<ClassLevelTableRow>(this.tableData);
   }
 
   openDialog(row: CharacterClass) {
@@ -118,15 +140,12 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
     });
   }
 
-  calculateSavingThrowTotalForClassLevelsSelected(savingThrow: string): number {
-    return 0;
-  }
 
-  getClassFeaturesForClassLevelsSelected(): string {
+  private getClassFeaturesForClassLevelsSelected(): string {
     return "";
   }
 
-  constructBabDescription(babTotal: number): string {
+  private static constructBabDescription(babTotal: number): string {
     let babString: string = Math.floor(babTotal).toString();
 
     if (babTotal >= 16) {

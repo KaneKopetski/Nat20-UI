@@ -80,17 +80,17 @@
 
       <ng-container matColumnDef="fortSaveTotal">
         <th mat-header-cell *matHeaderCellDef>Fort Save</th>
-        <td mat-cell *matCellDef="let characterClass">Fort Save Here</td>
+        <td mat-cell *matCellDef="let characterClass">{{ characterClass.fortSaveTotal }}</td>
       </ng-container>
 
       <ng-container matColumnDef="reflexSaveTotal">
         <th mat-header-cell *matHeaderCellDef>Reflex Save</th>
-        <td mat-cell *matCellDef="let characterClass">Reflex Save Here</td>
+        <td mat-cell *matCellDef="let characterClass">{{ characterClass.reflexSaveTotal }}</td>
       </ng-container>
 
       <ng-container matColumnDef="willSaveTotal">
         <th mat-header-cell *matHeaderCellDef>Will Save</th>
-        <td mat-cell *matCellDef="let characterClass">Will Save Here</td>
+        <td mat-cell *matCellDef="let characterClass">{{ characterClass.willSaveTotal }}</td>
       </ng-container>
 
       <ng-container matColumnDef="classFeatures">
