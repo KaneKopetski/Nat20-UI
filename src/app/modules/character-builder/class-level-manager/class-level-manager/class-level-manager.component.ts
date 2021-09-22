@@ -88,44 +88,14 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   }
 
   private calculateClassLevelChanges(classLevel: LevelClassPair) {
-    let babTotal: number = 0;
-    let goodFortSaveClassCount = 0;
-    let goodReflexSaveClassCount = 0;
-    let goodWillSaveClassCount = 0;
-
-    this.classLevels.forEach((classLevel: LevelClassPair) => {
-      babTotal = babTotal + classLevel.characterClass.baseAttackBonusProgression;
-
-      if (classLevel.characterClass.fortSaveProgression === 'GOOD') {
-        goodFortSaveClassCount = goodFortSaveClassCount + 1;
-      }
-
-      if (classLevel.characterClass.reflexSaveProgression === 'GOOD') {
-        goodReflexSaveClassCount = goodReflexSaveClassCount + 1;
-      }
-
-      if (classLevel.characterClass.fortSaveProgression === 'GOOD') {
-        goodWillSaveClassCount = goodWillSaveClassCount + 1;
-      }
-    })
-
-    let fortSaveTotal: number = Math.floor(Math.floor(2 + (Math.floor(goodFortSaveClassCount / 2)))
-      + ((Math.floor(this.classLevels.length - goodFortSaveClassCount)) / 3));
-
-    let reflexSaveTotal: number = Math.floor(Math.floor(2 + (Math.floor(goodReflexSaveClassCount / 2)))
-      + ((Math.floor(this.classLevels.length - goodReflexSaveClassCount)) / 3));
-
-    let willSaveTotal: number = Math.floor(Math.floor(2 + (Math.floor(goodWillSaveClassCount / 2)))
-      + ((Math.floor(this.classLevels.length - goodWillSaveClassCount)) / 3));
-
     let row = new ClassLevelTableRow()
 
     row.level = classLevel.level;
     row.characterClassName = classLevel.characterClass.name;
-    row.babTotal = ClassLevelManagerComponent.constructBabDescription(babTotal);
-    row.fortSaveTotal = fortSaveTotal;
-    row.reflexSaveTotal = reflexSaveTotal;
-    row.willSaveTotal = willSaveTotal;
+    row.babTotal = this.constructBabDescription();
+    row.fortSaveTotal = this.getSavingThrowBonus('fortSaveProgression');
+    row.reflexSaveTotal = this.getSavingThrowBonus('reflexSaveProgression');
+    row.willSaveTotal = this.getSavingThrowBonus('willSaveProgression');
     row.classFeatures = this.getClassFeaturesForClassLevelsSelected();
 
     this.tableData.push(row)
@@ -145,7 +115,13 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
     return "";
   }
 
-  private static constructBabDescription(babTotal: number): string {
+  private constructBabDescription(): string {
+    let babTotal: number = 0;
+
+    this.classLevels.forEach((classLevel: LevelClassPair) => {
+      babTotal = babTotal + classLevel.characterClass.baseAttackBonusProgression;
+    })
+
     let babString: string = Math.floor(babTotal).toString();
 
     if (babTotal >= 16) {
@@ -158,4 +134,25 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
     return babString;
   }
 
+  private getSavingThrowBonus(savingThrowToCalculate: string): number {
+    let classCount: Map<CharacterClass, number> = new Map();
+
+    this.classLevels.forEach((levelClassPair: LevelClassPair) => {
+      if (classCount.has(levelClassPair.characterClass))
+        classCount.set(levelClassPair.characterClass, classCount.get(levelClassPair.characterClass) + 1);
+      else
+      classCount.set(levelClassPair.characterClass, 1);
+    });
+
+    let totalSaveBonus: number = 0;
+
+    classCount.forEach((count: number, characterClass: CharacterClass) => {
+      if (characterClass[savingThrowToCalculate] === 'GOOD')
+        totalSaveBonus = totalSaveBonus + (Math.floor(2 + Math.floor(count / 2)));
+      else
+        totalSaveBonus = totalSaveBonus + (Math.floor(count / 3));
+    })
+
+    return totalSaveBonus;
+  }
 }
