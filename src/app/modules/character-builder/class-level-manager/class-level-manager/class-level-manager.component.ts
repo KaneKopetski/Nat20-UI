@@ -136,6 +136,11 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
 
   private getSavingThrowBonus(savingThrowToCalculate: string): number {
     let classCount: Map<CharacterClass, number> = new Map();
+    let saveBaseAbilityMap: Map<string, string> = new Map([
+      ['fortSaveProgression', 'constitutionScore'],
+      ['reflexSaveProgression', 'dexterityScore'],
+      ['willSaveProgression', 'wisdomScore']
+    ])
 
     this.classLevels.forEach((levelClassPair: LevelClassPair) => {
       if (classCount.has(levelClassPair.characterClass))
@@ -153,6 +158,8 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
         totalSaveBonus = totalSaveBonus + (Math.floor(count / 3));
     })
 
-    return totalSaveBonus;
+    let baseAbilityBonus: number = Math.floor((Math.floor(this.characterBuildData.controls[saveBaseAbilityMap.get(savingThrowToCalculate)].value - 10)) / 2);
+
+    return totalSaveBonus + baseAbilityBonus;
   }
 }
