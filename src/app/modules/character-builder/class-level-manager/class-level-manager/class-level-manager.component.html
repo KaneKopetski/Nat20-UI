@@ -21,17 +21,23 @@
 
       <ng-container matColumnDef="fortSaveProgression">
         <th mat-header-cell *matHeaderCellDef>Fort Save Progression</th>
-        <td mat-cell *matCellDef="let characterClass"> {{characterClass.fortSaveProgression | titlecase}} </td>
+        <td mat-cell *matCellDef="let characterClass"
+            matTooltip="Formula: {{ characterClass.fortSaveProgression === 'GOOD' ?  '2 + (class levels / 2)' : 'class levels / 3'}}"
+            [matTooltipShowDelay]="tooltipDelay.value"> {{characterClass.fortSaveProgression | titlecase}} </td>
       </ng-container>
 
       <ng-container matColumnDef="reflexSaveProgression">
         <th mat-header-cell *matHeaderCellDef>Reflex Save Progression</th>
-        <td mat-cell *matCellDef="let characterClass"> {{characterClass.reflexSaveProgression | titlecase}} </td>
+        <td mat-cell *matCellDef="let characterClass"
+            matTooltip="Formula: {{ characterClass.fortSaveProgression === 'GOOD' ?  '2 + (class levels / 2)' : 'class levels / 3'}}"
+            [matTooltipShowDelay]="tooltipDelay.value"> {{characterClass.reflexSaveProgression | titlecase}} </td>
       </ng-container>
 
       <ng-container matColumnDef="willSaveProgression">
         <th mat-header-cell *matHeaderCellDef>Will Save Progression</th>
-        <td mat-cell *matCellDef="let characterClass"> {{characterClass.willSaveProgression | titlecase}} </td>
+        <td mat-cell *matCellDef="let characterClass"
+            matTooltip="Formula: {{ characterClass.fortSaveProgression === 'GOOD' ?  '2 + (class levels / 2)' : 'class levels / 3'}}"
+            [matTooltipShowDelay]="tooltipDelay.value"> {{characterClass.willSaveProgression | titlecase}} </td>
       </ng-container>
 
       <ng-container matColumnDef="add">
@@ -80,17 +86,32 @@
 
       <ng-container matColumnDef="fortSaveTotal">
         <th mat-header-cell *matHeaderCellDef>Fort Save</th>
-        <td mat-cell *matCellDef="let characterClass">{{ characterClass.fortSaveTotal }}</td>
+        <td mat-cell *matCellDef="let characterClass"
+            matTooltip="Class levels calculated score + Constitution modifier&#13;Total Fortitude save =
+                        {{ this.savingThrowTotalsByLevel.get(characterClass.level).fortSaveProgression
+                        + ' + '
+                        + this.getBaseAbilityModifier('constitutionScore')}}"
+            [matTooltipShowDelay]="tooltipDelay.value">{{ characterClass.fortSaveTotal }}</td>
       </ng-container>
 
       <ng-container matColumnDef="reflexSaveTotal">
         <th mat-header-cell *matHeaderCellDef>Reflex Save</th>
-        <td mat-cell *matCellDef="let characterClass">{{ characterClass.reflexSaveTotal }}</td>
+        <td mat-cell *matCellDef="let characterClass"
+            matTooltip="Class levels calculated score + Dexterity modifier&#13;Total Reflex save =
+                        {{ this.savingThrowTotalsByLevel.get(characterClass.level).reflexSaveProgression
+                        + ' + '
+                        + this.getBaseAbilityModifier('dexterityScore')}}"
+            [matTooltipShowDelay]="tooltipDelay.value">{{ characterClass.reflexSaveTotal }}</td>
       </ng-container>
 
       <ng-container matColumnDef="willSaveTotal">
         <th mat-header-cell *matHeaderCellDef>Will Save</th>
-        <td mat-cell *matCellDef="let characterClass">{{ characterClass.willSaveTotal }}</td>
+        <td mat-cell *matCellDef="let characterClass"
+            matTooltip="Class levels calculated score + Wisdom modifier&#13;Total Will save =
+                        {{ this.savingThrowTotalsByLevel.get(characterClass.level).willSaveProgression
+                        + ' + '
+                        + this.getBaseAbilityModifier('wisdomScore')}}"
+            [matTooltipShowDelay]="tooltipDelay.value">{{ characterClass.willSaveTotal }}</td>
       </ng-container>
 
       <ng-container matColumnDef="classFeatures">

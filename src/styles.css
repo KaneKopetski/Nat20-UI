@@ -53,3 +53,7 @@ button:focus, button:active:focus, button.active:focus, img {
   border-top-color: #000000;
   animation: spinner .8s linear infinite;
 }
+
+.mat-tooltip  {
+  white-space: pre-line;
+}

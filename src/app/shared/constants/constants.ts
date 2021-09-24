@@ -1,3 +1,5 @@
+import {FormControl} from "@angular/forms";
+
 export abstract class Constants {
   public static readonly VALID_EMAIL_MESSAGE: string = 'Email is valid';
 
@@ -18,10 +20,20 @@ export abstract class Constants {
   public static readonly UNKNOWN_ERROR_MESSAGE: string = 'Unknown error. Please try again later';
   public static readonly MUST_BE_LOGGED_IN: string = 'You must be logged in';
 
+  public static readonly GENERIC_ERROR_MESSAGE: string = 'Here be dragons!';
+
+  public static readonly FORTITUDE_SAVE_PROGRESS_STRING: string = 'fortSaveProgression';
+  public static readonly REFLEX_SAVE_PROGRESS_STRING: string = 'reflexSaveProgression';
+  public static readonly WILL_SAVE_PROGRESS_STRING: string = 'willSaveProgression';
+
+  public static readonly SAVING_THROW_QUALITY_GOOD = 'GOOD';
+
   public static readonly COMMA_SPACE: string = ', ';
 
   public static readonly USER_KEY: string = 'user';
   public static readonly USER_TOKEN_KEY: string = 'userToken';
+
+  public static readonly tooltipDelay = new FormControl(750);
 
   public static readonly specialSourceCases = {
     coreOnly: 'Core Only',
@@ -68,6 +80,36 @@ export abstract class Constants {
     [19, ''],
     [20, ''],
   ])
+
+  public static savingThrowAbilityMap(): Map<string, string> {
+    return new Map([
+      ['fortSaveProgression', 'constitutionScore'],
+      ['reflexSaveProgression', 'dexterityScore'],
+      ['willSaveProgression', 'wisdomScore']
+    ]);
+  }
+
+  public static readonly savingThrows: string[] = ['fortSaveProgression', 'reflexSaveProgression', 'willSaveProgression'];
+
+  public static readonly classLevelManagerSearchTableColumnsToDisplay: string[] = [
+    'name',
+    'hitDie',
+    'baseAttackBonusProgression',
+    'fortSaveProgression',
+    'reflexSaveProgression',
+    'willSaveProgression',
+    'add'
+  ];
+
+  public static readonly classLevelManagerClassLevelTableColumnsToDisplay: string[] = [
+    'level',
+    'characterClass',
+    'babTotal',
+    'fortSaveTotal',
+    'reflexSaveTotal',
+    'willSaveTotal',
+    'classFeatures'
+  ];
 
 
   public static readonly allSources = [{

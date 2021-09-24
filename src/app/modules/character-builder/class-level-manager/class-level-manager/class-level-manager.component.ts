@@ -9,7 +9,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import {CharacterClassDetailComponent} from '../character-class-detail/character-class-detail.component';
-import {FormGroup} from '@angular/forms';
+import {FormControl, FormGroup} from '@angular/forms';
 
 export class ClassLevelTableRow {
   level: number;
@@ -19,6 +19,12 @@ export class ClassLevelTableRow {
   reflexSaveTotal: number;
   willSaveTotal: number;
   classFeatures: string;
+}
+
+export class SavingThrowTotals {
+  fortSaveProgression: number;
+  reflexSaveProgression: number;
+  willSaveProgression: number;
 }
 
 @Component({
@@ -33,14 +39,17 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   classLevels: LevelClassPair[] = [];
   characterBuildData: FormGroup;
-  searchTableColumnsToDisplay: string[] = ['name', 'hitDie', 'baseAttackBonusProgression', 'fortSaveProgression', 'reflexSaveProgression', 'willSaveProgression', 'add'];
-  classLevelTableColumnsToDisplay: string[] = ['level', 'characterClass', 'babTotal', 'fortSaveTotal', 'reflexSaveTotal', 'willSaveTotal', 'classFeatures'];
+  searchTableColumnsToDisplay: string[] = Constants.classLevelManagerSearchTableColumnsToDisplay;
+  classLevelTableColumnsToDisplay: string[] = Constants.classLevelManagerClassLevelTableColumnsToDisplay;
   searchTableDataSource: MatTableDataSource<CharacterClass>;
   classLevelTableDataSource;
   babDisplayValues: Map<number, string> = Constants.babDisplayValues;
-  savingThrows: Map<string, number> = new Map([['fortSave', 0], ['reflexSave', 0], ['willSave', 0]]);
-  isExpanded: boolean = false;
   tableData: ClassLevelTableRow[] = [];
+  tooltipDelay: FormControl = Constants.tooltipDelay;
+  savingThrowTotalsByLevel: Map<number, SavingThrowTotals> = new Map();
+  private classCount: Map<CharacterClass, number>;
+  saveBaseAbilityMap: Map<string, string> = Constants.savingThrowAbilityMap();
+  savingThrows: string[] = Constants.savingThrows;
 
   constructor(private characterClassService: CharacterClassService, private toastr: ToastrService,
               private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) private data) {
@@ -60,7 +69,7 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
         this.searchTableDataSource = new MatTableDataSource<CharacterClass>(res);
         this.searchTableDataSource.paginator = this.paginator;
       },
-      error => this.toastr.error(error.message, 'Here be dragons?'));
+      error => this.toastr.error(error.message, Constants.GENERIC_ERROR_MESSAGE));
   }
 
   //TODO change all sources to sources selected
@@ -74,33 +83,44 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
     }
   }
 
+  addClass(row) {
+    let level: number = this.classLevels.length + 1;
+    let classLevel = {
+      level: level,
+      characterClass: row
+    }
+    this.classLevels.push(classLevel);
+    this.countClassLevelsForEachClass();
+    this.calculateSavingThrowBonuses(level);
+    this.updateTableDataSource(classLevel);
+  }
+
   removeClass(row) {
 
   }
 
-  addClass(row) {
-    let classLevel = {
-      level: this.classLevels.length + 1,
-      characterClass: row
-    }
-    this.classLevels.push(classLevel);
-    this.calculateClassLevelChanges(classLevel);
-  }
-
-  private calculateClassLevelChanges(classLevel: LevelClassPair) {
+  private updateTableDataSource(classLevel: LevelClassPair) {
     let row = new ClassLevelTableRow()
 
     row.level = classLevel.level;
     row.characterClassName = classLevel.characterClass.name;
     row.babTotal = this.constructBabDescription();
-    row.fortSaveTotal = this.getSavingThrowBonus('fortSaveProgression');
-    row.reflexSaveTotal = this.getSavingThrowBonus('reflexSaveProgression');
-    row.willSaveTotal = this.getSavingThrowBonus('willSaveProgression');
+    row.fortSaveTotal = this.getSavingThrowTotal(Constants.FORTITUDE_SAVE_PROGRESS_STRING);
+    row.reflexSaveTotal = this.getSavingThrowTotal(Constants.REFLEX_SAVE_PROGRESS_STRING);
+    row.willSaveTotal = this.getSavingThrowTotal(Constants.WILL_SAVE_PROGRESS_STRING);
     row.classFeatures = this.getClassFeaturesForClassLevelsSelected();
 
     this.tableData.push(row)
 
     this.classLevelTableDataSource = new MatTableDataSource<ClassLevelTableRow>(this.tableData);
+  }
+
+  getSavingThrowTotal(savingThrow: string): number {
+    let savingThrowGoverningAbility = this.saveBaseAbilityMap.get(savingThrow);
+    let abilityModifier: number = this.getBaseAbilityModifier(savingThrowGoverningAbility);
+    let currentLevel: number = this.classLevels.length;
+
+    return this.savingThrowTotalsByLevel.get(currentLevel)[savingThrow] + abilityModifier;
   }
 
   openDialog(row: CharacterClass) {
@@ -109,7 +129,6 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
       width: '90%'
     });
   }
-
 
   private getClassFeaturesForClassLevelsSelected(): string {
     return "";
@@ -134,32 +153,59 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
     return babString;
   }
 
-  private getSavingThrowBonus(savingThrowToCalculate: string): number {
+  countClassLevelsForEachClass() {
     let classCount: Map<CharacterClass, number> = new Map();
-    let saveBaseAbilityMap: Map<string, string> = new Map([
-      ['fortSaveProgression', 'constitutionScore'],
-      ['reflexSaveProgression', 'dexterityScore'],
-      ['willSaveProgression', 'wisdomScore']
-    ])
 
     this.classLevels.forEach((levelClassPair: LevelClassPair) => {
       if (classCount.has(levelClassPair.characterClass))
         classCount.set(levelClassPair.characterClass, classCount.get(levelClassPair.characterClass) + 1);
       else
-      classCount.set(levelClassPair.characterClass, 1);
+        classCount.set(levelClassPair.characterClass, 1);
     });
 
-    let totalSaveBonus: number = 0;
+    this.classCount = classCount;
+  }
 
-    classCount.forEach((count: number, characterClass: CharacterClass) => {
-      if (characterClass[savingThrowToCalculate] === 'GOOD')
-        totalSaveBonus = totalSaveBonus + (Math.floor(2 + Math.floor(count / 2)));
-      else
-        totalSaveBonus = totalSaveBonus + (Math.floor(count / 3));
+  calculateSavingThrowBonuses(level: number) {
+    let totalFortSaveBonus: number = 0;
+    let totalReflexSaveBonus: number = 0;
+    let totalWillSaveBonus: number = 0;
+
+    this.savingThrows.forEach((savingThrow: string) => {
+      this.classCount.forEach((count: number, characterClass: CharacterClass) => {
+        switch (savingThrow) {
+          case Constants.FORTITUDE_SAVE_PROGRESS_STRING: {
+            totalFortSaveBonus = totalFortSaveBonus + ClassLevelManagerComponent.calculateSavingThrow(characterClass.fortSaveProgression, count);
+          }
+          break;
+          case Constants.REFLEX_SAVE_PROGRESS_STRING: {
+            totalReflexSaveBonus = totalReflexSaveBonus + ClassLevelManagerComponent.calculateSavingThrow(characterClass.reflexSaveProgression, count);
+          }
+          break;
+          case Constants.WILL_SAVE_PROGRESS_STRING: {
+            totalWillSaveBonus = totalWillSaveBonus + ClassLevelManagerComponent.calculateSavingThrow(characterClass.willSaveProgression, count);
+          }
+          break;
+        }
+      })
     })
 
-    let baseAbilityBonus: number = Math.floor((Math.floor(this.characterBuildData.controls[saveBaseAbilityMap.get(savingThrowToCalculate)].value - 10)) / 2);
+    let savingThrowValues: SavingThrowTotals = new SavingThrowTotals();
+    savingThrowValues.fortSaveProgression = totalFortSaveBonus;
+    savingThrowValues.reflexSaveProgression = totalReflexSaveBonus;
+    savingThrowValues.willSaveProgression = totalWillSaveBonus;
 
-    return totalSaveBonus + baseAbilityBonus;
+    this.savingThrowTotalsByLevel.set(level, savingThrowValues);
+  }
+
+  private static calculateSavingThrow(saveQuality: string, count: number): number {
+    if (saveQuality === Constants.SAVING_THROW_QUALITY_GOOD)
+      return Math.floor(Math.floor(2 + Math.floor(count/2)));
+    else
+      return Math.floor(Math.floor(count / 3));
+  }
+
+  getBaseAbilityModifier(baseAbilityFormControl: string): number {
+    return Math.floor((this.characterBuildData.get(baseAbilityFormControl).value - 10) / 2);
   }
 }

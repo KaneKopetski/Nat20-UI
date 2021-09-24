@@ -112,12 +112,12 @@ export class CharacterBuilderComponent implements OnInit {
     this.characterBuilderForm = this.fb.group({
       buildName: ['', Validators.required],
       characterClasses: ['', Validators.required],
-      strengthScore: ['', Validators.required],
-      dexterityScore: ['', Validators.required],
-      constitutionScore: ['', Validators.required],
-      wisdomScore: ['', Validators.required],
-      intelligenceScore: ['', Validators.required],
-      charismaScore: ['', Validators.required],
+      strengthScore: ['8', Validators.required],
+      dexterityScore: ['8', Validators.required],
+      constitutionScore: ['8', Validators.required],
+      wisdomScore: ['8', Validators.required],
+      intelligenceScore: ['8', Validators.required],
+      charismaScore: ['8', Validators.required],
     });
   }
 

@@ -47,3 +47,7 @@ mat-paginator {
 .add-class-button {
   color: green;
 }
+
+.example-tooltip-red {
+  background: #b71c1c;
+}
