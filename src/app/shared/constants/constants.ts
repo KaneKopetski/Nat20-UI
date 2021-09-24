@@ -27,6 +27,8 @@ export abstract class Constants {
   public static readonly WILL_SAVE_PROGRESS_STRING: string = 'willSaveProgression';
 
   public static readonly SAVING_THROW_QUALITY_GOOD = 'GOOD';
+  public static readonly GOOD_SAVING_THROW_FORMULA = '2 + (class levels / 2)';
+  public static readonly BAD_SAVING_THROW_FORMULA = 'class levels / 3';
 
   public static readonly COMMA_SPACE: string = ', ';
 

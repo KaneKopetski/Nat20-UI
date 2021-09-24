@@ -50,6 +50,9 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   private classCount: Map<CharacterClass, number>;
   saveBaseAbilityMap: Map<string, string> = Constants.savingThrowAbilityMap();
   savingThrows: string[] = Constants.savingThrows;
+  goodSavingThrowFormula: string = Constants.GOOD_SAVING_THROW_FORMULA;
+  badSavingThrowFormula: string = Constants.BAD_SAVING_THROW_FORMULA;
+  goodSavingThrowQuality: string = Constants.SAVING_THROW_QUALITY_GOOD;
 
   constructor(private characterClassService: CharacterClassService, private toastr: ToastrService,
               private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) private data) {
