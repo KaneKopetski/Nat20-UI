@@ -4,6 +4,7 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
 import { CharacterBuilderComponent } from './character-builder/character-builder.component';
 import { ClassLevelManagerComponent } from './class-level-manager/class-level-manager/class-level-manager.component';
 import { CharacterClassDetailComponent } from './class-level-manager/character-class-detail/character-class-detail.component';
+import {DragDropModule} from "@angular/cdk/drag-drop";
 
 @NgModule({
   declarations: [
@@ -11,9 +12,10 @@ import { CharacterClassDetailComponent } from './class-level-manager/character-c
     ClassLevelManagerComponent,
     CharacterClassDetailComponent
   ],
-  imports: [
-    SharedModule,
-    CarouselModule
-  ]
+    imports: [
+        SharedModule,
+        CarouselModule,
+        DragDropModule
+    ]
 })
 export class CharacterBuilderModule { }

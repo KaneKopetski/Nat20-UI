@@ -10,6 +10,8 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import {CharacterClassDetailComponent} from '../character-class-detail/character-class-detail.component';
 import {FormControl, FormGroup} from '@angular/forms';
+import {ClassFeature} from "../../model/character-class/class-feature-model";
+import {CdkDragDrop, DragDropModule, moveItemInArray} from "@angular/cdk/drag-drop";
 
 export class ClassLevelTableRow {
   level: number;
@@ -95,14 +97,18 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
     this.classLevels.push(classLevel);
     this.countClassLevelsForEachClass();
     this.calculateSavingThrowBonuses(level);
-    this.updateTableDataSource(classLevel);
+    this.addRowToTableDataSource(classLevel);
   }
 
-  removeClass(row) {
+  removeClass(row: LevelClassPair) {
+    this.classLevels.splice(row.level - 1, 1);
+    this.tableData.splice(row.level - 1, 1);
+    this.reorderTableData();
 
+    this.classLevelTableDataSource = new MatTableDataSource<ClassLevelTableRow>(this.tableData);
   }
 
-  private updateTableDataSource(classLevel: LevelClassPair) {
+  private addRowToTableDataSource(classLevel: LevelClassPair) {
     let row = new ClassLevelTableRow()
 
     row.level = classLevel.level;
@@ -111,7 +117,7 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
     row.fortSaveTotal = this.getSavingThrowTotal(Constants.FORTITUDE_SAVE_PROGRESS_STRING);
     row.reflexSaveTotal = this.getSavingThrowTotal(Constants.REFLEX_SAVE_PROGRESS_STRING);
     row.willSaveTotal = this.getSavingThrowTotal(Constants.WILL_SAVE_PROGRESS_STRING);
-    row.classFeatures = this.getClassFeaturesForClassLevelsSelected();
+    row.classFeatures = this.getClassFeaturesForClassLevelsSelected(row);
 
     this.tableData.push(row)
 
@@ -133,8 +139,27 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private getClassFeaturesForClassLevelsSelected(): string {
-    return "";
+  private getClassFeaturesForClassLevelsSelected(classLevel: ClassLevelTableRow): string {
+    let characterClassName: string = classLevel.characterClassName;
+    let characterClass = this.findCharacterClassInSearchResultsByName(characterClassName);
+    let classFeatureNames: string[] = [];
+    let level: number = this.classCount.get(characterClass);
+
+    characterClass.classFeatures.forEach((classFeature: ClassFeature) => {
+      if (classFeature.levelAttained === level)
+        classFeatureNames.push(classFeature.name);
+    })
+
+    return classFeatureNames.join(Constants.COMMA_SPACE);
+  }
+
+  findCharacterClassInSearchResultsByName(className: string): CharacterClass {
+    let characterClassToReturn: CharacterClass;
+    this.searchTableDataSource.data.forEach((characterClass: CharacterClass) => {
+      if (characterClass.name === className)
+        characterClassToReturn = characterClass;
+    })
+    return characterClassToReturn;
   }
 
   private constructBabDescription(): string {
@@ -210,5 +235,16 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
 
   getBaseAbilityModifier(baseAbilityFormControl: string): number {
     return Math.floor((this.characterBuildData.get(baseAbilityFormControl).value - 10) / 2);
+  }
+
+  private reorderTableData() {
+    this.tableData.forEach((row: ClassLevelTableRow) => {
+      row.level = this.tableData.indexOf(row) + 1;
+    })
+  }
+
+  drop(event: CdkDragDrop<any>) {
+    moveItemInArray(this.classLevelTableDataSource, event.previousIndex, event.currentIndex);
+    console.log(event.container.data);
   }
 }

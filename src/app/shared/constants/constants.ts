@@ -95,22 +95,24 @@ export abstract class Constants {
 
   public static readonly classLevelManagerSearchTableColumnsToDisplay: string[] = [
     'name',
-    'hitDie',
-    'baseAttackBonusProgression',
-    'fortSaveProgression',
-    'reflexSaveProgression',
-    'willSaveProgression',
-    'add'
+    'hit-die',
+    'base-attack-bonus-progression',
+    'fort-save-progression',
+    'reflex-save-progression',
+    'will-save-progression',
+    'actions'
   ];
 
   public static readonly classLevelManagerClassLevelTableColumnsToDisplay: string[] = [
+    'drag',
     'level',
-    'characterClass',
-    'babTotal',
-    'fortSaveTotal',
-    'reflexSaveTotal',
-    'willSaveTotal',
-    'classFeatures'
+    'character-class',
+    'bab-total',
+    'fort-save-total',
+    'reflex-save-total',
+    'will-save-total',
+    'class-features',
+    'actions'
   ];
 
 
