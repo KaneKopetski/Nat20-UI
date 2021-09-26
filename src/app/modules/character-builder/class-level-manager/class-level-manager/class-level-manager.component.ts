@@ -37,25 +37,26 @@ export class SavingThrowTotals {
 export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
 
   @Input() sourcesAllowed: any[];
+  searchTableDataSource: MatTableDataSource<CharacterClass>;
+  searchTableColumnsToDisplay: string[] = Constants.classLevelManagerSearchTableColumnsToDisplay;
+  goodSavingThrowFormula: string = Constants.GOOD_SAVING_THROW_FORMULA;
+  badSavingThrowFormula: string = Constants.BAD_SAVING_THROW_FORMULA;
+  goodSavingThrowQuality: string = Constants.SAVING_THROW_QUALITY_GOOD;
+  babDisplayValues: Map<number, string> = Constants.babDisplayValues;
+
   @ViewChild(ToastContainerDirective, {static: true}) toastContainer: ToastContainerDirective;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild('dataTable') table: MatTable<ClassLevelTableRow>;
+  tooltipDelay: FormControl = Constants.tooltipDelay;
+
   classLevels: LevelClassPair[] = [];
   characterBuildData: FormGroup;
-  searchTableColumnsToDisplay: string[] = Constants.classLevelManagerSearchTableColumnsToDisplay;
   classLevelTableColumnsToDisplay: string[] = Constants.classLevelManagerClassLevelTableColumnsToDisplay;
-  searchTableDataSource: MatTableDataSource<CharacterClass>;
   classLevelTableDataSource: MatTableDataSource<ClassLevelTableRow>;
-  babDisplayValues: Map<number, string> = Constants.babDisplayValues;
   classLevelTableData: ClassLevelTableRow[] = [];
-  tooltipDelay: FormControl = Constants.tooltipDelay;
   savingThrowTotalsByLevel: Map<number, SavingThrowTotals> = new Map();
   private classCount: Map<CharacterClass, number>;
   saveBaseAbilityMap: Map<string, string> = Constants.savingThrowAbilityMap();
   savingThrows: string[] = Constants.savingThrows;
-  goodSavingThrowFormula: string = Constants.GOOD_SAVING_THROW_FORMULA;
-  badSavingThrowFormula: string = Constants.BAD_SAVING_THROW_FORMULA;
-  goodSavingThrowQuality: string = Constants.SAVING_THROW_QUALITY_GOOD;
 
   constructor(private characterClassService: CharacterClassService, private toastr: ToastrService,
               private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) private data) {

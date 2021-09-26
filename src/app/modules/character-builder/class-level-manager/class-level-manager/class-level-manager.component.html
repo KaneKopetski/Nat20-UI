@@ -81,8 +81,6 @@
       <table mat-table
              cdkDropList
              [dataSource]="this.classLevelTableDataSource"
-             #dataTable
-             fxFlex
              (cdkDropListDropped)="drop($event)"
              [cdkDropListData]="this.classLevelTableDataSource">
 
