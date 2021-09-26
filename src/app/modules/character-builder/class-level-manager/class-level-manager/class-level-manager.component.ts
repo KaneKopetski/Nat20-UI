@@ -6,12 +6,12 @@ import {ToastContainerDirective, ToastrService} from 'ngx-toastr';
 import {LevelClassPair} from '../../model/level-class-pair/level-class-pair-model';
 import {Constants} from '../../../../shared/constants/constants';
 import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
+import {MatTable, MatTableDataSource} from '@angular/material/table';
 import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import {CharacterClassDetailComponent} from '../character-class-detail/character-class-detail.component';
 import {FormControl, FormGroup} from '@angular/forms';
 import {ClassFeature} from "../../model/character-class/class-feature-model";
-import {CdkDragDrop, DragDropModule, moveItemInArray} from "@angular/cdk/drag-drop";
+import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 
 export class ClassLevelTableRow {
   level: number;
@@ -39,14 +39,15 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   @Input() sourcesAllowed: any[];
   @ViewChild(ToastContainerDirective, {static: true}) toastContainer: ToastContainerDirective;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild('dataTable') table: MatTable<ClassLevelTableRow>;
   classLevels: LevelClassPair[] = [];
   characterBuildData: FormGroup;
   searchTableColumnsToDisplay: string[] = Constants.classLevelManagerSearchTableColumnsToDisplay;
   classLevelTableColumnsToDisplay: string[] = Constants.classLevelManagerClassLevelTableColumnsToDisplay;
   searchTableDataSource: MatTableDataSource<CharacterClass>;
-  classLevelTableDataSource;
+  classLevelTableDataSource: MatTableDataSource<ClassLevelTableRow>;
   babDisplayValues: Map<number, string> = Constants.babDisplayValues;
-  tableData: ClassLevelTableRow[] = [];
+  classLevelTableData: ClassLevelTableRow[] = [];
   tooltipDelay: FormControl = Constants.tooltipDelay;
   savingThrowTotalsByLevel: Map<number, SavingThrowTotals> = new Map();
   private classCount: Map<CharacterClass, number>;
@@ -102,10 +103,10 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
 
   removeClass(row: LevelClassPair) {
     this.classLevels.splice(row.level - 1, 1);
-    this.tableData.splice(row.level - 1, 1);
+    this.classLevelTableData.splice(row.level - 1, 1);
     this.reorderTableData();
 
-    this.classLevelTableDataSource = new MatTableDataSource<ClassLevelTableRow>(this.tableData);
+    this.classLevelTableDataSource = new MatTableDataSource<ClassLevelTableRow>(this.classLevelTableData);
   }
 
   private addRowToTableDataSource(classLevel: LevelClassPair) {
@@ -119,9 +120,9 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
     row.willSaveTotal = this.getSavingThrowTotal(Constants.WILL_SAVE_PROGRESS_STRING);
     row.classFeatures = this.getClassFeaturesForClassLevelsSelected(row);
 
-    this.tableData.push(row)
+    this.classLevelTableData.push(row)
 
-    this.classLevelTableDataSource = new MatTableDataSource<ClassLevelTableRow>(this.tableData);
+    this.classLevelTableDataSource = new MatTableDataSource<ClassLevelTableRow>(this.classLevelTableData);
   }
 
   getSavingThrowTotal(savingThrow: string): number {
@@ -238,13 +239,34 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   }
 
   private reorderTableData() {
-    this.tableData.forEach((row: ClassLevelTableRow) => {
-      row.level = this.tableData.indexOf(row) + 1;
+    this.classLevelTableData.forEach((row: ClassLevelTableRow) => {
+      row.level = this.classLevelTableData.indexOf(row) + 1;
     })
   }
 
   drop(event: CdkDragDrop<any>) {
-    moveItemInArray(this.classLevelTableDataSource, event.previousIndex, event.currentIndex);
-    console.log(event.container.data);
+    moveItemInArray(this.classLevelTableData, event.previousIndex, event.currentIndex);
+    this.recalculateClassLevelDetails();
   }
+
+  recalculateClassLevelDetails() {
+    let newTableData: ClassLevelTableRow[] = [];
+    this.classLevelTableData.forEach((row: ClassLevelTableRow) => {
+      let newRow = new ClassLevelTableRow()
+
+      newRow.level = row.level;
+      newRow.characterClassName = row.characterClassName;
+      newRow.babTotal = this.constructBabDescription();
+      newRow.fortSaveTotal = this.getSavingThrowTotal(Constants.FORTITUDE_SAVE_PROGRESS_STRING);
+      newRow.reflexSaveTotal = this.getSavingThrowTotal(Constants.REFLEX_SAVE_PROGRESS_STRING);
+      newRow.willSaveTotal = this.getSavingThrowTotal(Constants.WILL_SAVE_PROGRESS_STRING);
+      newRow.classFeatures = this.getClassFeaturesForClassLevelsSelected(row);
+
+      newTableData.push(newRow);
+    })
+
+    this.classLevelTableDataSource = new MatTableDataSource<ClassLevelTableRow>(newTableData);
+
+  }
+
 }
