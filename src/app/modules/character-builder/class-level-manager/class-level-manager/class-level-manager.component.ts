@@ -44,6 +44,7 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   babTotal: number = 0;
   classCount: Map<CharacterClass, number> = new Map();
   classFeatures: Map<number, string[]> = new Map();
+  selectedIndex: number;
 
   constructor(private characterClassService: CharacterClassService, private toastr: ToastrService,
               private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) private data) {
@@ -91,6 +92,9 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   }
 
   removeClass(row: ClassLevelTableRow) {
+    if (this.classLevels.length === 1)
+      this.selectedIndex = 0;
+
     this.classLevels.splice(row.level - 1, 1);
     this.babTotal = 0;
     this.savingThrowTotalsByLevel.clear();

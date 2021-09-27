@@ -1,6 +1,6 @@
 <mat-dialog-content>
 
-  <mat-tab-group animationDuration="0ms" class="class-manager-tab-group">
+  <mat-tab-group animationDuration="0ms" class="class-manager-tab-group" [(selectedIndex)]="this.selectedIndex">
     <mat-tab label="Class Search">
 
       <table mat-table [dataSource]="searchTableDataSource">
