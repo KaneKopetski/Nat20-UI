@@ -6,28 +6,14 @@ import {ToastContainerDirective, ToastrService} from 'ngx-toastr';
 import {LevelClassPair} from '../../model/level-class-pair/level-class-pair-model';
 import {Constants} from '../../../../shared/constants/constants';
 import {MatPaginator} from '@angular/material/paginator';
-import {MatTable, MatTableDataSource} from '@angular/material/table';
+import {MatTableDataSource} from '@angular/material/table';
 import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import {CharacterClassDetailComponent} from '../character-class-detail/character-class-detail.component';
 import {FormControl, FormGroup} from '@angular/forms';
-import {ClassFeature} from "../../model/character-class/class-feature-model";
 import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
-
-export class ClassLevelTableRow {
-  level: number;
-  characterClassName: string;
-  babTotal: string;
-  fortSaveTotal: number;
-  reflexSaveTotal: number;
-  willSaveTotal: number;
-  classFeatures: string;
-}
-
-export class SavingThrowTotals {
-  fortSaveProgression: number;
-  reflexSaveProgression: number;
-  willSaveProgression: number;
-}
+import {ClassLevelTableRow} from "../../model/class-level-table-row/class-level-table-row.model";
+import {SavingThrowTotals} from "../../model/saving-throw-totals/saving-throw-totals.model";
+import {ClassFeature} from "../../model/character-class/class-feature-model";
 
 @Component({
   selector: 'app-class-level-manager',
@@ -47,16 +33,18 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   @ViewChild(ToastContainerDirective, {static: true}) toastContainer: ToastContainerDirective;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   tooltipDelay: FormControl = Constants.tooltipDelay;
-
-  classLevels: LevelClassPair[] = [];
   characterBuildData: FormGroup;
+
   classLevelTableColumnsToDisplay: string[] = Constants.classLevelManagerClassLevelTableColumnsToDisplay;
   classLevelTableDataSource: MatTableDataSource<ClassLevelTableRow>;
   classLevelTableData: ClassLevelTableRow[] = [];
+  classLevels: LevelClassPair[] = [];
   savingThrowTotalsByLevel: Map<number, SavingThrowTotals> = new Map();
-  private classCount: Map<CharacterClass, number>;
+  babTotal: number = 0;
+  classCount: Map<CharacterClass, number> = new Map();
   saveBaseAbilityMap: Map<string, string> = Constants.savingThrowAbilityMap();
   savingThrows: string[] = Constants.savingThrows;
+  classFeatures: Map<number, string[]> = new Map();
 
   constructor(private characterClassService: CharacterClassService, private toastr: ToastrService,
               private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) private data) {
@@ -90,48 +78,49 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
     }
   }
 
-  addClass(row) {
+  addClass(row: CharacterClass) {
     let level: number = this.classLevels.length + 1;
-    let classLevel = {
+    let classLevel: LevelClassPair = {
       level: level,
       characterClass: row
     }
     this.classLevels.push(classLevel);
-    this.countClassLevelsForEachClass();
-    this.calculateSavingThrowBonuses(level);
-    this.addRowToTableDataSource(classLevel);
+    this.updateClassLevelDetails(classLevel);
+    this.babTotal += row.baseAttackBonusProgression;
+    this.updateTableData(classLevel);
   }
 
-  removeClass(row: LevelClassPair) {
+  removeClass(row: ClassLevelTableRow) {
     this.classLevels.splice(row.level - 1, 1);
-    this.classLevelTableData.splice(row.level - 1, 1);
-    this.reorderTableData();
-
-    this.classLevelTableDataSource = new MatTableDataSource<ClassLevelTableRow>(this.classLevelTableData);
+    this.updateLevelsForClassLevels();
+    this.countClassLevels();
+    this.resetSavingThrows();
+    this.updateClassLevelDataSource();
   }
 
-  private addRowToTableDataSource(classLevel: LevelClassPair) {
-    let row = new ClassLevelTableRow()
+  private resetSavingThrows() {
+    this.savingThrowTotalsByLevel = new Map();
+    this.classLevels.forEach((levelClassPair: LevelClassPair) => {
+      this.calculateSavingThrows(levelClassPair);
+    })
 
-    row.level = classLevel.level;
-    row.characterClassName = classLevel.characterClass.name;
-    row.babTotal = this.constructBabDescription();
-    row.fortSaveTotal = this.getSavingThrowTotal(Constants.FORTITUDE_SAVE_PROGRESS_STRING);
-    row.reflexSaveTotal = this.getSavingThrowTotal(Constants.REFLEX_SAVE_PROGRESS_STRING);
-    row.willSaveTotal = this.getSavingThrowTotal(Constants.WILL_SAVE_PROGRESS_STRING);
-    row.classFeatures = this.getClassFeaturesForClassLevelsSelected(row);
+    this.savingThrowTotalsByLevel.forEach((totals: SavingThrowTotals, level: number) => {
 
-    this.classLevelTableData.push(row)
-
-    this.classLevelTableDataSource = new MatTableDataSource<ClassLevelTableRow>(this.classLevelTableData);
+    })
   }
 
-  getSavingThrowTotal(savingThrow: string): number {
-    let savingThrowGoverningAbility = this.saveBaseAbilityMap.get(savingThrow);
-    let abilityModifier: number = this.getBaseAbilityModifier(savingThrowGoverningAbility);
-    let currentLevel: number = this.classLevels.length;
+  private updateClassLevelDataSource() {
+    let updatedTableData: ClassLevelTableRow[] = [];
+    this.babTotal = 0;
+    this.savingThrowTotalsByLevel.clear();
 
-    return this.savingThrowTotalsByLevel.get(currentLevel)[savingThrow] + abilityModifier;
+    this.classLevels.forEach((levelClassPair : LevelClassPair) => {
+      this.babTotal += levelClassPair.characterClass.baseAttackBonusProgression;
+      this.classFeatures.clear();
+      updatedTableData.push(this.mapLevelClassPairToClassLevelRow(levelClassPair));
+    })
+    this.classLevelTableData = updatedTableData;
+    this.classLevelTableDataSource = new MatTableDataSource<ClassLevelTableRow>(this.classLevelTableData);
   }
 
   openDialog(row: CharacterClass) {
@@ -141,49 +130,11 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private getClassFeaturesForClassLevelsSelected(classLevel: ClassLevelTableRow): string {
-    let characterClassName: string = classLevel.characterClassName;
-    let characterClass = this.findCharacterClassInSearchResultsByName(characterClassName);
-    let classFeatureNames: string[] = [];
-    let level: number = this.classCount.get(characterClass);
-
-    characterClass.classFeatures.forEach((classFeature: ClassFeature) => {
-      if (classFeature.levelAttained === level)
-        classFeatureNames.push(classFeature.name);
-    })
-
-    return classFeatureNames.join(Constants.COMMA_SPACE);
+  drop(event: CdkDragDrop<any>) {
+    moveItemInArray(this.classLevelTableData, event.previousIndex, event.currentIndex);
   }
 
-  findCharacterClassInSearchResultsByName(className: string): CharacterClass {
-    let characterClassToReturn: CharacterClass;
-    this.searchTableDataSource.data.forEach((characterClass: CharacterClass) => {
-      if (characterClass.name === className)
-        characterClassToReturn = characterClass;
-    })
-    return characterClassToReturn;
-  }
-
-  private constructBabDescription(): string {
-    let babTotal: number = 0;
-
-    this.classLevels.forEach((classLevel: LevelClassPair) => {
-      babTotal = babTotal + classLevel.characterClass.baseAttackBonusProgression;
-    })
-
-    let babString: string = Math.floor(babTotal).toString();
-
-    if (babTotal >= 16) {
-      babString = babTotal + '/' + (babTotal - 5) + '/' + (babTotal - 10) + '/' + (babTotal - 15);
-    } else if (babTotal >= 11) {
-      babString = babTotal + '/' + (babTotal - 5) + '/' + (babTotal - 10);
-    } else if (babTotal >= 6) {
-      babString = babTotal + '/' + (babTotal - 5);
-    }
-    return babString;
-  }
-
-  countClassLevelsForEachClass() {
+  private countClassLevels() {
     let classCount: Map<CharacterClass, number> = new Map();
 
     this.classLevels.forEach((levelClassPair: LevelClassPair) => {
@@ -196,78 +147,122 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
     this.classCount = classCount;
   }
 
-  calculateSavingThrowBonuses(level: number) {
-    let totalFortSaveBonus: number = 0;
-    let totalReflexSaveBonus: number = 0;
-    let totalWillSaveBonus: number = 0;
+  private updateClassLevelDetails(levelClassPair: LevelClassPair) {
+    this.countClassLevels();
+    this.calculateSavingThrows(levelClassPair);
+  }
+
+  private calculateSavingThrows(levelClassPair: LevelClassPair) {
+    let savingThrowValues: SavingThrowTotals = new SavingThrowTotals();
 
     this.savingThrows.forEach((savingThrow: string) => {
       this.classCount.forEach((count: number, characterClass: CharacterClass) => {
         switch (savingThrow) {
           case Constants.FORTITUDE_SAVE_PROGRESS_STRING: {
-            totalFortSaveBonus = totalFortSaveBonus + ClassLevelManagerComponent.calculateSavingThrow(characterClass.fortSaveProgression, count);
+            savingThrowValues.fortSaveProgression = savingThrowValues.fortSaveProgression + ClassLevelManagerComponent.calculateSavingThrow(characterClass.fortSaveProgression, count);
           }
-          break;
+            break;
           case Constants.REFLEX_SAVE_PROGRESS_STRING: {
-            totalReflexSaveBonus = totalReflexSaveBonus + ClassLevelManagerComponent.calculateSavingThrow(characterClass.reflexSaveProgression, count);
+            savingThrowValues.reflexSaveProgression = savingThrowValues.reflexSaveProgression + ClassLevelManagerComponent.calculateSavingThrow(characterClass.reflexSaveProgression, count);
           }
-          break;
+            break;
           case Constants.WILL_SAVE_PROGRESS_STRING: {
-            totalWillSaveBonus = totalWillSaveBonus + ClassLevelManagerComponent.calculateSavingThrow(characterClass.willSaveProgression, count);
+            savingThrowValues.willSaveProgression = savingThrowValues.willSaveProgression + ClassLevelManagerComponent.calculateSavingThrow(characterClass.willSaveProgression, count);
           }
-          break;
+            break;
         }
       })
     })
 
-    let savingThrowValues: SavingThrowTotals = new SavingThrowTotals();
-    savingThrowValues.fortSaveProgression = totalFortSaveBonus;
-    savingThrowValues.reflexSaveProgression = totalReflexSaveBonus;
-    savingThrowValues.willSaveProgression = totalWillSaveBonus;
-
-    this.savingThrowTotalsByLevel.set(level, savingThrowValues);
+    this.savingThrowTotalsByLevel.set(levelClassPair.level, savingThrowValues);
   }
 
   private static calculateSavingThrow(saveQuality: string, count: number): number {
     if (saveQuality === Constants.SAVING_THROW_QUALITY_GOOD)
-      return Math.floor(Math.floor(2 + Math.floor(count/2)));
+      return Math.floor(Math.floor(2 + Math.floor(count / 2)));
     else
       return Math.floor(Math.floor(count / 3));
   }
 
-  getBaseAbilityModifier(baseAbilityFormControl: string): number {
-    return Math.floor((this.characterBuildData.get(baseAbilityFormControl).value - 10) / 2);
+  private updateTableData(levelClassPair: LevelClassPair) {
+    this.classLevelTableData.push(this.mapLevelClassPairToClassLevelRow(levelClassPair));
+    this.classLevelTableDataSource = new MatTableDataSource<ClassLevelTableRow>(this.classLevelTableData);
   }
 
-  private reorderTableData() {
-    this.classLevelTableData.forEach((row: ClassLevelTableRow) => {
-      row.level = this.classLevelTableData.indexOf(row) + 1;
+  private mapLevelClassPairToClassLevelRow(levelClassPair: LevelClassPair): ClassLevelTableRow {
+    let row: ClassLevelTableRow = new ClassLevelTableRow();
+
+    row.level = levelClassPair.level;
+    row.characterClassName = levelClassPair.characterClass.name;
+    row.classFeatures = this.getClassFeaturesNames(levelClassPair).join(Constants.COMMA_SPACE);
+    row.babTotal = this.getBabDescription();
+    row.fortSaveTotal = this.savingThrowTotalsByLevel.get(levelClassPair.level).fortSaveProgression + this.getBaseAbilityModifier('constitutionScore');
+    row.reflexSaveTotal = this.savingThrowTotalsByLevel.get(levelClassPair.level).reflexSaveProgression + this.getBaseAbilityModifier('dexterityScore');
+    row.willSaveTotal = this.savingThrowTotalsByLevel.get(levelClassPair.level).willSaveProgression + this.getBaseAbilityModifier('wisdomScore');
+
+    return row;
+  }
+
+  private getClassFeaturesNames(levelClassPair: LevelClassPair): string[] {
+    let classFeatures: string[] = [];
+    levelClassPair.characterClass.classFeatures.forEach((classFeature: ClassFeature) => {
+      if (classFeature.levelAttained === this.classCount.get(levelClassPair.characterClass))
+        classFeatures.push(classFeature.name);
     })
+    return classFeatures;
   }
 
-  drop(event: CdkDragDrop<any>) {
-    moveItemInArray(this.classLevelTableData, event.previousIndex, event.currentIndex);
-    this.recalculateClassLevelDetails();
+  private getBabDescription(): string {
+    let babString: string;
+    let roundedBabTotal: number = Math.floor(this.babTotal);
+    let firstAttackBab: number = roundedBabTotal;
+    let secondAttackBab: number = roundedBabTotal - 5;
+    let thirdAttackBab: number = roundedBabTotal - 10;
+    let fourthAttackBab: number = roundedBabTotal - 15;
+
+    if (roundedBabTotal >= 16) {
+      babString =
+        (firstAttackBab >= 0 ? '+' : '') + firstAttackBab
+        + '/' + (secondAttackBab >= 0 ? '+' : '') + secondAttackBab
+        + '/' + (thirdAttackBab >= 0 ? '+' : '') + thirdAttackBab
+        + '/' + (fourthAttackBab >= 0 ? '+' : '') + fourthAttackBab;
+    } else if (roundedBabTotal >= 11) {
+      babString =
+      (firstAttackBab >= 0 ? '+' : '') + firstAttackBab
+      + '/' + (secondAttackBab >= 0 ? '+' : '') + secondAttackBab
+      + '/' + (thirdAttackBab >= 0 ? '+' : '') + thirdAttackBab;
+    } else if (roundedBabTotal >= 6) {
+      babString =
+      (firstAttackBab >= 0 ? '+' : '') + firstAttackBab
+      + '/' + (secondAttackBab >= 0 ? '+' : '') + secondAttackBab;
+    } else
+      babString =
+      (firstAttackBab >= 0 ? '+' : '') + firstAttackBab;
+
+    return babString;
   }
 
-  recalculateClassLevelDetails() {
-    let newTableData: ClassLevelTableRow[] = [];
-    this.classLevelTableData.forEach((row: ClassLevelTableRow) => {
-      let newRow = new ClassLevelTableRow()
-
-      newRow.level = row.level;
-      newRow.characterClassName = row.characterClassName;
-      newRow.babTotal = this.constructBabDescription();
-      newRow.fortSaveTotal = this.getSavingThrowTotal(Constants.FORTITUDE_SAVE_PROGRESS_STRING);
-      newRow.reflexSaveTotal = this.getSavingThrowTotal(Constants.REFLEX_SAVE_PROGRESS_STRING);
-      newRow.willSaveTotal = this.getSavingThrowTotal(Constants.WILL_SAVE_PROGRESS_STRING);
-      newRow.classFeatures = this.getClassFeaturesForClassLevelsSelected(row);
-
-      newTableData.push(newRow);
+  findCharacterClassInSearchResultsByName(characterClassName: any): CharacterClass {
+    let classToReturn;
+    this.searchTableDataSource.data.forEach((characterClass: CharacterClass) => {
+      if (characterClass.name === characterClassName)
+        classToReturn = characterClass;
     })
+    return classToReturn;
+  }
 
-    this.classLevelTableDataSource = new MatTableDataSource<ClassLevelTableRow>(newTableData);
+  getBaseAbilityModifier(abilityName: string): number {
+    let abilityScore: number = this.characterBuildData.get(abilityName).value;
+    return Math.floor( (abilityScore - 10) / 2);
+  }
 
+
+  private updateLevelsForClassLevels() {
+    let counter: number = 1;
+    this.classLevels.forEach((levelClassPair: LevelClassPair) => {
+      levelClassPair.level = counter;
+      counter++;
+    })
   }
 
 }

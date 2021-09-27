@@ -110,32 +110,17 @@
 
         <ng-container matColumnDef="fort-save-total">
           <th mat-header-cell *matHeaderCellDef>Fort Save</th>
-          <td mat-cell *matCellDef="let characterClass"
-              matTooltip="Class levels calculated score + Constitution modifier&#13;Total Fortitude save =
-                        {{ this.savingThrowTotalsByLevel.get(characterClass.level).fortSaveProgression
-                        + ' + '
-                        + this.getBaseAbilityModifier('constitutionScore')}}"
-              [matTooltipShowDelay]="tooltipDelay.value">{{ characterClass.fortSaveTotal }}</td>
+          <td mat-cell *matCellDef="let characterClass">{{ characterClass.fortSaveTotal }}</td>
         </ng-container>
 
         <ng-container matColumnDef="reflex-save-total">
           <th mat-header-cell *matHeaderCellDef>Reflex Save</th>
-          <td mat-cell *matCellDef="let characterClass"
-              matTooltip="Class levels calculated score + Dexterity modifier&#13;Total Reflex save =
-                        {{ this.savingThrowTotalsByLevel.get(characterClass.level).reflexSaveProgression
-                        + ' + '
-                        + this.getBaseAbilityModifier('dexterityScore')}}"
-              [matTooltipShowDelay]="tooltipDelay.value">{{ characterClass.reflexSaveTotal }}</td>
+          <td mat-cell *matCellDef="let characterClass">{{ characterClass.reflexSaveTotal }}</td>
         </ng-container>
 
         <ng-container matColumnDef="will-save-total">
           <th mat-header-cell *matHeaderCellDef>Will Save</th>
-          <td mat-cell *matCellDef="let characterClass"
-              matTooltip="Class levels calculated score + Wisdom modifier&#13;Total Will save =
-                        {{ this.savingThrowTotalsByLevel.get(characterClass.level).willSaveProgression
-                        + ' + '
-                        + this.getBaseAbilityModifier('wisdomScore')}}"
-              [matTooltipShowDelay]="tooltipDelay.value">{{ characterClass.willSaveTotal }}</td>
+          <td mat-cell *matCellDef="let characterClass">{{ characterClass.willSaveTotal }}</td>
         </ng-container>
 
         <ng-container matColumnDef="class-features">
