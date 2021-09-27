@@ -39,11 +39,11 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   classLevelTableDataSource: MatTableDataSource<ClassLevelTableRow>;
   classLevelTableData: ClassLevelTableRow[] = [];
   classLevels: LevelClassPair[] = [];
+  saveBaseAbilityMap: Map<string, string> = Constants.savingThrowAbilityMap();
+  savingThrows: string[] = Constants.savingThrows;
   savingThrowTotalsByLevel: Map<number, SavingThrowTotals> = new Map();
   babTotal: number = 0;
   classCount: Map<CharacterClass, number> = new Map();
-  saveBaseAbilityMap: Map<string, string> = Constants.savingThrowAbilityMap();
-  savingThrows: string[] = Constants.savingThrows;
   classFeatures: Map<number, string[]> = new Map();
 
   constructor(private characterClassService: CharacterClassService, private toastr: ToastrService,
@@ -92,6 +92,22 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   }
 
   removeClass(row: ClassLevelTableRow) {
+    this.classLevels.splice(row.level - 1, 1);
+    this.babTotal = 0;
+    this.savingThrowTotalsByLevel.clear();
+    this.classCount.clear();
+    this.classLevelTableData = [];
+    this.classLevelTableDataSource = undefined;
+    this.recalculateClassLevels();
+  }
+
+  private recalculateClassLevels() {
+    let classLevels: LevelClassPair[] = this.classLevels;
+    this.classLevels = [];
+
+    classLevels.forEach((classLevel: LevelClassPair) => {
+      this.addClass(classLevel.characterClass);
+    })
   }
 
   openDialog(row: CharacterClass) {
@@ -193,16 +209,16 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
         + '/' + (fourthAttackBab >= 0 ? '+' : '') + fourthAttackBab;
     } else if (roundedBabTotal >= 11) {
       babString =
-      (firstAttackBab >= 0 ? '+' : '') + firstAttackBab
-      + '/' + (secondAttackBab >= 0 ? '+' : '') + secondAttackBab
-      + '/' + (thirdAttackBab >= 0 ? '+' : '') + thirdAttackBab;
+        (firstAttackBab >= 0 ? '+' : '') + firstAttackBab
+        + '/' + (secondAttackBab >= 0 ? '+' : '') + secondAttackBab
+        + '/' + (thirdAttackBab >= 0 ? '+' : '') + thirdAttackBab;
     } else if (roundedBabTotal >= 6) {
       babString =
-      (firstAttackBab >= 0 ? '+' : '') + firstAttackBab
-      + '/' + (secondAttackBab >= 0 ? '+' : '') + secondAttackBab;
+        (firstAttackBab >= 0 ? '+' : '') + firstAttackBab
+        + '/' + (secondAttackBab >= 0 ? '+' : '') + secondAttackBab;
     } else
       babString =
-      (firstAttackBab >= 0 ? '+' : '') + firstAttackBab;
+        (firstAttackBab >= 0 ? '+' : '') + firstAttackBab;
 
     return babString;
   }
@@ -218,7 +234,7 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
 
   getBaseAbilityModifier(abilityName: string): number {
     let abilityScore: number = this.characterBuildData.get(abilityName).value;
-    return Math.floor( (abilityScore - 10) / 2);
+    return Math.floor((abilityScore - 10) / 2);
   }
 
 }
