@@ -39,7 +39,6 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   classLevelTableDataSource: MatTableDataSource<ClassLevelTableRow>;
   classLevelTableData: ClassLevelTableRow[] = [];
   classLevels: LevelClassPair[] = [];
-  saveBaseAbilityMap: Map<string, string> = Constants.savingThrowAbilityMap();
   savingThrows: string[] = Constants.savingThrows;
   savingThrowTotalsByLevel: Map<number, SavingThrowTotals> = new Map();
   babTotal: number = 0;
@@ -177,9 +176,9 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
     row.characterClassName = levelClassPair.characterClass.name;
     row.classFeatures = this.getClassFeaturesNames(levelClassPair).join(Constants.COMMA_SPACE);
     row.babTotal = this.getBabDescription();
-    row.fortSaveTotal = this.savingThrowTotalsByLevel.get(levelClassPair.level).fortSaveProgression + this.getBaseAbilityModifier('constitutionScore');
-    row.reflexSaveTotal = this.savingThrowTotalsByLevel.get(levelClassPair.level).reflexSaveProgression + this.getBaseAbilityModifier('dexterityScore');
-    row.willSaveTotal = this.savingThrowTotalsByLevel.get(levelClassPair.level).willSaveProgression + this.getBaseAbilityModifier('wisdomScore');
+    row.fortSaveTotal = this.savingThrowTotalsByLevel.get(levelClassPair.level).fortSaveProgression + this.getBaseAbilityModifier(Constants.CONSTITUTION_SCORE_LABEL);
+    row.reflexSaveTotal = this.savingThrowTotalsByLevel.get(levelClassPair.level).reflexSaveProgression + this.getBaseAbilityModifier(Constants.DEXTERITY_SCORE_LABEL);
+    row.willSaveTotal = this.savingThrowTotalsByLevel.get(levelClassPair.level).willSaveProgression + this.getBaseAbilityModifier(Constants.WISDOM_SCORE_LABEL);
 
     return row;
   }

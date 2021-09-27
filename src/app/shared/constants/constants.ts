@@ -26,6 +26,10 @@ export abstract class Constants {
   public static readonly REFLEX_SAVE_PROGRESS_STRING: string = 'reflexSaveProgression';
   public static readonly WILL_SAVE_PROGRESS_STRING: string = 'willSaveProgression';
 
+  public static readonly CONSTITUTION_SCORE_LABEL: string = 'constitutionScore'
+  public static readonly DEXTERITY_SCORE_LABEL: string = 'dexterityScore'
+  public static readonly WISDOM_SCORE_LABEL: string = 'wisdomScore'
+
   public static readonly SAVING_THROW_QUALITY_GOOD = 'GOOD';
   public static readonly GOOD_SAVING_THROW_FORMULA = '2 + (class levels / 2)';
   public static readonly BAD_SAVING_THROW_FORMULA = 'class levels / 3';
@@ -82,14 +86,6 @@ export abstract class Constants {
     [19, ''],
     [20, ''],
   ])
-
-  public static savingThrowAbilityMap(): Map<string, string> {
-    return new Map([
-      ['fortSaveProgression', 'constitutionScore'],
-      ['reflexSaveProgression', 'dexterityScore'],
-      ['willSaveProgression', 'wisdomScore']
-    ]);
-  }
 
   public static readonly savingThrows: string[] = ['fortSaveProgression', 'reflexSaveProgression', 'willSaveProgression'];
 
