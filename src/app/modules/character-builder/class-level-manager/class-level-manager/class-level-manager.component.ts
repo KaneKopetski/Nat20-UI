@@ -85,42 +85,13 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
       characterClass: row
     }
     this.classLevels.push(classLevel);
-    this.updateClassLevelDetails(classLevel);
+    this.countClassLevels();
+    this.savingThrowTotalsByLevel.set(classLevel.level, this.calculateSavingThrows());
     this.babTotal += row.baseAttackBonusProgression;
     this.updateTableData(classLevel);
   }
 
   removeClass(row: ClassLevelTableRow) {
-    this.classLevels.splice(row.level - 1, 1);
-    this.updateLevelsForClassLevels();
-    this.countClassLevels();
-    this.resetSavingThrows();
-    this.updateClassLevelDataSource();
-  }
-
-  private resetSavingThrows() {
-    this.savingThrowTotalsByLevel = new Map();
-    this.classLevels.forEach((levelClassPair: LevelClassPair) => {
-      this.calculateSavingThrows(levelClassPair);
-    })
-
-    this.savingThrowTotalsByLevel.forEach((totals: SavingThrowTotals, level: number) => {
-
-    })
-  }
-
-  private updateClassLevelDataSource() {
-    let updatedTableData: ClassLevelTableRow[] = [];
-    this.babTotal = 0;
-    this.savingThrowTotalsByLevel.clear();
-
-    this.classLevels.forEach((levelClassPair : LevelClassPair) => {
-      this.babTotal += levelClassPair.characterClass.baseAttackBonusProgression;
-      this.classFeatures.clear();
-      updatedTableData.push(this.mapLevelClassPairToClassLevelRow(levelClassPair));
-    })
-    this.classLevelTableData = updatedTableData;
-    this.classLevelTableDataSource = new MatTableDataSource<ClassLevelTableRow>(this.classLevelTableData);
   }
 
   openDialog(row: CharacterClass) {
@@ -147,12 +118,7 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
     this.classCount = classCount;
   }
 
-  private updateClassLevelDetails(levelClassPair: LevelClassPair) {
-    this.countClassLevels();
-    this.calculateSavingThrows(levelClassPair);
-  }
-
-  private calculateSavingThrows(levelClassPair: LevelClassPair) {
+  private calculateSavingThrows() {
     let savingThrowValues: SavingThrowTotals = new SavingThrowTotals();
 
     this.savingThrows.forEach((savingThrow: string) => {
@@ -173,8 +139,7 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
         }
       })
     })
-
-    this.savingThrowTotalsByLevel.set(levelClassPair.level, savingThrowValues);
+    return savingThrowValues;
   }
 
   private static calculateSavingThrow(saveQuality: string, count: number): number {
@@ -254,15 +219,6 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   getBaseAbilityModifier(abilityName: string): number {
     let abilityScore: number = this.characterBuildData.get(abilityName).value;
     return Math.floor( (abilityScore - 10) / 2);
-  }
-
-
-  private updateLevelsForClassLevels() {
-    let counter: number = 1;
-    this.classLevels.forEach((levelClassPair: LevelClassPair) => {
-      levelClassPair.level = counter;
-      counter++;
-    })
   }
 
 }
