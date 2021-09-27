@@ -117,7 +117,13 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   }
 
   drop(event: CdkDragDrop<any>) {
-    moveItemInArray(this.classLevelTableData, event.previousIndex, event.currentIndex);
+    moveItemInArray(this.classLevels, event.previousIndex, event.currentIndex);
+    this.babTotal = 0;
+    this.savingThrowTotalsByLevel.clear();
+    this.classCount.clear();
+    this.classLevelTableData = [];
+    this.classLevelTableDataSource = undefined;
+    this.recalculateClassLevels();
   }
 
   private countClassLevels() {
