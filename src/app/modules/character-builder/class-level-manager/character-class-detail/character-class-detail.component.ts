@@ -36,7 +36,8 @@ export class CharacterClassDetailComponent implements OnInit, OnDestroy {
   characterClass: CharacterClass;
   dataSource: CharacterClassRow[];
   columnsToDisplay = ['level', 'babProgression', 'fortSaveProgression', 'reflexSaveProgression', 'willSaveProgression', 'classFeatures'];
-  expandedElement: ClassFeature | null;
+  expandedClassFeature: ClassFeature | null;
+  expandedClassFeatureDesc: string | null;
   tableDisplayHeaders: Map<string, string> = new Map([
     ['level', 'Level'],
     ['babProgression', 'Base Attack Bonus'],

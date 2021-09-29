@@ -9,11 +9,13 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import {CharacterClassDetailComponent} from '../character-class-detail/character-class-detail.component';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 import {ClassLevelTableRow} from "../../model/class-level-table-row/class-level-table-row.model";
 import {SavingThrowTotals} from "../../model/saving-throw-totals/saving-throw-totals.model";
 import {ClassFeature} from "../../model/character-class/class-feature-model";
+import {MatSort} from '@angular/material/sort';
+import {EmailExistsValidator} from "../../../../core/modules/authentication/custom-validators/email-exists-validator";
 
 @Component({
   selector: 'app-class-level-manager',
@@ -23,12 +25,14 @@ import {ClassFeature} from "../../model/character-class/class-feature-model";
 export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
 
   @Input() sourcesAllowed: any[];
+  @ViewChild(MatSort) sort: MatSort;
   searchTableDataSource: MatTableDataSource<CharacterClass>;
   searchTableColumnsToDisplay: string[] = Constants.classLevelManagerSearchTableColumnsToDisplay;
   goodSavingThrowFormula: string = Constants.GOOD_SAVING_THROW_FORMULA;
   badSavingThrowFormula: string = Constants.BAD_SAVING_THROW_FORMULA;
   goodSavingThrowQuality: string = Constants.SAVING_THROW_QUALITY_GOOD;
   babDisplayValues: Map<number, string> = Constants.babDisplayValues;
+  searchTablePropertyMapping = Constants.classLevelManagerSearchTableColumnsMapping();
 
   @ViewChild(ToastContainerDirective, {static: true}) toastContainer: ToastContainerDirective;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -47,7 +51,7 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   selectedIndex: number;
 
   constructor(private characterClassService: CharacterClassService, private toastr: ToastrService,
-              private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) private data) {
+              private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) private data, private fb: FormBuilder) {
   }
 
   ngOnInit(): void {
@@ -63,6 +67,10 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
     this.characterClassService.getClassesFromSources(this.prepareSources()).subscribe(res => {
         this.searchTableDataSource = new MatTableDataSource<CharacterClass>(res);
         this.searchTableDataSource.paginator = this.paginator;
+        this.searchTableDataSource.sort = this.sort;
+        this.searchTableDataSource.sortingDataAccessor = (characterClass, property) => {
+          return characterClass[this.searchTablePropertyMapping.get(property)];
+        }
       },
       error => this.toastr.error(error.message, Constants.GENERIC_ERROR_MESSAGE));
   }
@@ -246,4 +254,7 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
     return Math.floor((abilityScore - 10) / 2);
   }
 
+  filter(filterValue: string) {
+    this.searchTableDataSource.filter = filterValue.trim().toLowerCase();
+  }
 }

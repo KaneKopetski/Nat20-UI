@@ -99,6 +99,19 @@ export abstract class Constants {
     'actions'
   ];
 
+  public static classLevelManagerSearchTableColumnsMapping(): Map<string, string> {
+    let map: Map<string, string> = new Map();
+
+    map.set('name', 'name');
+    map.set('hit-die', 'hitDie');
+    map.set('base-attack-bonus-progression', 'baseAttackBonusProgression');
+    map.set('fort-save-progression', 'fortSaveProgression');
+    map.set('reflex-save-progression', 'reflexSaveProgression');
+    map.set('will-save-progression', 'willSaveProgression');
+
+    return map;
+  }
+
   public static readonly classLevelManagerClassLevelTableColumnsToDisplay: string[] = [
     'drag',
     'level',
