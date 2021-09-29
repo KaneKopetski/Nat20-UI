@@ -3,6 +3,26 @@
   <mat-tab-group animationDuration="0ms" class="class-manager-tab-group" [(selectedIndex)]="this.selectedIndex">
     <mat-tab label="Class Search">
 
+      <mat-expansion-panel>
+
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Filters
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <mat-form-field [color]="'warn'">
+          <mat-label>Name</mat-label>
+          <input matInput [formControl]="nameFilter" autocomplete="off">
+        </mat-form-field>
+
+        <div>
+          <button mat-flat-button color="warn" (click)="clearFilter()">Clear</button>
+        </div>
+
+      </mat-expansion-panel>
+
+
       <table mat-table [dataSource]="searchTableDataSource" matSort>
 
         <ng-container matColumnDef="name">

@@ -238,7 +238,8 @@ export class CharacterBuilderComponent implements OnInit {
   launchCharacterLevelManager() {
     this.dialog.open(ClassLevelManagerComponent, {
       data: this.characterBuilderForm,
-      width: '100%'
+      width: '100%',
+      height: '80%'
     });
   }
 }

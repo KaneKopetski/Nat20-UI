@@ -9,13 +9,12 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import {CharacterClassDetailComponent} from '../character-class-detail/character-class-detail.component';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup} from '@angular/forms';
 import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 import {ClassLevelTableRow} from "../../model/class-level-table-row/class-level-table-row.model";
 import {SavingThrowTotals} from "../../model/saving-throw-totals/saving-throw-totals.model";
 import {ClassFeature} from "../../model/character-class/class-feature-model";
 import {MatSort} from '@angular/material/sort';
-import {EmailExistsValidator} from "../../../../core/modules/authentication/custom-validators/email-exists-validator";
 
 @Component({
   selector: 'app-class-level-manager',
@@ -33,6 +32,7 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   goodSavingThrowQuality: string = Constants.SAVING_THROW_QUALITY_GOOD;
   babDisplayValues: Map<number, string> = Constants.babDisplayValues;
   searchTablePropertyMapping = Constants.classLevelManagerSearchTableColumnsMapping();
+  nameFilter: FormControl = new FormControl('');
 
   @ViewChild(ToastContainerDirective, {static: true}) toastContainer: ToastContainerDirective;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -51,12 +51,13 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   selectedIndex: number;
 
   constructor(private characterClassService: CharacterClassService, private toastr: ToastrService,
-              private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) private data, private fb: FormBuilder) {
+              private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) private data) {
   }
 
   ngOnInit(): void {
     this.characterBuildData = this.data;
     this.toastr.overlayContainer = this.toastContainer;
+    this.watchFilters();
   }
 
   ngAfterViewInit(): void {
@@ -68,9 +69,7 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
         this.searchTableDataSource = new MatTableDataSource<CharacterClass>(res);
         this.searchTableDataSource.paginator = this.paginator;
         this.searchTableDataSource.sort = this.sort;
-        this.searchTableDataSource.sortingDataAccessor = (characterClass, property) => {
-          return characterClass[this.searchTablePropertyMapping.get(property)];
-        }
+        this.setSortingDataAccessorForSearchTable();
       },
       error => this.toastr.error(error.message, Constants.GENERIC_ERROR_MESSAGE));
   }
@@ -254,7 +253,22 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
     return Math.floor((abilityScore - 10) / 2);
   }
 
-  filter(filterValue: string) {
+  private setSortingDataAccessorForSearchTable() {
+    this.searchTableDataSource.sortingDataAccessor = (characterClass, property) => {
+      return characterClass[this.searchTablePropertyMapping.get(property)];
+    }
+  }
+
+  private applyFilter(filterValue: string) {
     this.searchTableDataSource.filter = filterValue.trim().toLowerCase();
   }
+
+  private watchFilters() {
+    this.nameFilter.valueChanges.pipe().subscribe(value => this.applyFilter(value));
+  }
+
+  clearFilter() {
+    this.nameFilter.setValue('');
+  }
+
 }
