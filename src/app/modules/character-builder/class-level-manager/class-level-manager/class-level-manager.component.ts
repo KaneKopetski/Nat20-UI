@@ -59,8 +59,6 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
     this.sourcesAllowed = this.data[1];
     this.toastr.overlayContainer = this.toastContainer;
     this.watchFilters();
-
-    console.log(this.data);
   }
 
   ngAfterViewInit(): void {
@@ -75,16 +73,6 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
         this.setSortingDataAccessorForSearchTable();
         },
       error => this.toastr.error(error.message, Constants.GENERIC_ERROR_MESSAGE));
-  }
-
-  private prepareSources() {
-    if (!this.sourcesAllowed) {
-      const sources: string[] = [];
-      Constants.allSources.forEach((source: Source) => sources.push(source.sourceEnum));
-      return sources;
-    } else {
-      return this.sourcesAllowed;
-    }
   }
 
   addClass(row: CharacterClass) {
