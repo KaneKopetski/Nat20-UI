@@ -1,6 +1,5 @@
 import {AfterViewInit, Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
 import {CharacterClassService} from '../../services/character-class-service/character-class.service';
-import {Source} from '../../model/source/source-model';
 import {CharacterClass} from '../../model/character-class/character-class';
 import {ToastContainerDirective, ToastrService} from 'ngx-toastr';
 import {LevelClassPair} from '../../model/level-class-pair/level-class-pair-model';
@@ -31,23 +30,22 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   badSavingThrowFormula: string = Constants.BAD_SAVING_THROW_FORMULA;
   goodSavingThrowQuality: string = Constants.SAVING_THROW_QUALITY_GOOD;
   babDisplayValues: Map<number, string> = Constants.babDisplayValues;
-  searchTablePropertyMapping = Constants.classLevelManagerSearchTableColumnsMapping();
+  private searchTablePropertyMapping = Constants.classLevelManagerSearchTableColumnsMapping();
   nameFilter: FormControl = new FormControl('');
 
-  @ViewChild(ToastContainerDirective, {static: true}) toastContainer: ToastContainerDirective;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(ToastContainerDirective, {static: true}) private toastContainer: ToastContainerDirective;
+  @ViewChild(MatPaginator) private paginator: MatPaginator;
   tooltipDelay: FormControl = Constants.tooltipDelay;
-  characterBuildData: FormGroup;
+  private characterBuildData: FormGroup;
 
   classLevelTableColumnsToDisplay: string[] = Constants.classLevelManagerClassLevelTableColumnsToDisplay;
   classLevelTableDataSource: MatTableDataSource<ClassLevelTableRow>;
   classLevelTableData: ClassLevelTableRow[] = [];
   classLevels: LevelClassPair[] = [];
-  savingThrows: string[] = Constants.savingThrows;
-  savingThrowTotalsByLevel: Map<number, SavingThrowTotals> = new Map();
-  babTotal: number = 0;
-  classCount: Map<CharacterClass, number> = new Map();
-  classFeatures: Map<number, string[]> = new Map();
+  private savingThrows: string[] = Constants.savingThrows;
+  private savingThrowTotalsByLevel: Map<number, SavingThrowTotals> = new Map();
+  private babTotal: number = 0;
+  private classCount: Map<CharacterClass, number> = new Map();
   selectedIndex: number;
 
   constructor(private characterClassService: CharacterClassService, private toastr: ToastrService,
