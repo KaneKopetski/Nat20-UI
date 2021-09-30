@@ -1,6 +1,7 @@
 import {Skill} from "../skill/skill";
 import {CharacterClassPrerequisite} from "./character-class-prerequisite-model";
 import {ClassFeature} from "./class-feature-model";
+import {Source} from "../source/source-model";
 
 export interface CharacterClass {
    id: number;
@@ -17,4 +18,5 @@ export interface CharacterClass {
    classFeatures?: Array<ClassFeature>;
    prerequisites?: Array<CharacterClassPrerequisite>;
    classSkills?: Array<Skill>;
+   source: Source;
 }

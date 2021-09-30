@@ -4,7 +4,6 @@ import {CharacterClass} from '../model/character-class/character-class';
 import {CharacterClassService} from '../services/character-class-service/character-class.service';
 import {RaceService} from '../services/race-service/race.service';
 import {Race} from '../model/race/race';
-import {CharacterBuild} from "../model/character-build/character-build-response-model";
 import {CharacterBuildRequest} from "../model/character-build/character-build-request-model";
 import {FeatService} from "../services/feat-service/feat.service";
 import {Feat} from "../model/feat/feat-model";
@@ -237,7 +236,7 @@ export class CharacterBuilderComponent implements OnInit {
 
   launchCharacterLevelManager() {
     this.dialog.open(ClassLevelManagerComponent, {
-      data: this.characterBuilderForm,
+      data: [this.characterBuilderForm, this.sourceSelectionForm.get('sourcesSelected').value],
       width: '100%',
       height: '80%'
     });

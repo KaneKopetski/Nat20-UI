@@ -55,9 +55,12 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.characterBuildData = this.data;
+    this.characterBuildData = this.data[0];
+    this.sourcesAllowed = this.data[1];
     this.toastr.overlayContainer = this.toastContainer;
     this.watchFilters();
+
+    console.log(this.data);
   }
 
   ngAfterViewInit(): void {
@@ -65,16 +68,15 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   }
 
   private fetchFirstPageOfClassesForSourcesProvided() {
-    this.characterClassService.getClassesFromSources(this.prepareSources()).subscribe(res => {
+    this.characterClassService.getClassesFromSources(this.sourcesAllowed).subscribe(res => {
         this.searchTableDataSource = new MatTableDataSource<CharacterClass>(res);
         this.searchTableDataSource.paginator = this.paginator;
         this.searchTableDataSource.sort = this.sort;
         this.setSortingDataAccessorForSearchTable();
-      },
+        },
       error => this.toastr.error(error.message, Constants.GENERIC_ERROR_MESSAGE));
   }
 
-  //TODO change all sources to sources selected
   private prepareSources() {
     if (!this.sourcesAllowed) {
       const sources: string[] = [];
@@ -248,7 +250,7 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
     return classToReturn;
   }
 
-  getBaseAbilityModifier(abilityName: string): number {
+  private getBaseAbilityModifier(abilityName: string): number {
     let abilityScore: number = this.characterBuildData.get(abilityName).value;
     return Math.floor((abilityScore - 10) / 2);
   }

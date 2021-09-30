@@ -6,4 +6,5 @@ export class ClassLevelTableRow {
   reflexSaveTotal: number;
   willSaveTotal: number;
   classFeatures: string;
+  source: string;
 }

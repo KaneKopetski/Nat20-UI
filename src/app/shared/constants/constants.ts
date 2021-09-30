@@ -96,6 +96,7 @@ export abstract class Constants {
     'fort-save-progression',
     'reflex-save-progression',
     'will-save-progression',
+    'source',
     'actions'
   ];
 
