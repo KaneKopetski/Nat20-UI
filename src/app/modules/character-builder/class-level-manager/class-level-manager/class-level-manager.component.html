@@ -16,6 +16,11 @@
           <input matInput [formControl]="nameFilter" autocomplete="off">
         </mat-form-field>
 
+        <mat-form-field [color]="'warn'">
+          <mat-label>Source</mat-label>
+          <input matInput [formControl]="sourceFilter" autocomplete="off">
+        </mat-form-field>
+
         <div>
           <button mat-flat-button color="warn" (click)="clearFilter()">Clear</button>
         </div>

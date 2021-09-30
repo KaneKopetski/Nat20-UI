@@ -32,6 +32,11 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   babDisplayValues: Map<number, string> = Constants.babDisplayValues;
   private searchTablePropertyMapping = Constants.classLevelManagerSearchTableColumnsMapping();
   nameFilter: FormControl = new FormControl('');
+  sourceFilter: FormControl = new FormControl('');
+  filterValues = {
+    name: '',
+    source: ''
+  };
 
   @ViewChild(ToastContainerDirective, {static: true}) private toastContainer: ToastContainerDirective;
   @ViewChild(MatPaginator) private paginator: MatPaginator;
@@ -69,6 +74,7 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
         this.searchTableDataSource.paginator = this.paginator;
         this.searchTableDataSource.sort = this.sort;
         this.setSortingDataAccessorForSearchTable();
+        this.searchTableDataSource.filterPredicate = this.createFilter();
         },
       error => this.toastr.error(error.message, Constants.GENERIC_ERROR_MESSAGE));
   }
@@ -247,16 +253,30 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private applyFilter(filterValue: string) {
-    this.searchTableDataSource.filter = filterValue.trim().toLowerCase();
-  }
-
   private watchFilters() {
-    this.nameFilter.valueChanges.pipe().subscribe(value => this.applyFilter(value));
+    this.nameFilter.valueChanges.subscribe(name => {
+          this.filterValues.name = name;
+          this.searchTableDataSource.filter = JSON.stringify(this.filterValues);
+        }
+      )
+    this.sourceFilter.valueChanges.subscribe(source => {
+          this.filterValues.source = source;
+          this.searchTableDataSource.filter = JSON.stringify(this.filterValues);
+        }
+      )
   }
 
   clearFilter() {
     this.nameFilter.setValue('');
+    this.sourceFilter.setValue('');
+  }
+
+  createFilter(): (data: any, filter: string) => boolean {
+    return function (data, filter): boolean {
+      let searchTerms = JSON.parse(filter);
+      return data.name.toLowerCase().indexOf(searchTerms.name) !== -1
+        && data.source.readable.toLowerCase().indexOf(searchTerms.source) !== -1;
+    };
   }
 
 }
