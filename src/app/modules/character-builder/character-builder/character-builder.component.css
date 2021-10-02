@@ -35,4 +35,7 @@
   font-size: 16px;
 }
 
-
+.filter .mat-form-field-wrapper {
+  margin-bottom: -1.25em;
+  width: 100%;
+}

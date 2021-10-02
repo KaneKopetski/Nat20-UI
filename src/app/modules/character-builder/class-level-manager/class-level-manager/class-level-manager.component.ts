@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Inject, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {CharacterClassService} from '../../services/character-class-service/character-class.service';
 import {CharacterClass} from '../../model/character-class/character-class';
 import {ToastContainerDirective, ToastrService} from 'ngx-toastr';
@@ -18,7 +18,9 @@ import {MatSort} from '@angular/material/sort';
 @Component({
   selector: 'app-class-level-manager',
   templateUrl: './class-level-manager.component.html',
-  styleUrls: ['./class-level-manager.component.css']
+  styleUrls: ['./class-level-manager.component.css'],
+  encapsulation : ViewEncapsulation.None,
+
 })
 export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
 
@@ -33,6 +35,9 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   private searchTablePropertyMapping = Constants.classLevelManagerSearchTableColumnsMapping();
   nameFilter: FormControl = new FormControl('');
   sourceFilter: FormControl = new FormControl('');
+  displayedColumnFilters: string[] = [
+    'name-filter'
+  ];
   filterValues = {
     name: '',
     source: ''

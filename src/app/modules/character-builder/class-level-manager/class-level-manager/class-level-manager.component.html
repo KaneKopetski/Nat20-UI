@@ -3,36 +3,49 @@
   <mat-tab-group animationDuration="0ms" class="class-manager-tab-group" [(selectedIndex)]="this.selectedIndex">
     <mat-tab label="Class Search">
 
-      <mat-expansion-panel>
+<!--      <mat-expansion-panel class="filters-panel">-->
 
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Filters
-          </mat-panel-title>
-        </mat-expansion-panel-header>
+<!--        <mat-expansion-panel-header>-->
+<!--          <mat-panel-title>-->
+<!--            Filters-->
+<!--          </mat-panel-title>-->
+<!--        </mat-expansion-panel-header>-->
 
-        <mat-form-field [color]="'warn'">
-          <mat-label>Name</mat-label>
-          <input matInput [formControl]="nameFilter" autocomplete="off">
-        </mat-form-field>
+<!--        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="25px">-->
+<!--        <mat-form-field [color]="'warn'">-->
+<!--          <mat-label>Name filter</mat-label>-->
+<!--          <input matInput [formControl]="nameFilter" autocomplete="off">-->
+<!--        </mat-form-field>-->
 
-        <mat-form-field [color]="'warn'">
-          <mat-label>Source</mat-label>
-          <input matInput [formControl]="sourceFilter" autocomplete="off">
-        </mat-form-field>
+<!--        <mat-form-field [color]="'warn'">-->
+<!--          <mat-label>Source</mat-label>-->
+<!--          <input matInput [formControl]="sourceFilter" autocomplete="off">-->
+<!--        </mat-form-field>-->
+<!--        </div>-->
 
-        <div>
-          <button mat-flat-button color="warn" (click)="clearFilter()">Clear</button>
-        </div>
+<!--        <div>-->
+<!--          <button mat-flat-button color="warn" (click)="clearFilter()">Clear</button>-->
+<!--        </div>-->
 
-      </mat-expansion-panel>
-
+<!--      </mat-expansion-panel>-->
 
       <table mat-table [dataSource]="searchTableDataSource" matSort>
 
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
           <td mat-cell *matCellDef="let characterClass"> {{characterClass.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name-filter">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-form-field appearance="fill" color="warn" class="filter">
+              <mat-label>Name filter</mat-label>
+              <input matInput [formControl]="nameFilter" autocomplete="off">
+              <button *ngIf="nameFilter.value" matSuffix mat-icon-button aria-label="Clear" (click)="clearFilter()">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </th>
         </ng-container>
 
         <ng-container matColumnDef="hit-die">
@@ -95,6 +108,7 @@
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="this.searchTableColumnsToDisplay; sticky: true"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumnFilters"></tr>
         <tr mat-row *matRowDef="let row; columns: this.searchTableColumnsToDisplay;"></tr>
 
       </table>
