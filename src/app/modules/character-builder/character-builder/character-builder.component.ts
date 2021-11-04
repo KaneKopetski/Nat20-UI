@@ -1,26 +1,26 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {CharacterClass} from '../model/character-class/character-class';
 import {CharacterClassService} from '../services/character-class-service/character-class.service';
 import {RaceService} from '../services/race-service/race.service';
 import {Race} from '../model/race/race';
-import {CharacterBuildRequest} from "../model/character-build/character-build-request-model";
-import {FeatService} from "../services/feat-service/feat.service";
-import {Feat} from "../model/feat/feat-model";
-import {DeityService} from "../services/deity-service/deity.service";
-import {Deity} from "../model/deity/deity-model";
-import {Skill} from "../model/skill/skill";
-import {SkillService} from "../services/skill-service/skill.service";
-import {Source} from "../model/source/source-model";
-import {SourceService} from "../services/source-service/source.service";
-import {MatChip} from "@angular/material/chips";
-import {Constants} from "../../../shared/constants/constants";
-import {ToastContainerDirective, ToastrService} from "ngx-toastr";
-import {ErrorResponse} from "../model/error-response/error-response-model";
-import {MatSelectChange} from "@angular/material/select";
-import {LevelClassPair} from "../model/level-class-pair/level-class-pair-model";
-import {MatDialog} from "@angular/material/dialog";
-import {ClassLevelManagerComponent} from "../class-level-manager/class-level-manager/class-level-manager.component";
+import {CharacterBuildRequest} from '../model/character-build/character-build-request-model';
+import {FeatService} from '../services/feat-service/feat.service';
+import {Feat} from '../model/feat/feat-model';
+import {DeityService} from '../services/deity-service/deity.service';
+import {Deity} from '../model/deity/deity-model';
+import {Skill} from '../model/skill/skill';
+import {SkillService} from '../services/skill-service/skill.service';
+import {Source} from '../model/source/source-model';
+import {SourceService} from '../services/source-service/source.service';
+import {MatChip} from '@angular/material/chips';
+import {Constants} from '../../../shared/constants/constants';
+import {ToastContainerDirective, ToastrService} from 'ngx-toastr';
+import {ErrorResponse} from '../model/error-response/error-response-model';
+import {MatSelectChange} from '@angular/material/select';
+import {LevelClassPair} from '../model/level-class-pair/level-class-pair-model';
+import {MatDialog} from '@angular/material/dialog';
+import {ClassLevelManagerComponent} from '../class-level-manager/class-level-manager/class-level-manager.component';
 
 
 export interface BaseAbilityScore {
@@ -66,7 +66,7 @@ export class CharacterBuilderComponent implements OnInit {
   selectable = true;
   removable = true;
   isLinear = false;
-  selectAll: boolean = false;
+  selectAll = false;
 
   sourceSelectionForm: FormGroup;
   characterBuilderForm: FormGroup;
@@ -77,14 +77,14 @@ export class CharacterBuilderComponent implements OnInit {
   abilityScoreDisplayColumns: string[];
   abilityScoreDisplayData: any[];
 
-  baseAbilityStyle: string = 'manual';
+  baseAbilityStyle = 'manual';
   standardArray: Array<number> = [15, 14, 13, 12, 10, 8];
 
   private defaultErrorResponse = {
     timestamp: '',
     status: 500,
     message: 'Something went wrong. Please try again later.'
-  }
+  };
 
   get sourceChipsSelected() {
     return this.sourceSelectionForm.get('sourcesSelected');
@@ -101,6 +101,7 @@ export class CharacterBuilderComponent implements OnInit {
     this.toastr.overlayContainer = this.toastContainer;
     this.abilityScoreDisplayColumns = ['0'].concat(this.abilityScoreInputData.map(x => x.position.toString()));
     this.abilityScoreDisplayData = this.abilityScoreInputColumns.map(x => this.formatInputRow(x));
+    this.watchStandardArrayFormFields();
   }
 
   private setupForms() {
@@ -142,21 +143,25 @@ export class CharacterBuilderComponent implements OnInit {
         this.allSources.forEach((source: Source) => values.push(source.sourceEnum));
         this.sourceChipsSelected.setValue(values);
         this.selectAll = true;
-      } break;
+      }
+                                                   break;
       case Constants.specialSourceCases.selectNone: {
         this.sourceChipsSelected.reset();
         this.selectAll = false;
-      } break;
+      }
+                                                    break;
       case Constants.specialSourceCases.coreOnly: {
         this.sourceChipsSelected.setValue(['MONSTER_MANUAL', 'PLAYERS_HANDBOOK_V35', 'DUNGEON_MASTERS_GUIDE_V35']);
         this.selectAll = false;
-      } break;
+      }
+                                                  break;
       case Constants.specialSourceCases.srdOnly: {
         this.sourceChipsSelected.setValue(['MONSTER_MANUAL', 'PLAYERS_HANDBOOK_V35', 'DUNGEON_MASTERS_GUIDE_V35', 'EXPANDED_PSIONICS_HANDBOOK']);
         this.selectAll = false;
-      } break;
+      }
+                                                 break;
       default: {
-        this.handleError(this.defaultErrorResponse)
+        this.handleError(this.defaultErrorResponse);
       }
     }
   }
@@ -168,20 +173,20 @@ export class CharacterBuilderComponent implements OnInit {
       case 500: {
         errorMessage = 'Something went wrong. Please try again.';
         errorTitle = 'There be dragons?';
-      } break;
+      }         break;
       case 404: {
         errorTitle = 'Resource not found.';
         errorMessage = 'Error while trying to load resources for character builder. Please try again later.';
-      } break;
+      }         break;
     }
-    this.toastr.error(errorMessage, errorTitle)
+    this.toastr.error(errorMessage, errorTitle);
   }
 
   public addSelectedClassToClassLevels() {
     if (this.selectedClass) {
       const characterBuildLevel = this.characterClassLevelMap.size + 1;
       this.characterClassLevelMap.set(characterBuildLevel, this.selectedClass);
-      this.classLevels.push({level: characterBuildLevel, characterClass: this.selectedClass})
+      this.classLevels.push({level: characterBuildLevel, characterClass: this.selectedClass});
     }
   }
 
@@ -214,20 +219,23 @@ export class CharacterBuilderComponent implements OnInit {
     const output = {};
 
     output[0] = row;
-    for (let i = 0; i < this.abilityScoreInputData.length; ++i) {
-      output[this.abilityScoreInputData[i].position] = this.abilityScoreInputData[i][row];
-    }
+    this.abilityScoreInputData.forEach(item => {
+      output[item.position] = item[row];
+    });
 
     return output;
   }
 
-  //TODO fix this
-  standardArraySelectionChange(event: MatSelectChange) {
-    console.log(event);
-    console.log(this.standardArray.indexOf(event.value));
-
-    let indexOfValueSelected: number = this.standardArray.indexOf(event.value);
-    this.standardArray.splice(indexOfValueSelected, indexOfValueSelected);
+  watchStandardArrayFormFields() {
+    console.log('watching');
+    this.standardArray.forEach((baseAbilityScore: number) => {
+      console.log(baseAbilityScore);
+      this.characterBuilderForm.get(baseAbilityScore + 'Score').valueChanges.subscribe((value: number) => {
+        console.log(baseAbilityScore);
+        console.log(value);
+        this.standardArray.splice(this.standardArray.indexOf(value), 1);
+      });
+    });
   }
 
   removeClass(row) {
