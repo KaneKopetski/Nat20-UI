@@ -119,15 +119,16 @@
               <div class="base-ability-score-input" *ngFor="let baseAbility of baseAbilities">
                 <mat-form-field appearance="fill" *ngIf="this.baseAbilityStyle === 'manual'">
                   <mat-label>{{ baseAbility + ' Score' | titlecase }}</mat-label>
-                  <input matInput formControlName="{{baseAbility + 'Score'}}">
+                  <input matInput formControlName="{{baseAbility + 'ScoreManual'}}">
                 </mat-form-field>
 
                 <mat-form-field appearance="fill" *ngIf="this.baseAbilityStyle === 'standardArray'">
-                <mat-select formControlName="{{baseAbility + 'Score'}}">
-                  <mat-option [value]="value" *ngFor="let value of standardArray">
-                    {{ value }}
-                  </mat-option>
-                </mat-select>
+                  <mat-select placeholder="Type" formControlName="{{baseAbility + 'ScoreStandardArray'}}">
+                    <mat-option *ngFor="let value of standardArrayOptions | async"
+                                [value]="value.value" [disabled]="!value.isAllowed">
+                      {{value.value}}
+                    </mat-option>
+                  </mat-select>
                 </mat-form-field>
 
               </div>

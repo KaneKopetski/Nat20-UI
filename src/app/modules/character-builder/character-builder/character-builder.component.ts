@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {CharacterClass} from '../model/character-class/character-class';
 import {CharacterClassService} from '../services/character-class-service/character-class.service';
@@ -17,16 +17,34 @@ import {MatChip} from '@angular/material/chips';
 import {Constants} from '../../../shared/constants/constants';
 import {ToastContainerDirective, ToastrService} from 'ngx-toastr';
 import {ErrorResponse} from '../model/error-response/error-response-model';
-import {MatSelectChange} from '@angular/material/select';
 import {LevelClassPair} from '../model/level-class-pair/level-class-pair-model';
 import {MatDialog} from '@angular/material/dialog';
 import {ClassLevelManagerComponent} from '../class-level-manager/class-level-manager/class-level-manager.component';
+import {pairwise, startWith} from "rxjs/operators";
+import {Observable, of} from "rxjs";
+import {MatOptionSelectionChange} from "@angular/material/core";
+
+
+export class Type {
+  text: number;
+  allowed: boolean;
+
+  constructor (text: number, allowed: boolean) {
+    this.text = text;
+    this.allowed = allowed;
+  }
+}
 
 
 export interface BaseAbilityScore {
   ability: string;
   position: number;
   score: number;
+}
+
+export interface StandardArrayOption {
+  value: number;
+  isAllowed: boolean;
 }
 
 const ELEMENT_DATA: BaseAbilityScore[] = [
@@ -78,7 +96,18 @@ export class CharacterBuilderComponent implements OnInit {
   abilityScoreDisplayData: any[];
 
   baseAbilityStyle = 'manual';
-  standardArray: Array<number> = [15, 14, 13, 12, 10, 8];
+
+  // standardArray: Array<number> = [15, 14, 13, 12, 10, 8];
+  standardArrayOptions: Observable<Array<StandardArrayOption>>;
+
+  standardArrayOldValues: Map<string, number> = new Map([
+    ["strength", 0],
+    ["dexterity", 0],
+    ["constitution", 0],
+    ["wisdom", 0],
+    ["intelligence", 0],
+    ["charisma", 0]
+  ]);
 
   private defaultErrorResponse = {
     timestamp: '',
@@ -96,12 +125,23 @@ export class CharacterBuilderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.setupOptions();
     this.setupForms();
     this.getSourceOptions();
     this.toastr.overlayContainer = this.toastContainer;
     this.abilityScoreDisplayColumns = ['0'].concat(this.abilityScoreInputData.map(x => x.position.toString()));
     this.abilityScoreDisplayData = this.abilityScoreInputColumns.map(x => this.formatInputRow(x));
     this.watchStandardArrayFormFields();
+  }
+
+  private setupOptions() {
+    this.standardArrayOptions = of([
+      {value: 15, isAllowed: true},
+      {value: 14, isAllowed: true},
+      {value: 13, isAllowed: true},
+      {value: 12, isAllowed: true},
+      {value: 10, isAllowed: true},
+      {value: 8, isAllowed: true}]);
   }
 
   private setupForms() {
@@ -112,12 +152,18 @@ export class CharacterBuilderComponent implements OnInit {
     this.characterBuilderForm = this.fb.group({
       buildName: ['', Validators.required],
       characterClasses: ['', Validators.required],
-      strengthScore: ['8', Validators.required],
-      dexterityScore: ['8', Validators.required],
-      constitutionScore: ['8', Validators.required],
-      wisdomScore: ['8', Validators.required],
-      intelligenceScore: ['8', Validators.required],
-      charismaScore: ['8', Validators.required],
+      strengthScoreManual: ['8', Validators.required],
+      dexterityScoreManual: ['8', Validators.required],
+      constitutionScoreManual: ['8', Validators.required],
+      wisdomScoreManual: ['8', Validators.required],
+      intelligenceScoreManual: ['8', Validators.required],
+      charismaScoreManual: ['8', Validators.required],
+      strengthScoreStandardArray: ['', Validators.required],
+      dexterityScoreStandardArray: ['', Validators.required],
+      constitutionScoreStandardArray: ['', Validators.required],
+      wisdomScoreStandardArray: ['', Validators.required],
+      intelligenceScoreStandardArray: ['', Validators.required],
+      charismaScoreStandardArray: ['', Validators.required]
     });
   }
 
@@ -227,14 +273,15 @@ export class CharacterBuilderComponent implements OnInit {
   }
 
   watchStandardArrayFormFields() {
-    console.log('watching');
-    this.standardArray.forEach((baseAbilityScore: number) => {
-      console.log(baseAbilityScore);
-      this.characterBuilderForm.get(baseAbilityScore + 'Score').valueChanges.subscribe((value: number) => {
-        console.log(baseAbilityScore);
-        console.log(value);
-        this.standardArray.splice(this.standardArray.indexOf(value), 1);
-      });
+    this.baseAbilities.forEach((baseAbilityScore: string) => {
+        this.characterBuilderForm.get(baseAbilityScore + 'ScoreStandardArray').valueChanges
+          .pipe(startWith(this.characterBuilderForm.get(baseAbilityScore + 'ScoreStandardArray').value), pairwise())
+          .subscribe(([oldValue, newValue]) => {
+            this.standardArrayOldValues.set(baseAbilityScore, oldValue);
+            this.toggleAllowedFlagFalse(newValue);
+            this.toggleAllowedFlagTrue(oldValue);
+          }
+        )
     });
   }
 
@@ -248,6 +295,26 @@ export class CharacterBuilderComponent implements OnInit {
       width: '100%',
       height: '80%'
     });
+  }
+
+  toggleAllowedFlagFalse(value: number) {
+    this.standardArrayOptions.subscribe((options: StandardArrayOption[]) => {
+      options.forEach((option: StandardArrayOption) => {
+        if (value === option.value) {
+          option.isAllowed = false;
+        }
+      })
+    })
+  }
+
+  toggleAllowedFlagTrue(value: number) {
+    this.standardArrayOptions.subscribe((options: StandardArrayOption[]) => {
+      options.forEach((option: StandardArrayOption) => {
+        if (value === option.value) {
+          option.isAllowed = true;
+        }
+      })
+    })
   }
 }
 
