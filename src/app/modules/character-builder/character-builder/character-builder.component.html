@@ -123,6 +123,7 @@
                 </mat-form-field>
 
                 <mat-form-field appearance="fill" *ngIf="this.baseAbilityStyle === 'standardArray'">
+                  <mat-label>{{ baseAbility + ' Score' | titlecase }}</mat-label>
                   <mat-select placeholder="Type" formControlName="{{baseAbility + 'ScoreStandardArray'}}">
                     <mat-option value="--">--</mat-option>
                     <mat-option *ngFor="let value of standardArrayOptions | async"
