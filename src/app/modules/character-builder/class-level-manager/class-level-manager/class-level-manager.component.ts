@@ -81,7 +81,7 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
         this.setSortingDataAccessorForSearchTable();
         this.searchTableDataSource.filterPredicate = this.createFilter();
         },
-      error => this.toastr.error(error.message, Constants.GENERIC_ERROR_MESSAGE));
+      error => this.toastr.error(error.message, Constants.GENERIC_ERROR_TITLE));
   }
 
   addClass(row: CharacterClass) {

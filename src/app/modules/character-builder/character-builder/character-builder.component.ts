@@ -1,5 +1,5 @@
-import {Component, OnInit, SimpleChanges, ViewChild} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {CharacterClass} from '../model/character-class/character-class';
 import {CharacterClassService} from '../services/character-class-service/character-class.service';
 import {RaceService} from '../services/race-service/race.service';
@@ -22,26 +22,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {ClassLevelManagerComponent} from '../class-level-manager/class-level-manager/class-level-manager.component';
 import {pairwise, startWith} from "rxjs/operators";
 import {Observable, of} from "rxjs";
-
-export interface BaseAbilityScore {
-  ability: string;
-  position: number;
-  score: number;
-}
-
-export interface StandardArrayOption {
-  value: number;
-  isAllowed: boolean;
-}
-
-const baseAbilityScoreData: BaseAbilityScore[] = [
-  {position: 1, ability: 'Str', score: 0},
-  {position: 2, ability: 'Dex', score: 0},
-  {position: 3, ability: 'Con', score: 0},
-  {position: 4, ability: 'Wis', score: 0},
-  {position: 5, ability: 'Int', score: 0},
-  {position: 6, ability: 'Cha', score: 0},
-];
+import {StandardArrayOption} from "../model/options/standard-array-option.model";
 
 @Component({
   selector: 'app-character-builder',
@@ -50,14 +31,14 @@ const baseAbilityScoreData: BaseAbilityScore[] = [
 })
 export class CharacterBuilderComponent implements OnInit {
 
-  baseAbilities: Array<string> = ['strength', 'dexterity', 'constitution', 'wisdom', 'intelligence', 'charisma'];
+  baseAbilities: Array<string> = Constants.baseAbilities;
 
   @ViewChild(ToastContainerDirective, {static: true}) toastContainer: ToastContainerDirective;
   characterBuildRequest: CharacterBuildRequest;
 
   classLevels: Array<LevelClassPair> = [];
   private characterClassLevelMap: Map<number, CharacterClass> = new Map<number, CharacterClass>();
-  characterClassLevelsDisplayHeaders: string[] = ['level', 'class', 'remove'];
+  characterClassLevelsDisplayHeaders: string[] = Constants.characterClassLevelsDisplayHeaders;
 
   selectedClass: CharacterClass;
 
@@ -76,24 +57,18 @@ export class CharacterBuilderComponent implements OnInit {
   sourceSelectionForm: FormGroup;
   characterBuilderForm: FormGroup;
 
-  abilityScoreInputColumns = ['ability', 'score'];
-  abilityScoreInputData = baseAbilityScoreData;
+  abilityScoreInputColumns = Constants.abilityScoreInputColumns;
+  abilityScoreInputData = Constants.baseAbilityScoreData;
 
   abilityScoreDisplayColumns: string[];
   abilityScoreDisplayData: any[];
 
-  baseAbilityStyle = 'manual';
+  baseAbilityStyle = Constants.MANUAL;
 
   standardArrayOptions: Observable<Array<StandardArrayOption>>;
 
-  private defaultErrorResponse = {
-    timestamp: '',
-    status: 500,
-    message: 'Something went wrong. Please try again later.'
-  };
-
   get sourceChipsSelected() {
-    return this.sourceSelectionForm.get('sourcesSelected');
+    return this.sourceSelectionForm.get(Constants.SOURCES_SELECTED);
   }
 
   constructor(private fb: FormBuilder, private characterClassService: CharacterClassService, private raceService: RaceService,
@@ -106,19 +81,13 @@ export class CharacterBuilderComponent implements OnInit {
     this.setupForms();
     this.getSourceOptions();
     this.toastr.overlayContainer = this.toastContainer;
-    this.abilityScoreDisplayColumns = ['0'].concat(this.abilityScoreInputData.map(x => x.position.toString()));
+    this.abilityScoreDisplayColumns = [Constants.ZERO].concat(this.abilityScoreInputData.map(x => x.position.toString()));
     this.abilityScoreDisplayData = this.abilityScoreInputColumns.map(x => this.formatInputRow(x));
     this.watchStandardArrayFormFields();
   }
 
   private setupOptions() {
-    this.standardArrayOptions = of([
-      {value: 15, isAllowed: true},
-      {value: 14, isAllowed: true},
-      {value: 13, isAllowed: true},
-      {value: 12, isAllowed: true},
-      {value: 10, isAllowed: true},
-      {value: 8, isAllowed: true}]);
+    this.standardArrayOptions = of(Constants.standardArrayOptions);
   }
 
   private setupForms() {
@@ -129,18 +98,18 @@ export class CharacterBuilderComponent implements OnInit {
     this.characterBuilderForm = this.fb.group({
       buildName: ['', Validators.required],
       characterClasses: ['', Validators.required],
-      strengthScoreManual: ['8', Validators.required],
-      dexterityScoreManual: ['8', Validators.required],
-      constitutionScoreManual: ['8', Validators.required],
-      wisdomScoreManual: ['8', Validators.required],
-      intelligenceScoreManual: ['8', Validators.required],
-      charismaScoreManual: ['8', Validators.required],
-      strengthScoreStandardArray: ['--', Validators.required],
-      dexterityScoreStandardArray: ['--', Validators.required],
-      constitutionScoreStandardArray: ['--', Validators.required],
-      wisdomScoreStandardArray: ['--', Validators.required],
-      intelligenceScoreStandardArray: ['--', Validators.required],
-      charismaScoreStandardArray: ['--', Validators.required]
+      strengthScoreManual: [Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, Validators.required],
+      dexterityScoreManual: [Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, Validators.required],
+      constitutionScoreManual: [Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, Validators.required],
+      wisdomScoreManual: [Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, Validators.required],
+      intelligenceScoreManual: [Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, Validators.required],
+      charismaScoreManual: [Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, Validators.required],
+      strengthScoreStandardArray: [Constants.DEFAULT_STANDARD_ARRAY_BASE_ABILITY_ENTRY_VALUE, Validators.required],
+      dexterityScoreStandardArray: [Constants.DEFAULT_STANDARD_ARRAY_BASE_ABILITY_ENTRY_VALUE, Validators.required],
+      constitutionScoreStandardArray: [Constants.DEFAULT_STANDARD_ARRAY_BASE_ABILITY_ENTRY_VALUE, Validators.required],
+      wisdomScoreStandardArray: [Constants.DEFAULT_STANDARD_ARRAY_BASE_ABILITY_ENTRY_VALUE, Validators.required],
+      intelligenceScoreStandardArray: [Constants.DEFAULT_STANDARD_ARRAY_BASE_ABILITY_ENTRY_VALUE, Validators.required],
+      charismaScoreStandardArray: [Constants.DEFAULT_STANDARD_ARRAY_BASE_ABILITY_ENTRY_VALUE, Validators.required]
     });
   }
 
@@ -167,24 +136,24 @@ export class CharacterBuilderComponent implements OnInit {
         this.sourceChipsSelected.setValue(values);
         this.selectAll = true;
       }
-                                                   break;
+      break;
       case Constants.specialSourceCases.selectNone: {
         this.sourceChipsSelected.reset();
         this.selectAll = false;
       }
-                                                    break;
+      break;
       case Constants.specialSourceCases.coreOnly: {
-        this.sourceChipsSelected.setValue(['MONSTER_MANUAL', 'PLAYERS_HANDBOOK_V35', 'DUNGEON_MASTERS_GUIDE_V35']);
+        this.sourceChipsSelected.setValue(Constants.coreOnlySources);
         this.selectAll = false;
       }
-                                                  break;
+      break;
       case Constants.specialSourceCases.srdOnly: {
-        this.sourceChipsSelected.setValue(['MONSTER_MANUAL', 'PLAYERS_HANDBOOK_V35', 'DUNGEON_MASTERS_GUIDE_V35', 'EXPANDED_PSIONICS_HANDBOOK']);
+        this.sourceChipsSelected.setValue(Constants.srdOnlySources);
         this.selectAll = false;
       }
-                                                 break;
+      break;
       default: {
-        this.handleError(this.defaultErrorResponse);
+        this.handleError(Constants.defaultErrorResponse);
       }
     }
   }
@@ -194,12 +163,12 @@ export class CharacterBuilderComponent implements OnInit {
     let errorTitle;
     switch (error.status) {
       case 500: {
-        errorMessage = 'Something went wrong. Please try again.';
-        errorTitle = 'There be dragons?';
+        errorMessage = Constants.GENERIC_ERROR_MSG;
+        errorTitle = Constants.ERROR_TITLE_MSG;
       }         break;
       case 404: {
-        errorTitle = 'Resource not found.';
-        errorMessage = 'Error while trying to load resources for character builder. Please try again later.';
+        errorTitle = Constants.RESOURCE_NOT_FOUND_MSG;
+        errorMessage = Constants.CHARACTER_BUILDER_RESOURCE_ERROR_MSG;
       }         break;
     }
     this.toastr.error(errorMessage, errorTitle);
@@ -251,8 +220,8 @@ export class CharacterBuilderComponent implements OnInit {
 
   watchStandardArrayFormFields() {
     this.baseAbilities.forEach((baseAbilityScore: string) => {
-        this.characterBuilderForm.get(baseAbilityScore + 'ScoreStandardArray').valueChanges
-          .pipe(startWith(this.characterBuilderForm.get(baseAbilityScore + 'ScoreStandardArray').value), pairwise())
+        this.characterBuilderForm.get(baseAbilityScore + Constants.STANDARD_ARRAY_SUFFIX).valueChanges
+          .pipe(startWith(this.characterBuilderForm.get(baseAbilityScore + Constants.STANDARD_ARRAY_SUFFIX).value), pairwise())
           .subscribe(([oldValue, newValue]) => {
             this.toggleAllowedFlagFalse(newValue);
             this.toggleAllowedFlagTrue(oldValue);
@@ -267,7 +236,7 @@ export class CharacterBuilderComponent implements OnInit {
 
   launchCharacterLevelManager() {
     this.dialog.open(ClassLevelManagerComponent, {
-      data: [this.characterBuilderForm, this.sourceSelectionForm.get('sourcesSelected').value],
+      data: [this.characterBuilderForm, this.sourceSelectionForm.get(Constants.SOURCES_SELECTED).value],
       width: '100%',
       height: '80%'
     });
