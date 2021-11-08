@@ -28,9 +28,9 @@ export abstract class Constants {
   public static readonly REFLEX_SAVE_PROGRESS_STRING: string = 'reflexSaveProgression';
   public static readonly WILL_SAVE_PROGRESS_STRING: string = 'willSaveProgression';
 
-  public static readonly CONSTITUTION_SCORE_LABEL: string = 'constitutionScore'
-  public static readonly DEXTERITY_SCORE_LABEL: string = 'dexterityScore'
-  public static readonly WISDOM_SCORE_LABEL: string = 'wisdomScore'
+  public static readonly CONSTITUTION_SCORE_LABEL: string = 'constitution'
+  public static readonly DEXTERITY_SCORE_LABEL: string = 'dexterity'
+  public static readonly WISDOM_SCORE_LABEL: string = 'wisdom'
 
   public static readonly SAVING_THROW_QUALITY_GOOD = 'GOOD';
   public static readonly GOOD_SAVING_THROW_FORMULA = '2 + (class levels / 2)';
@@ -42,6 +42,7 @@ export abstract class Constants {
   public static readonly USER_TOKEN_KEY: string = 'userToken';
 
   public static readonly MANUAL: string = 'manual';
+  public static readonly STANDARD_ARRAY: string = 'standardArray';
   public static readonly SOURCES_SELECTED: string = 'sourcesSelected';
   public static readonly ZERO: string = '0';
   public static readonly DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE: number = 8;
@@ -52,6 +53,8 @@ export abstract class Constants {
   public static readonly GENERIC_ERROR_MSG: string = 'Something went wrong. Please try again.';
   public static readonly STANDARD_ARRAY_SUFFIX: string = 'ScoreStandardArray';
   public static readonly POINT_BUY_SUFFIX: string = 'ScorePointBuy';
+  public static readonly MANUAL_SUFFIX: string = 'ScoreManual';
+  public static readonly ABILITY_SCORE_GENERATION_METHOD: string = 'abilityScoreGenerationMethod';
 
   public static readonly tooltipDelay = new FormControl(750);
 

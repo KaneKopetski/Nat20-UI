@@ -248,7 +248,22 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   }
 
   private getBaseAbilityModifier(abilityName: string): number {
-    let abilityScore: number = this.characterBuildData.get(abilityName).value;
+    let abilityFormControl: string;
+
+    switch (this.characterBuildData.get(Constants.ABILITY_SCORE_GENERATION_METHOD).value) {
+      case Constants.MANUAL: {
+        abilityFormControl = abilityName + Constants.MANUAL_SUFFIX;
+      } break;
+      case Constants.STANDARD_ARRAY: {
+        abilityFormControl = abilityName + Constants.STANDARD_ARRAY_SUFFIX;
+      } break;
+      default: {
+        abilityFormControl = abilityName + Constants.POINT_BUY_SUFFIX;
+      }
+    }
+
+    let abilityScore: number = this.characterBuildData.get(abilityFormControl).value;
+
     return Math.floor((abilityScore - 10) / 2);
   }
 

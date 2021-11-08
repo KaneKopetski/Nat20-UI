@@ -148,7 +148,7 @@
 
               <mat-form-field appearance="fill">
                 <mat-label>Ability score generation style</mat-label>
-                <mat-select [(value)]="baseAbilityStyle">
+                <mat-select [(value)]="baseAbilityStyle" formControlName="abilityScoreGenerationMethod">
                   <mat-option [value]="'manual'">Manual</mat-option>
                   <mat-option [value]="'standardArray'">Standard Array</mat-option>
                   <mat-option [value]="'pointBuy'">Point Buy</mat-option>

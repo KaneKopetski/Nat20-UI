@@ -125,7 +125,8 @@ export class CharacterBuilderComponent implements OnInit {
         Validators.compose([Validators.required, Validators.max(18), Validators.min(8)])],
       charismaScorePointBuy: [Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE,
         Validators.compose([Validators.required, Validators.max(18), Validators.min(8)])],
-      totalPointBuy: [{value: 0, disabled: true}]
+      totalPointBuy: [{value: 0, disabled: true}],
+      abilityScoreGenerationMethod: ['manual']
     });
   }
 
