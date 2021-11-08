@@ -51,7 +51,7 @@ export abstract class Constants {
   public static readonly ERROR_TITLE_MSG: string = 'There be dragons?';
   public static readonly GENERIC_ERROR_MSG: string = 'Something went wrong. Please try again.';
   public static readonly STANDARD_ARRAY_SUFFIX: string = 'ScoreStandardArray';
-  public static readonly POINT_BUY_SUFFIX: string = 'PointBuy';
+  public static readonly POINT_BUY_SUFFIX: string = 'ScorePointBuy';
 
   public static readonly tooltipDelay = new FormControl(750);
 

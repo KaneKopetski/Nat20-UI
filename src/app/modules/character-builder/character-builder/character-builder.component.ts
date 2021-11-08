@@ -242,7 +242,7 @@ export class CharacterBuilderComponent implements OnInit {
 
   watchPointBuyFormFields() {
     this.baseAbilities.forEach((baseAbilityScore: string) => {
-      this.characterBuilderForm.get(baseAbilityScore + 'Score' + Constants.POINT_BUY_SUFFIX).valueChanges.subscribe(res => {
+      this.characterBuilderForm.get(baseAbilityScore + Constants.POINT_BUY_SUFFIX).valueChanges.subscribe(res => {
         this.characterBuilderForm.get('totalPointBuy').setValue(this.calculateTotalPoints());
       })
     })
@@ -283,7 +283,7 @@ export class CharacterBuilderComponent implements OnInit {
   private calculateTotalPoints(): number {
     let total: number = 0;
     this.baseAbilities.forEach((baseAbilityScore: string) => {
-     let value = this.characterBuilderForm.get(baseAbilityScore + 'Score' + Constants.POINT_BUY_SUFFIX).value;
+     let value = this.characterBuilderForm.get(baseAbilityScore + Constants.POINT_BUY_SUFFIX).value;
      let pointBuyValue: number = this.pointBuyMap.has(value) ? this.pointBuyMap.get(value) : 0;
      total += pointBuyValue;
     })
