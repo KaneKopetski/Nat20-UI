@@ -67,6 +67,8 @@ export class CharacterBuilderComponent implements OnInit {
 
   standardArrayOptions: Observable<Array<StandardArrayOption>>;
 
+  pointBuyMap: Map<number, number> = Constants.pointBuyMap;
+
   get sourceChipsSelected() {
     return this.sourceSelectionForm.get(Constants.SOURCES_SELECTED);
   }
@@ -84,6 +86,7 @@ export class CharacterBuilderComponent implements OnInit {
     this.abilityScoreDisplayColumns = [Constants.ZERO].concat(this.abilityScoreInputData.map(x => x.position.toString()));
     this.abilityScoreDisplayData = this.abilityScoreInputColumns.map(x => this.formatInputRow(x));
     this.watchStandardArrayFormFields();
+    this.watchPointBuyFormFields();
   }
 
   private setupOptions() {
@@ -109,7 +112,14 @@ export class CharacterBuilderComponent implements OnInit {
       constitutionScoreStandardArray: [Constants.DEFAULT_STANDARD_ARRAY_BASE_ABILITY_ENTRY_VALUE, Validators.required],
       wisdomScoreStandardArray: [Constants.DEFAULT_STANDARD_ARRAY_BASE_ABILITY_ENTRY_VALUE, Validators.required],
       intelligenceScoreStandardArray: [Constants.DEFAULT_STANDARD_ARRAY_BASE_ABILITY_ENTRY_VALUE, Validators.required],
-      charismaScoreStandardArray: [Constants.DEFAULT_STANDARD_ARRAY_BASE_ABILITY_ENTRY_VALUE, Validators.required]
+      charismaScoreStandardArray: [Constants.DEFAULT_STANDARD_ARRAY_BASE_ABILITY_ENTRY_VALUE, Validators.required],
+      strengthScorePointBuy: [Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, Validators.required],
+      dexterityScorePointBuy: [Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, Validators.required],
+      constitutionScorePointBuy: [Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, Validators.required],
+      wisdomScorePointBuy: [Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, Validators.required],
+      intelligenceScorePointBuy: [Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, Validators.required],
+      charismaScorePointBuy: [Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, Validators.required],
+      totalPointBuy: [{value: 0, disabled: true}]
     });
   }
 
@@ -230,6 +240,14 @@ export class CharacterBuilderComponent implements OnInit {
     });
   }
 
+  watchPointBuyFormFields() {
+    this.baseAbilities.forEach((baseAbilityScore: string) => {
+      this.characterBuilderForm.get(baseAbilityScore + 'Score' + Constants.POINT_BUY_SUFFIX).valueChanges.subscribe(res => {
+        this.characterBuilderForm.get('totalPointBuy').setValue(this.calculateTotalPoints());
+      })
+    })
+  }
+
   removeClass(row) {
     console.log(row);
   }
@@ -260,6 +278,16 @@ export class CharacterBuilderComponent implements OnInit {
         }
       })
     })
+  }
+
+  private calculateTotalPoints(): number {
+    let total: number = 0;
+    this.baseAbilities.forEach((baseAbilityScore: string) => {
+     let value = this.characterBuilderForm.get(baseAbilityScore + 'Score' + Constants.POINT_BUY_SUFFIX).value;
+     let pointBuyValue: number = this.pointBuyMap.has(value) ? this.pointBuyMap.get(value) : 0;
+     total += pointBuyValue;
+    })
+    return total;
   }
 }
 

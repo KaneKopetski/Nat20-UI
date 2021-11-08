@@ -1,5 +1,6 @@
 import {FormControl} from "@angular/forms";
 import {BaseAbilityScore} from "../../modules/character-builder/model/base-ability/base-ability-score.model";
+import {StandardArrayOption} from "../../modules/character-builder/model/options/standard-array-option.model";
 
 export abstract class Constants {
   public static readonly VALID_EMAIL_MESSAGE: string = 'Email is valid';
@@ -43,13 +44,14 @@ export abstract class Constants {
   public static readonly MANUAL: string = 'manual';
   public static readonly SOURCES_SELECTED: string = 'sourcesSelected';
   public static readonly ZERO: string = '0';
-  public static readonly DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE: string = '8';
+  public static readonly DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE: number = 8;
   public static readonly DEFAULT_STANDARD_ARRAY_BASE_ABILITY_ENTRY_VALUE: string = '--';
   public static readonly CHARACTER_BUILDER_RESOURCE_ERROR_MSG: string = 'Error while trying to load resources for character builder. Please try again later. '
   public static readonly RESOURCE_NOT_FOUND_MSG: string = 'Resource not found.';
   public static readonly ERROR_TITLE_MSG: string = 'There be dragons?';
   public static readonly GENERIC_ERROR_MSG: string = 'Something went wrong. Please try again.';
   public static readonly STANDARD_ARRAY_SUFFIX: string = 'ScoreStandardArray';
+  public static readonly POINT_BUY_SUFFIX: string = 'PointBuy';
 
   public static readonly tooltipDelay = new FormControl(750);
 
@@ -97,7 +99,7 @@ export abstract class Constants {
     [18, ''],
     [19, ''],
     [20, ''],
-  ])
+  ]);
 
   public static readonly savingThrows: string[] = ['fortSaveProgression', 'reflexSaveProgression', 'willSaveProgression'];
 
@@ -148,9 +150,9 @@ export abstract class Constants {
 
   public static readonly baseAbilities: Array<string> = ['strength', 'dexterity', 'constitution', 'wisdom', 'intelligence', 'charisma'];
 
-  public static readonly characterClassLevelsDisplayHeaders: string[] = ['level', 'class', 'remove'];
+  public static readonly characterClassLevelsDisplayHeaders: Array<string> = ['level', 'class', 'remove'];
 
-  public static readonly abilityScoreInputColumns = ['ability', 'score'];
+  public static readonly abilityScoreInputColumns: Array<string> = ['ability', 'score'];
 
   public static readonly defaultErrorResponse = {
     timestamp: '',
@@ -158,7 +160,7 @@ export abstract class Constants {
     message: 'Something went wrong. Please try again later.'
   };
 
-  public static readonly standardArrayOptions = [
+  public static readonly standardArrayOptions: Array<StandardArrayOption> = [
     {value: 15, isAllowed: true},
     {value: 14, isAllowed: true},
     {value: 13, isAllowed: true},
@@ -166,7 +168,20 @@ export abstract class Constants {
     {value: 10, isAllowed: true},
     {value: 8, isAllowed: true}]
 
-  public static readonly coreOnlySources = ['MONSTER_MANUAL', 'PLAYERS_HANDBOOK_V35', 'DUNGEON_MASTERS_GUIDE_V35'];
-  public static readonly srdOnlySources = ['MONSTER_MANUAL', 'PLAYERS_HANDBOOK_V35', 'DUNGEON_MASTERS_GUIDE_V35', 'EXPANDED_PSIONICS_HANDBOOK'];
+  public static readonly coreOnlySources: Array<string> = ['MONSTER_MANUAL', 'PLAYERS_HANDBOOK_V35', 'DUNGEON_MASTERS_GUIDE_V35'];
+  public static readonly srdOnlySources: Array<string> = ['MONSTER_MANUAL', 'PLAYERS_HANDBOOK_V35', 'DUNGEON_MASTERS_GUIDE_V35', 'EXPANDED_PSIONICS_HANDBOOK'];
+
+  public static readonly pointBuyMap: Map<number, number> = new Map<number, number>([
+    [9, 1],
+    [10, 2],
+    [11, 3],
+    [12, 4],
+    [13, 5],
+    [14, 6],
+    [15, 8],
+    [16, 10],
+    [17, 13],
+    [18, 16],
+  ])
 
 }
