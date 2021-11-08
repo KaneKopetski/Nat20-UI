@@ -22,19 +22,6 @@ import {MatDialog} from '@angular/material/dialog';
 import {ClassLevelManagerComponent} from '../class-level-manager/class-level-manager/class-level-manager.component';
 import {pairwise, startWith} from "rxjs/operators";
 import {Observable, of} from "rxjs";
-import {MatOptionSelectionChange} from "@angular/material/core";
-
-
-export class Type {
-  text: number;
-  allowed: boolean;
-
-  constructor (text: number, allowed: boolean) {
-    this.text = text;
-    this.allowed = allowed;
-  }
-}
-
 
 export interface BaseAbilityScore {
   ability: string;
@@ -47,7 +34,7 @@ export interface StandardArrayOption {
   isAllowed: boolean;
 }
 
-const ELEMENT_DATA: BaseAbilityScore[] = [
+const baseAbilityScoreData: BaseAbilityScore[] = [
   {position: 1, ability: 'Str', score: 0},
   {position: 2, ability: 'Dex', score: 0},
   {position: 3, ability: 'Con', score: 0},
@@ -90,24 +77,14 @@ export class CharacterBuilderComponent implements OnInit {
   characterBuilderForm: FormGroup;
 
   abilityScoreInputColumns = ['ability', 'score'];
-  abilityScoreInputData = ELEMENT_DATA;
+  abilityScoreInputData = baseAbilityScoreData;
 
   abilityScoreDisplayColumns: string[];
   abilityScoreDisplayData: any[];
 
   baseAbilityStyle = 'manual';
 
-  // standardArray: Array<number> = [15, 14, 13, 12, 10, 8];
   standardArrayOptions: Observable<Array<StandardArrayOption>>;
-
-  standardArrayOldValues: Map<string, number> = new Map([
-    ["strength", 0],
-    ["dexterity", 0],
-    ["constitution", 0],
-    ["wisdom", 0],
-    ["intelligence", 0],
-    ["charisma", 0]
-  ]);
 
   private defaultErrorResponse = {
     timestamp: '',
@@ -158,12 +135,12 @@ export class CharacterBuilderComponent implements OnInit {
       wisdomScoreManual: ['8', Validators.required],
       intelligenceScoreManual: ['8', Validators.required],
       charismaScoreManual: ['8', Validators.required],
-      strengthScoreStandardArray: ['', Validators.required],
-      dexterityScoreStandardArray: ['', Validators.required],
-      constitutionScoreStandardArray: ['', Validators.required],
-      wisdomScoreStandardArray: ['', Validators.required],
-      intelligenceScoreStandardArray: ['', Validators.required],
-      charismaScoreStandardArray: ['', Validators.required]
+      strengthScoreStandardArray: ['--', Validators.required],
+      dexterityScoreStandardArray: ['--', Validators.required],
+      constitutionScoreStandardArray: ['--', Validators.required],
+      wisdomScoreStandardArray: ['--', Validators.required],
+      intelligenceScoreStandardArray: ['--', Validators.required],
+      charismaScoreStandardArray: ['--', Validators.required]
     });
   }
 
@@ -277,7 +254,6 @@ export class CharacterBuilderComponent implements OnInit {
         this.characterBuilderForm.get(baseAbilityScore + 'ScoreStandardArray').valueChanges
           .pipe(startWith(this.characterBuilderForm.get(baseAbilityScore + 'ScoreStandardArray').value), pairwise())
           .subscribe(([oldValue, newValue]) => {
-            this.standardArrayOldValues.set(baseAbilityScore, oldValue);
             this.toggleAllowedFlagFalse(newValue);
             this.toggleAllowedFlagTrue(oldValue);
           }
