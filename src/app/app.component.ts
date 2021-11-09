@@ -48,6 +48,7 @@ export class AppComponent implements OnInit, OnDestroy, WithStyles {
 
   ngOnInit(): void {
     this.matIconRegistry.addSvgIcon('d20', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/d20.svg'));
+    this.matIconRegistry.addSvgIcon('d6', this.domSanitizer.bypassSecurityTrustResourceUrl('assets/d6.svg'));
     this.mediaSubscription = this.mediaObserver.media$.subscribe((result: MediaChange) => {
       this.deviceXs = result.mqAlias === 'xs';
       this.deviceSm = result.mqAlias === 'sm';

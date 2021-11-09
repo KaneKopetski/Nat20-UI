@@ -1,30 +1,42 @@
-<div fxLayout="column" fxLayoutAlign="center">
-<mat-form-field appearance="fill">
-  <mat-label>Dice Roll</mat-label>
-  <mat-select [(value)]="rollStyle">
-    <mat-option [value]="'4d6b3'">4d6 drop the lowest</mat-option>
-    <mat-option [value]="'3d6'">3d6</mat-option>
-    <mat-option [value]="'custom'">Custom</mat-option>
-  </mat-select>
-</mat-form-field>
+<mat-dialog-content fxLayout="column" fxLayoutAlign="space-between center">
+  <mat-form-field appearance="fill">
+    <mat-label>Dice Roll</mat-label>
+    <mat-select [(value)]="rollStyle">
+      <mat-option [value]="'4d6b3'">4d6 drop the lowest</mat-option>
+      <mat-option [value]="'3d6'">3d6</mat-option>
+      <mat-option [value]="'custom'">Custom</mat-option>
+    </mat-select>
+  </mat-form-field>
 
-<mat-form-field appearance="fill">
-  <mat-label>Allocation Method</mat-label>
-  <mat-select [(value)]="allocationMethod">
-    <mat-option [value]="'automatic'">Automatic</mat-option>
-    <mat-option [value]="'rollThenAssign'">Assign after rolling</mat-option>
-  </mat-select>
-</mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Allocation Method</mat-label>
+    <mat-select [(value)]="allocationMethod">
+      <mat-option [value]="'automatic'">Automatic</mat-option>
+      <mat-option [value]="'rollThenAssign'">Assign after rolling</mat-option>
+    </mat-select>
+  </mat-form-field>
 
-  <div>
-    <mat-label>Re-roll ones?</mat-label>
-    <mat-checkbox [checked]="reRollOnes"></mat-checkbox>
+  <mat-checkbox [checked]="reRollOnes" (change)="this.reRollOnes = !this.reRollOnes">Re-roll ones?</mat-checkbox>
+
+  <button mat-raised-button (click)="roll()">
+    <mat-icon svgIcon="d20"></mat-icon>
+  </button>
+
+  <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="15px">
+    <div *ngFor="let roll of this.rolls; let i = index">
+      <button mat-mini-fab (click)="reRollSingleRoll(i)">
+      <mat-icon svgIcon="d6"></mat-icon>
+      <span>{{ roll }}</span>
+      </button>
+    </div>
+    <mat-icon svgIcon="d6" class="color"></mat-icon>
+    <span>{{ this.droppedRoll }}</span>
   </div>
 
-  <button mat-raised-button (click)="roll()"><mat-icon svgIcon="d20"></mat-icon></button>
-
   <span>{{ this.rollTotal }}</span>
+</mat-dialog-content>
 
-  <button mat-flat-button>Done</button>
-  <button mat-flat-button>Cancel</button>
-</div>
+<mat-dialog-actions>
+  <button mat-flat-button [color]="'accent'">Done</button>
+  <button mat-stroked-button>Cancel</button>
+</mat-dialog-actions>

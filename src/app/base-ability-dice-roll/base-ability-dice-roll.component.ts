@@ -9,8 +9,10 @@ import {MatDialogRef} from "@angular/material/dialog";
 export class BaseAbilityDiceRollComponent implements OnInit {
   rollStyle: string = '4d6b3';
   allocationMethod: string = 'automatic';
-  reRollOnes: boolean;
+  reRollOnes: boolean = false;
   rollTotal: number = 0;
+  rolls: number[];
+  droppedRoll: number;
 
   constructor(public dialogRef: MatDialogRef<BaseAbilityDiceRollComponent>) { }
 
@@ -19,28 +21,46 @@ export class BaseAbilityDiceRollComponent implements OnInit {
 
   roll() {
     if (this.rollStyle === '4d6b3') {
-      this.rollTotal = 0;
       const rolls: number[] = [
         Math.floor(Math.random() * (7 - 1) + 1),
         Math.floor(Math.random() * (7 - 1) + 1),
         Math.floor(Math.random() * (7 - 1) + 1),
         Math.floor(Math.random() * (7 - 1) + 1)];
 
-      if (this.reRollOnes) {
-        rolls.forEach(roll => {
-          if (roll === 1) {
-            rolls.splice(rolls.indexOf(roll), 1, Math.floor(Math.random() * (7 - 1) + 1));
-          }
-        })
-      }
+      this.doReRollOnes(rolls);
 
       rolls.sort((n1, n2) => n1 - n2);
+      this.droppedRoll = rolls[0];
       rolls.splice(0, 1);
-      rolls.forEach(roll => this.rollTotal += roll);
+      this.rolls = rolls;
+      this.calculateRollTotal();
     }
   }
 
   close() {
     this.dialogRef.close(this.rollTotal);
+  }
+
+  private doReRollOnes(rolls: number[]) {
+    let finalResult: number[] = rolls;
+    if (this.reRollOnes) {
+      finalResult.forEach(roll => {
+        if (roll === 1) {
+          finalResult.splice(finalResult.indexOf(roll), 1, Math.floor(Math.random() * (7 - 1) + 1));
+          this.doReRollOnes(finalResult);
+        }
+      })
+    }
+    return finalResult;
+  }
+
+  reRollSingleRoll(i: number) {
+    this.rolls[i] = Math.floor(Math.random() * (7 - 1) + 1);
+    this.calculateRollTotal();
+  }
+
+  calculateRollTotal() {
+    this.rollTotal = 0;
+    this.rolls.forEach(roll => this.rollTotal += roll);
   }
 }
