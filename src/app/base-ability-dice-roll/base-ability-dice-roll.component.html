@@ -1,4 +1,5 @@
-<mat-dialog-content fxLayout="column" fxLayoutAlign="space-between center">
+<mat-dialog-content fxLayout="column" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+  <h1>{{ this.data | titlecase }}</h1>
   <mat-form-field appearance="fill">
     <mat-label>Dice Roll</mat-label>
     <mat-select [(value)]="rollStyle">
@@ -7,6 +8,13 @@
       <mat-option [value]="'custom'">Custom</mat-option>
     </mat-select>
   </mat-form-field>
+
+  <mat-form-field appearance="outline" *ngIf="this.rollStyle === 'custom'" class="custom-roll-input">
+    <mat-label>Input roll string</mat-label>
+    <input matInput [formControl]="customRoll" placeholder="3d6">
+    <mat-hint align="start">Use standard dice format. E.g., 4d6, 5d6b3, etc.</mat-hint>
+  </mat-form-field>
+
 
   <mat-form-field appearance="fill">
     <mat-label>Allocation Method</mat-label>
@@ -29,11 +37,18 @@
       <span>{{ roll }}</span>
       </button>
     </div>
+
+    <div *ngIf="this.rolls && this.rollStyle === '4d6b3'" class="roll-display">
     <mat-icon svgIcon="d6" class="color"></mat-icon>
     <span>{{ this.droppedRoll }}</span>
+    </div>
   </div>
 
-  <span>{{ this.rollTotal }}</span>
+  <mat-form-field appearance="outline" *ngIf="this.rollTotal && this.rollTotal !== 0" class="roll-total">
+    <mat-label>Roll total</mat-label>
+    <input matInput [formControl]="rollTotalFormControl">
+  </mat-form-field>
+
 </mat-dialog-content>
 
 <mat-dialog-actions>

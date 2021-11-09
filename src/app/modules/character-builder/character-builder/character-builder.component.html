@@ -145,7 +145,7 @@
                   <input matInput formControlName="{{baseAbility + 'ScoreDiceRoll'}}" min="8" max="18">
                 </mat-form-field>
 
-                <button mat-raised-button *ngIf="this.baseAbilityStyle === 'diceRolls'" (click)="launchDiceRollModal()">
+                <button mat-raised-button *ngIf="this.baseAbilityStyle === 'diceRolls'" (click)="launchDiceRollModal(baseAbility)">
                   <mat-icon svgIcon="d20"></mat-icon>
                 </button>
                 </div>

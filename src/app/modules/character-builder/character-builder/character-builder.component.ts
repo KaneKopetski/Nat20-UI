@@ -306,10 +306,11 @@ export class CharacterBuilderComponent implements OnInit {
     return total;
   }
 
-  launchDiceRollModal() {
+  launchDiceRollModal(ability: string) {
     const dialogRef = this.dialog.open(BaseAbilityDiceRollComponent, {
+      data: ability,
       width: '20%',
-      height: '50%'
+      height: '55%'
     });
 
     dialogRef.afterClosed().subscribe(res => {

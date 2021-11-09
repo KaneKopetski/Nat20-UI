@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import {MatDialogRef} from "@angular/material/dialog";
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-base-ability-dice-roll',
@@ -13,28 +14,53 @@ export class BaseAbilityDiceRollComponent implements OnInit {
   rollTotal: number = 0;
   rolls: number[];
   droppedRoll: number;
+  rollTotalFormControl: FormControl = new FormControl();
+  customRoll: FormControl = new FormControl();
 
-  constructor(public dialogRef: MatDialogRef<BaseAbilityDiceRollComponent>) { }
+  constructor(public dialogRef: MatDialogRef<BaseAbilityDiceRollComponent>, @Inject(MAT_DIALOG_DATA) public data) { }
 
   ngOnInit(): void {
   }
 
   roll() {
-    if (this.rollStyle === '4d6b3') {
-      const rolls: number[] = [
-        Math.floor(Math.random() * (7 - 1) + 1),
-        Math.floor(Math.random() * (7 - 1) + 1),
-        Math.floor(Math.random() * (7 - 1) + 1),
-        Math.floor(Math.random() * (7 - 1) + 1)];
+    switch (this.rollStyle) {
+      case '4d6b3': {
+          const rolls: number[] = [
+            Math.floor(Math.random() * (7 - 1) + 1),
+            Math.floor(Math.random() * (7 - 1) + 1),
+            Math.floor(Math.random() * (7 - 1) + 1),
+            Math.floor(Math.random() * (7 - 1) + 1)];
 
-      this.doReRollOnes(rolls);
+          this.doReRollOnes(rolls);
 
-      rolls.sort((n1, n2) => n1 - n2);
-      this.droppedRoll = rolls[0];
-      rolls.splice(0, 1);
-      this.rolls = rolls;
-      this.calculateRollTotal();
+          rolls.sort((n1, n2) => n1 - n2);
+          this.droppedRoll = rolls[0];
+          rolls.splice(0, 1);
+          this.rolls = rolls;
+          this.calculateRollTotal();
+      } break;
+      case '3d6': {
+        const rolls: number[] = [
+          Math.floor(Math.random() * (7 - 1) + 1),
+          Math.floor(Math.random() * (7 - 1) + 1),
+          Math.floor(Math.random() * (7 - 1) + 1)];
+
+        this.doReRollOnes(rolls);
+
+        rolls.sort((n1, n2) => n1 - n2);
+        this.rolls = rolls;
+        this.calculateRollTotal();
+      } break;
+      default: {
+        const customRoll: string = this.customRoll.value;
+        const customRollArray1: string[] = customRoll.split('d');
+        const customRollArray2: string[] = customRoll.split('b');
+        console.log(customRollArray1);
+        console.log(customRollArray2);
+      }
     }
+
+
   }
 
   close() {
@@ -62,5 +88,6 @@ export class BaseAbilityDiceRollComponent implements OnInit {
   calculateRollTotal() {
     this.rollTotal = 0;
     this.rolls.forEach(roll => this.rollTotal += roll);
+    this.rollTotalFormControl.setValue(this.rollTotal);
   }
 }
