@@ -23,6 +23,9 @@ import {ClassLevelManagerComponent} from '../class-level-manager/class-level-man
 import {pairwise, startWith} from "rxjs/operators";
 import {Observable, of} from "rxjs";
 import {StandardArrayOption} from "../model/options/standard-array-option.model";
+import {BaseAbilityDiceRollComponent} from "../../../base-ability-dice-roll/base-ability-dice-roll.component";
+import {MatIconRegistry} from "@angular/material/icon";
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-character-builder',
@@ -126,7 +129,13 @@ export class CharacterBuilderComponent implements OnInit {
       charismaScorePointBuy: [Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE,
         Validators.compose([Validators.required, Validators.max(18), Validators.min(8)])],
       totalPointBuy: [{value: 0, disabled: true}],
-      abilityScoreGenerationMethod: ['manual']
+      abilityScoreGenerationMethod: ['manual'],
+      strengthScoreDiceRoll: [{value: Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, disabled: true}, Validators.required],
+      dexterityScoreDiceRoll: [{value: Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, disabled: true}, Validators.required],
+      constitutionScoreDiceRoll: [{value: Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, disabled: true}, Validators.required],
+      wisdomScoreDiceRoll: [{value: Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, disabled: true}, Validators.required],
+      intelligenceScoreDiceRoll: [{value: Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, disabled: true}, Validators.required],
+      charismaScoreDiceRoll: [{value: Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, disabled: true}, Validators.required],
     });
   }
 
@@ -295,6 +304,17 @@ export class CharacterBuilderComponent implements OnInit {
      total += pointBuyValue;
     })
     return total;
+  }
+
+  launchDiceRollModal() {
+    const dialogRef = this.dialog.open(BaseAbilityDiceRollComponent, {
+      width: '20%',
+      height: '50%'
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      console.log(res);
+    });
   }
 }
 

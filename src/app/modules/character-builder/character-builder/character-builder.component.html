@@ -139,6 +139,17 @@
                   <input matInput formControlName="{{baseAbility + 'ScorePointBuy'}}" type="number" min="8" max="18">
                 </mat-form-field>
 
+                <div fxLayout="column">
+                <mat-form-field appearance="fill" *ngIf="this.baseAbilityStyle === 'diceRolls'">
+                  <mat-label>{{ baseAbility + ' Score' | titlecase }}</mat-label>
+                  <input matInput formControlName="{{baseAbility + 'ScoreDiceRoll'}}" min="8" max="18">
+                </mat-form-field>
+
+                <button mat-raised-button *ngIf="this.baseAbilityStyle === 'diceRolls'" (click)="launchDiceRollModal()">
+                  <mat-icon svgIcon="d20"></mat-icon>
+                </button>
+                </div>
+
               </div>
 
               <mat-form-field appearance="fill" *ngIf="this.baseAbilityStyle === 'pointBuy'">
@@ -150,8 +161,9 @@
                 <mat-label>Ability score generation style</mat-label>
                 <mat-select [(value)]="baseAbilityStyle" formControlName="abilityScoreGenerationMethod">
                   <mat-option [value]="'manual'">Manual</mat-option>
-                  <mat-option [value]="'standardArray'">Standard Array</mat-option>
+                  <mat-option [value]="'standardArray'">Standard/Elite Array</mat-option>
                   <mat-option [value]="'pointBuy'">Point Buy</mat-option>
+                  <mat-option [value]="'diceRolls'">Dice Rolls</mat-option>
                 </mat-select>
               </mat-form-field>
             </div>

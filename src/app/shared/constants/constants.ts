@@ -54,6 +54,7 @@ export abstract class Constants {
   public static readonly STANDARD_ARRAY_SUFFIX: string = 'ScoreStandardArray';
   public static readonly POINT_BUY_SUFFIX: string = 'ScorePointBuy';
   public static readonly MANUAL_SUFFIX: string = 'ScoreManual';
+  public static readonly DICE_ROLL_SUFFIX: string = 'ScoreDiceRoll';
   public static readonly ABILITY_SCORE_GENERATION_METHOD: string = 'abilityScoreGenerationMethod';
 
   public static readonly tooltipDelay = new FormControl(750);
