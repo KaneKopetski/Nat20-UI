@@ -142,7 +142,7 @@
                 <div fxLayout="column">
                 <mat-form-field appearance="fill" *ngIf="this.baseAbilityStyle === 'diceRolls'">
                   <mat-label>{{ baseAbility + ' Score' | titlecase }}</mat-label>
-                  <input matInput formControlName="{{baseAbility + 'ScoreDiceRoll'}}" min="8" max="18">
+                  <input matInput formControlName="{{baseAbility + 'ScoreDiceRoll'}}">
                 </mat-form-field>
 
                 <button mat-raised-button *ngIf="this.baseAbilityStyle === 'diceRolls'" (click)="launchDiceRollModal(baseAbility)">

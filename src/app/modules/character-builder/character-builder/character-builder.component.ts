@@ -310,11 +310,12 @@ export class CharacterBuilderComponent implements OnInit {
     const dialogRef = this.dialog.open(BaseAbilityDiceRollComponent, {
       data: ability,
       width: '20%',
-      height: '55%'
+      minHeight: '55%',
+      maxHeight: '75%'
     });
 
     dialogRef.afterClosed().subscribe(res => {
-      console.log(res);
+      this.characterBuilderForm.get(ability + Constants.DICE_ROLL_SUFFIX).setValue(res);
     });
   }
 }

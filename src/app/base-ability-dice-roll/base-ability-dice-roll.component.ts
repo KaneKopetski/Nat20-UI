@@ -9,7 +9,6 @@ import {FormControl} from "@angular/forms";
 })
 export class BaseAbilityDiceRollComponent implements OnInit {
   rollStyle: string = '4d6b3';
-  allocationMethod: string = 'automatic';
   reRollOnes: boolean = false;
   rollTotal: number = 0;
   rolls: number[];
@@ -25,45 +24,76 @@ export class BaseAbilityDiceRollComponent implements OnInit {
   roll() {
     switch (this.rollStyle) {
       case '4d6b3': {
-          const rolls: number[] = [
-            Math.floor(Math.random() * (7 - 1) + 1),
-            Math.floor(Math.random() * (7 - 1) + 1),
-            Math.floor(Math.random() * (7 - 1) + 1),
-            Math.floor(Math.random() * (7 - 1) + 1)];
-
-          this.doReRollOnes(rolls);
-
-          rolls.sort((n1, n2) => n1 - n2);
-          this.droppedRoll = rolls[0];
-          rolls.splice(0, 1);
-          this.rolls = rolls;
-          this.calculateRollTotal();
+          this.handle4d6DropLowestRolls();
       } break;
       case '3d6': {
-        const rolls: number[] = [
-          Math.floor(Math.random() * (7 - 1) + 1),
-          Math.floor(Math.random() * (7 - 1) + 1),
-          Math.floor(Math.random() * (7 - 1) + 1)];
-
-        this.doReRollOnes(rolls);
-
-        rolls.sort((n1, n2) => n1 - n2);
-        this.rolls = rolls;
-        this.calculateRollTotal();
+        this.handle3d6Rolls();
       } break;
       default: {
-        const customRoll: string = this.customRoll.value;
-        const customRollArray1: string[] = customRoll.split('d');
-        const customRollArray2: string[] = customRoll.split('b');
-        console.log(customRollArray1);
-        console.log(customRollArray2);
+        this.handleCustomRoll();
       }
     }
-
-
   }
 
-  close() {
+  handle4d6DropLowestRolls() {
+    const rolls: number[] = [
+      Math.floor(Math.random() * (7 - 1) + 1),
+      Math.floor(Math.random() * (7 - 1) + 1),
+      Math.floor(Math.random() * (7 - 1) + 1),
+      Math.floor(Math.random() * (7 - 1) + 1)];
+
+    this.doReRollOnes(rolls);
+
+    rolls.sort((n1, n2) => n1 - n2);
+    this.droppedRoll = rolls[0];
+    rolls.splice(0, 1);
+    this.rolls = rolls;
+    this.calculateRollTotal();
+  }
+
+  handle3d6Rolls() {
+    const rolls: number[] = [
+      Math.floor(Math.random() * (7 - 1) + 1),
+      Math.floor(Math.random() * (7 - 1) + 1),
+      Math.floor(Math.random() * (7 - 1) + 1)];
+
+    this.doReRollOnes(rolls);
+
+    rolls.sort((n1, n2) => n1 - n2);
+    this.rolls = rolls;
+    this.calculateRollTotal();
+  }
+
+  handleCustomRoll() {
+    const customRoll: string = this.customRoll.value;
+    const customRollArray1: string[] = customRoll.split('d');
+    let customRollArray2: string[];
+
+    if (customRollArray1[1].includes('b')) {
+      customRollArray2 = customRollArray1[1].split('b');
+      customRollArray1[1] = customRollArray2[0];
+      customRollArray1.push(customRollArray2[1]);
+    }
+    const numberOfRolls = +customRollArray1[0];
+    const numberOfSides = +customRollArray1[1];
+    const dropLowest = customRollArray1.length === 3;
+
+    const rolls: number[] = [];
+    for (let i = 0; i < numberOfRolls; i++) {
+      rolls.push(Math.floor(Math.random() * ((numberOfSides + 1) - 1) + 1));
+    }
+
+    if (dropLowest) {
+      rolls.sort((n1, n2) => n1 - n2);
+      this.droppedRoll = rolls[0];
+      rolls.splice(0, 1);
+    }
+
+    this.rolls = rolls;
+    this.calculateRollTotal();
+  }
+
+  acceptResult() {
     this.dialogRef.close(this.rollTotal);
   }
 
@@ -89,5 +119,15 @@ export class BaseAbilityDiceRollComponent implements OnInit {
     this.rollTotal = 0;
     this.rolls.forEach(roll => this.rollTotal += roll);
     this.rollTotalFormControl.setValue(this.rollTotal);
+  }
+
+  reset() {
+    this.rollTotal = 0;
+    this.rolls = [];
+    this.droppedRoll = undefined;
+  }
+
+  cancelAndClose() {
+    this.dialogRef.close();
   }
 }
