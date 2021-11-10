@@ -7,7 +7,7 @@
         <br>
       </div>
       <div class="build-name-title">
-        <mat-panel-title>{{ this.characterBuilderForm.get('buildName').value }}</mat-panel-title>
+        <mat-panel-title>{{ this.buildNameForm.get('buildName').value }}</mat-panel-title>
         <br>
       </div>
 
@@ -106,14 +106,21 @@
 
         </form>
       </mat-step>
-      <mat-step [stepControl]="characterBuilderForm" label="Create a build">
+
+      <mat-step [stepControl]="buildNameForm" label="Name your build">
+        <form [formGroup]="buildNameForm">
+        <mat-form-field appearance="fill">
+          <mat-label>Build name</mat-label>
+          <input matInput formControlName="buildName">
+        </mat-form-field>
+        </form>
+        <button mat-flat-button color="accent" matStepperNext>Next: Generate base abilities</button>
+      </mat-step>
+
+      <mat-step [stepControl]="characterBuilderForm" label="Generate base ability scores">
 
         <form [formGroup]="characterBuilderForm">
           <div fxLayout="column" fxLayoutAlign="space-around start">
-            <mat-form-field appearance="fill">
-              <mat-label>Build name</mat-label>
-              <input matInput formControlName="buildName">
-            </mat-form-field>
 
             <div class="base-ability-scores" fxLayout="row" fxLayoutGap="15px">
               <div class="base-ability-score-input" *ngFor="let baseAbility of baseAbilities">
@@ -168,32 +175,19 @@
               </mat-form-field>
             </div>
 
-            <div fxLayout="row" fxLayoutGap="15px" fxLayoutAlign="space-around center">
-
-              <mat-form-field appearance="fill">
-                <mat-label>Add class levels</mat-label>
-                <mat-select [(value)]="selectedClass" formControlName="characterClasses">
-                  <mat-option [value]="characterClass" *ngFor="let characterClass of availableCharacterClasses">
-                    {{ characterClass.name }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <div fxLayout="row">
-                <button mat-flat-button color="accent" (click)="addSelectedClassToClassLevels()">Add class</button>
-                <button mat-flat-button color="accent" (click)="launchCharacterLevelManager()">Launch class level manager</button>
-              </div>
-
-            </div>
-
           </div>
 
           <div>
             <button mat-button matStepperPrevious>Back</button>
-            <button mat-flat-button color="accent" matStepperNext>Save build</button>
+            <button mat-flat-button color="accent" matStepperNext>Next: Pick class levels</button>
             <button mat-flat-button (click)="drawer.toggle()">Show summary</button>
           </div>
         </form>
 
+      </mat-step>
+
+      <mat-step [stepControl]="characterClassForm">
+        <button mat-flat-button color="accent" (click)="launchCharacterLevelManager()">Launch class level manager</button>
       </mat-step>
 
       <mat-step>

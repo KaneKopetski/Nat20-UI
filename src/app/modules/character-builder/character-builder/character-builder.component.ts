@@ -24,8 +24,6 @@ import {pairwise, startWith} from "rxjs/operators";
 import {Observable, of} from "rxjs";
 import {StandardArrayOption} from "../model/options/standard-array-option.model";
 import {BaseAbilityDiceRollComponent} from "../../../base-ability-dice-roll/base-ability-dice-roll.component";
-import {MatIconRegistry} from "@angular/material/icon";
-import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-character-builder',
@@ -71,6 +69,8 @@ export class CharacterBuilderComponent implements OnInit {
   standardArrayOptions: Observable<Array<StandardArrayOption>>;
 
   pointBuyMap: Map<number, number> = Constants.pointBuyMap;
+  buildNameForm: FormGroup;
+  characterClassForm: FormGroup;
 
   get sourceChipsSelected() {
     return this.sourceSelectionForm.get(Constants.SOURCES_SELECTED);
@@ -101,9 +101,10 @@ export class CharacterBuilderComponent implements OnInit {
       firstCtrl: ['', Validators.required],
       sourcesSelected: []
     });
+    this.buildNameForm = this.fb.group({
+      buildName: ['', Validators.required]
+    });
     this.characterBuilderForm = this.fb.group({
-      buildName: ['', Validators.required],
-      characterClasses: ['', Validators.required],
       strengthScoreManual: [Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, Validators.required],
       dexterityScoreManual: [Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, Validators.required],
       constitutionScoreManual: [Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, Validators.required],
@@ -135,8 +136,11 @@ export class CharacterBuilderComponent implements OnInit {
       constitutionScoreDiceRoll: [{value: Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, disabled: true}, Validators.required],
       wisdomScoreDiceRoll: [{value: Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, disabled: true}, Validators.required],
       intelligenceScoreDiceRoll: [{value: Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, disabled: true}, Validators.required],
-      charismaScoreDiceRoll: [{value: Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, disabled: true}, Validators.required],
+      charismaScoreDiceRoll: [{value: Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, disabled: true}, Validators.required]
     });
+    this.characterClassForm = this.fb.group({
+      characterClasses: ['', Validators.required]
+    })
   }
 
   private getSourceOptions() {
