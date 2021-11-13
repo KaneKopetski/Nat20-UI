@@ -183,7 +183,7 @@
 
           <div class="base-ability-score-buttons">
             <button mat-button matStepperPrevious>Back</button>
-            <button mat-flat-button color="accent" matStepperNext>Next: Pick class levels</button>
+            <button mat-flat-button color="accent" matStepperNext>Next</button>
             <button mat-flat-button (click)="drawer.toggle()">Show summary</button>
           </div>
         </form>
@@ -191,7 +191,8 @@
       </mat-step>
 
       <mat-step [stepControl]="characterBuilderForm">
-        <button mat-flat-button color="accent" (click)="launchCharacterLevelManager()">Launch class level manager</button>
+        <app-class-level-manager [data]="this.characterBuilderForm"></app-class-level-manager>
+<!--        <button mat-flat-button color="accent" (click)="launchCharacterLevelManager()">Launch class level manager</button>-->
       </mat-step>
 
       <mat-step>

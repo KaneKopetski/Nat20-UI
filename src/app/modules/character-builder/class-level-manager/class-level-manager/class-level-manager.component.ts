@@ -22,10 +22,11 @@ import {MatSort} from '@angular/material/sort';
   encapsulation : ViewEncapsulation.None,
 
 })
-export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
+export class ClassLevelManagerComponent implements OnInit {
 
-  @Input() sourcesAllowed: any[];
+  @Input() data: FormGroup;
   @ViewChild(MatSort) sort: MatSort;
+  sourcesAllowed: any[];
   searchTableDataSource: MatTableDataSource<CharacterClass>;
   searchTableColumnsToDisplay: string[] = Constants.classLevelManagerSearchTableColumnsToDisplay;
   goodSavingThrowFormula: string = Constants.GOOD_SAVING_THROW_FORMULA;
@@ -59,21 +60,24 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   selectedIndex: number;
 
   constructor(private characterClassService: CharacterClassService, private toastr: ToastrService,
-              private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) private data) {
+              private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
-    this.characterBuildData = this.data[0];
-    this.sourcesAllowed = this.data[1];
+    this.setSources();
     this.toastr.overlayContainer = this.toastContainer;
     this.watchFilters();
   }
 
-  ngAfterViewInit(): void {
-    this.fetchFirstPageOfClassesForSourcesProvided();
+  setSources() {
+    this.data.get(Constants.SOURCES_SELECTED).valueChanges.subscribe(value => {
+      this.sourcesAllowed = value;
+      this.fetchFirstPageOfClassesForSourcesProvided();
+    })
   }
 
   private fetchFirstPageOfClassesForSourcesProvided() {
+
     this.characterClassService.getClassesFromSources(this.sourcesAllowed).subscribe(res => {
         this.searchTableDataSource = new MatTableDataSource<CharacterClass>(res);
         this.searchTableDataSource.paginator = this.paginator;
@@ -250,7 +254,7 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
   private getBaseAbilityModifier(abilityName: string): number {
     let abilityFormControl: string;
 
-    switch (this.characterBuildData.get(Constants.ABILITY_SCORE_GENERATION_METHOD).value) {
+    switch (this.data.get(Constants.ABILITY_SCORE_GENERATION_METHOD).value) {
       case Constants.MANUAL: {
         abilityFormControl = abilityName + Constants.MANUAL_SUFFIX;
       } break;
@@ -262,7 +266,7 @@ export class ClassLevelManagerComponent implements OnInit, AfterViewInit {
       }
     }
 
-    let abilityScore: number = this.characterBuildData.get(abilityFormControl).value;
+    let abilityScore: number = this.data.get(abilityFormControl).value;
 
     return Math.floor((abilityScore - 10) / 2);
   }
