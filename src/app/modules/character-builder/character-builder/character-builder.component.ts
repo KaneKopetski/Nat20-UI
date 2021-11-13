@@ -69,11 +69,9 @@ export class CharacterBuilderComponent implements OnInit {
   standardArrayOptions: Observable<Array<StandardArrayOption>>;
 
   pointBuyMap: Map<number, number> = Constants.pointBuyMap;
-  buildNameForm: FormGroup;
-  characterClassForm: FormGroup;
 
   get sourceChipsSelected() {
-    return this.sourceSelectionForm.get(Constants.SOURCES_SELECTED);
+    return this.characterBuilderForm.get(Constants.SOURCES_SELECTED);
   }
 
   constructor(private fb: FormBuilder, private characterClassService: CharacterClassService, private raceService: RaceService,
@@ -97,13 +95,8 @@ export class CharacterBuilderComponent implements OnInit {
   }
 
   private setupForms() {
-    this.sourceSelectionForm = this.fb.group({
-      firstCtrl: ['', Validators.required],
-      sourcesSelected: []
-    });
-    this.buildNameForm = this.fb.group({
-    });
     this.characterBuilderForm = this.fb.group({
+      sourcesSelected: [],
       buildName: ['', Validators.required],
       strengthScoreManual: [Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, Validators.required],
       dexterityScoreManual: [Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, Validators.required],
