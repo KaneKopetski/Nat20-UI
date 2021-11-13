@@ -102,9 +102,9 @@ export class CharacterBuilderComponent implements OnInit {
       sourcesSelected: []
     });
     this.buildNameForm = this.fb.group({
-      buildName: ['', Validators.required]
     });
     this.characterBuilderForm = this.fb.group({
+      buildName: ['', Validators.required],
       strengthScoreManual: [Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, Validators.required],
       dexterityScoreManual: [Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, Validators.required],
       constitutionScoreManual: [Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, Validators.required],
@@ -131,16 +131,13 @@ export class CharacterBuilderComponent implements OnInit {
         Validators.compose([Validators.required, Validators.max(18), Validators.min(8)])],
       totalPointBuy: [{value: 0, disabled: true}],
       abilityScoreGenerationMethod: ['manual'],
-      strengthScoreDiceRoll: [{value: Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, disabled: true}, Validators.required],
-      dexterityScoreDiceRoll: [{value: Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, disabled: true}, Validators.required],
-      constitutionScoreDiceRoll: [{value: Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, disabled: true}, Validators.required],
-      wisdomScoreDiceRoll: [{value: Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, disabled: true}, Validators.required],
-      intelligenceScoreDiceRoll: [{value: Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, disabled: true}, Validators.required],
-      charismaScoreDiceRoll: [{value: Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, disabled: true}, Validators.required]
+      strengthScoreDiceRoll: [{value: Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE}, Validators.required],
+      dexterityScoreDiceRoll: [{value: Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE}, Validators.required],
+      constitutionScoreDiceRoll: [{value: Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE}, Validators.required],
+      wisdomScoreDiceRoll: [{value: Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE}, Validators.required],
+      intelligenceScoreDiceRoll: [{value: Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE}, Validators.required],
+      charismaScoreDiceRoll: [{value: Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE}, Validators.required]
     });
-    this.characterClassForm = this.fb.group({
-      characterClasses: ['', Validators.required]
-    })
   }
 
   private getSourceOptions() {
@@ -319,7 +316,7 @@ export class CharacterBuilderComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(res => {
-      this.characterBuilderForm.get(ability + Constants.DICE_ROLL_SUFFIX).setValue(res);
+      this.characterBuilderForm.get(ability + Constants.DICE_ROLL_SUFFIX).patchValue(res);
     });
   }
 }

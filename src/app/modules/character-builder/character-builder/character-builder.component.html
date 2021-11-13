@@ -7,7 +7,7 @@
         <br>
       </div>
       <div class="build-name-title">
-        <mat-panel-title>{{ this.buildNameForm.get('buildName').value }}</mat-panel-title>
+        <mat-panel-title>{{ this.characterBuilderForm.get('buildName').value }}</mat-panel-title>
         <br>
       </div>
 
@@ -100,21 +100,25 @@
           </div>
 
           <div>
-            <button color="accent" mat-raised-button matStepperNext (click)="this.getCharacterBuilderFormSelectionValues()">Next: Create a Build
-            </button>
+            <button color="accent" mat-raised-button matStepperNext (click)="this.getCharacterBuilderFormSelectionValues()">Next</button>
+            <button mat-flat-button (click)="drawer.toggle()">Show summary</button>
           </div>
 
         </form>
       </mat-step>
 
-      <mat-step [stepControl]="buildNameForm" label="Name your build">
-        <form [formGroup]="buildNameForm">
-        <mat-form-field appearance="fill">
+      <mat-step [stepControl]="characterBuilderForm" label="Name your build">
+        <form [formGroup]="characterBuilderForm" fxLayout="column" class="build-name-form">
+        <mat-form-field appearance="fill" color="accent">
           <mat-label>Build name</mat-label>
-          <input matInput formControlName="buildName">
+          <input matInput formControlName="buildName" autocomplete="off">
         </mat-form-field>
+          <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-flat-button color="accent" type="submit" matStepperNext>Next</button>
+            <button mat-flat-button (click)="drawer.toggle()">Show summary</button>
+          </div>
         </form>
-        <button mat-flat-button color="accent" matStepperNext>Next: Generate base abilities</button>
       </mat-step>
 
       <mat-step [stepControl]="characterBuilderForm" label="Generate base ability scores">
@@ -177,7 +181,7 @@
 
           </div>
 
-          <div>
+          <div class="base-ability-score-buttons">
             <button mat-button matStepperPrevious>Back</button>
             <button mat-flat-button color="accent" matStepperNext>Next: Pick class levels</button>
             <button mat-flat-button (click)="drawer.toggle()">Show summary</button>
@@ -186,7 +190,7 @@
 
       </mat-step>
 
-      <mat-step [stepControl]="characterClassForm">
+      <mat-step [stepControl]="characterBuilderForm">
         <button mat-flat-button color="accent" (click)="launchCharacterLevelManager()">Launch class level manager</button>
       </mat-step>
 
@@ -199,6 +203,8 @@
         </div>
       </mat-step>
     </mat-horizontal-stepper>
+
+    <span>{{this.characterBuilderForm.value | json}}</span>
 
   </mat-drawer-content>
 </mat-drawer-container>
