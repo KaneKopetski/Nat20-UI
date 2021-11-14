@@ -22,7 +22,7 @@ import {ClassLevelManagerComponent} from '../class-level-manager/class-level-man
 import {pairwise, startWith} from "rxjs/operators";
 import {Observable, of} from "rxjs";
 import {StandardArrayOption} from "../model/options/standard-array-option.model";
-import {BaseAbilityDiceRollComponent} from "../../../base-ability-dice-roll/base-ability-dice-roll.component";
+import {BaseAbilityDiceRollComponent} from "../base-ability-dice-roll/base-ability-dice-roll.component";
 
 @Component({
   selector: 'app-character-builder',
