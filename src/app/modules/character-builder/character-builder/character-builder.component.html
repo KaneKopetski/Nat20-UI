@@ -24,70 +24,8 @@
 
       <mat-step [stepControl]="characterBuilderForm" label="Generate base ability scores">
 
-        <form [formGroup]="characterBuilderForm">
-          <div fxLayout="column" fxLayoutAlign="space-around start">
-
-            <div class="base-ability-scores" fxLayout="row" fxLayoutGap="15px">
-              <div class="base-ability-score-input" *ngFor="let baseAbility of baseAbilities">
-
-                <mat-form-field appearance="fill" *ngIf="this.baseAbilityStyle === 'manual'">
-                  <mat-label>{{ baseAbility + ' Score' | titlecase }}</mat-label>
-                  <input matInput formControlName="{{baseAbility + 'ScoreManual'}}">
-                </mat-form-field>
-
-                <mat-form-field appearance="fill" *ngIf="this.baseAbilityStyle === 'standardArray'">
-                  <mat-label>{{ baseAbility + ' Score' | titlecase }}</mat-label>
-                  <mat-select formControlName="{{baseAbility + 'ScoreStandardArray'}}">
-                    <mat-option value="--">--</mat-option>
-                    <mat-option *ngFor="let value of standardArrayOptions | async"
-                                [value]="value.value" [disabled]="!value.isAllowed">
-                      {{value.value}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-
-                <mat-form-field appearance="fill" *ngIf="this.baseAbilityStyle === 'pointBuy'">
-                  <mat-label>{{ baseAbility + ' Score' | titlecase }}</mat-label>
-                  <input matInput formControlName="{{baseAbility + 'ScorePointBuy'}}" type="number" min="8" max="18">
-                </mat-form-field>
-
-                <div fxLayout="column">
-                <mat-form-field appearance="fill" *ngIf="this.baseAbilityStyle === 'diceRolls'">
-                  <mat-label>{{ baseAbility + ' Score' | titlecase }}</mat-label>
-                  <input matInput formControlName="{{baseAbility + 'ScoreDiceRoll'}}">
-                </mat-form-field>
-
-                <button mat-raised-button *ngIf="this.baseAbilityStyle === 'diceRolls'" (click)="launchDiceRollModal(baseAbility)">
-                  <mat-icon svgIcon="d20"></mat-icon>
-                </button>
-                </div>
-
-              </div>
-
-              <mat-form-field appearance="fill" *ngIf="this.baseAbilityStyle === 'pointBuy'">
-                <mat-label>Point Total</mat-label>
-                <input matInput formControlName="totalPointBuy">
-              </mat-form-field>
-
-              <mat-form-field appearance="fill">
-                <mat-label>Ability score generation style</mat-label>
-                <mat-select [(value)]="baseAbilityStyle" formControlName="abilityScoreGenerationMethod">
-                  <mat-option [value]="'manual'">Manual</mat-option>
-                  <mat-option [value]="'standardArray'">Standard/Elite Array</mat-option>
-                  <mat-option [value]="'pointBuy'">Point Buy</mat-option>
-                  <mat-option [value]="'diceRolls'">Dice Rolls</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-
-          </div>
-
-          <div class="base-ability-score-buttons">
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-flat-button color="accent" matStepperNext>Next</button>
-            <button mat-flat-button (click)="drawer.toggle()">Toggle summary</button>
-          </div>
-        </form>
+        <button mat-flat-button (click)="drawer.toggle()">Toggle summary</button>
+        <app-base-ability-generator [characterBuilderForm]="this.characterBuilderForm"></app-base-ability-generator>
 
       </mat-step>
 

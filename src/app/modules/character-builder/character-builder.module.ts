@@ -9,6 +9,7 @@ import {BaseAbilityDiceRollComponent} from "./base-ability-dice-roll/base-abilit
 import {BuildSummaryComponent} from "./build-summary/build-summary.component";
 import { SourceFormComponent } from './source-form/source-form.component';
 import { BuildBasicsFormComponent } from './build-basics-form/build-basics-form.component';
+import { BaseAbilityGeneratorComponent } from './base-ability-generator/base-ability-generator.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { BuildBasicsFormComponent } from './build-basics-form/build-basics-form.
     BaseAbilityDiceRollComponent,
     BuildSummaryComponent,
     SourceFormComponent,
-    BuildBasicsFormComponent
+    BuildBasicsFormComponent,
+    BaseAbilityGeneratorComponent
   ],
   imports: [
     SharedModule,
