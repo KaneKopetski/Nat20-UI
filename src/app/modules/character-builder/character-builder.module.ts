@@ -11,6 +11,7 @@ import { SourceFormComponent } from './source-form/source-form.component';
 import { BuildBasicsFormComponent } from './build-basics-form/build-basics-form.component';
 import { BaseAbilityGeneratorComponent } from './base-ability-generator/base-ability-generator.component';
 import { RaceSelectionFormComponent } from './race-selection-form/race-selection-form.component';
+import { RaceDetailComponent } from './race-detail/race-detail.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { RaceSelectionFormComponent } from './race-selection-form/race-selection
     SourceFormComponent,
     BuildBasicsFormComponent,
     BaseAbilityGeneratorComponent,
-    RaceSelectionFormComponent
+    RaceSelectionFormComponent,
+    RaceDetailComponent
   ],
   imports: [
     SharedModule,

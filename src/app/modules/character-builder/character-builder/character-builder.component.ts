@@ -39,6 +39,7 @@ export class CharacterBuilderComponent implements OnInit {
     this.characterBuilderForm = this.fb.group({
       sourcesSelected: [],
       buildName: ['', Validators.required],
+      raceSelected: ['', Validators.required],
       strengthScoreManual: [Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, Validators.required],
       dexterityScoreManual: [Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, Validators.required],
       constitutionScoreManual: [Constants.DEFAULT_MANUAL_BASE_ABILITY_ENTRY_VALUE, Validators.required],
