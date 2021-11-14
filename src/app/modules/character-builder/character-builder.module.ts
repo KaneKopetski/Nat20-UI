@@ -7,6 +7,7 @@ import { CharacterClassDetailComponent } from './class-level-manager/character-c
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {BaseAbilityDiceRollComponent} from "./base-ability-dice-roll/base-ability-dice-roll.component";
 import {BuildSummaryComponent} from "./build-summary/build-summary.component";
+import { SourceFormComponent } from './source-form/source-form.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import {BuildSummaryComponent} from "./build-summary/build-summary.component";
     ClassLevelManagerComponent,
     CharacterClassDetailComponent,
     BaseAbilityDiceRollComponent,
-    BuildSummaryComponent
+    BuildSummaryComponent,
+    SourceFormComponent
   ],
   imports: [
     SharedModule,

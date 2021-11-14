@@ -11,14 +11,10 @@ import {DeityService} from '../services/deity-service/deity.service';
 import {Deity} from '../model/deity/deity-model';
 import {Skill} from '../model/skill/skill';
 import {SkillService} from '../services/skill-service/skill.service';
-import {Source} from '../model/source/source-model';
-import {SourceService} from '../services/source-service/source.service';
-import {MatChip} from '@angular/material/chips';
 import {Constants} from '../../../shared/constants/constants';
 import {ToastContainerDirective, ToastrService} from 'ngx-toastr';
 import {ErrorResponse} from '../model/error-response/error-response-model';
 import {MatDialog} from '@angular/material/dialog';
-import {ClassLevelManagerComponent} from '../class-level-manager/class-level-manager/class-level-manager.component';
 import {pairwise, startWith} from "rxjs/operators";
 import {Observable, of} from "rxjs";
 import {StandardArrayOption} from "../model/options/standard-array-option.model";
@@ -37,19 +33,10 @@ export class CharacterBuilderComponent implements OnInit {
 
   characterBuildRequest: CharacterBuildRequest;
 
-  availableCharacterClasses: Array<CharacterClass>;
-  availableRaces: Array<Race>;
-  availableFeats: Array<Feat>;
-  availableDeities: Array<Deity>;
-  availableSkills: Array<Skill>;
-  allSources: Array<Source>;
-
   selectable = true;
   removable = true;
   isLinear = false;
-  selectAll = false;
 
-  sourceSelectionForm: FormGroup;
   characterBuilderForm: FormGroup;
 
   baseAbilityStyle = Constants.MANUAL;
@@ -58,19 +45,12 @@ export class CharacterBuilderComponent implements OnInit {
 
   pointBuyMap: Map<number, number> = Constants.pointBuyMap;
 
-  get sourceChipsSelected() {
-    return this.characterBuilderForm.get(Constants.SOURCES_SELECTED);
-  }
-
-  constructor(private fb: FormBuilder, private characterClassService: CharacterClassService, private raceService: RaceService,
-              private featService: FeatService, private deityService: DeityService, private skillService: SkillService,
-              private sourceService: SourceService, private toastr: ToastrService, private dialog: MatDialog) {
+  constructor(private fb: FormBuilder, private toastr: ToastrService, private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
     this.setupOptions();
     this.setupForms();
-    this.getSourceOptions();
     this.toastr.overlayContainer = this.toastContainer;
     this.watchStandardArrayFormFields();
     this.watchPointBuyFormFields();
@@ -119,51 +99,6 @@ export class CharacterBuilderComponent implements OnInit {
     });
   }
 
-  private getSourceOptions() {
-    this.sourceService.getAllSources().subscribe(res => {
-      this.allSources = res;
-    }, (error: ErrorResponse) => this.handleError(error));
-  }
-
-  public getCharacterBuilderFormSelectionValues() {
-    this.characterClassService.getCharacterClasses().subscribe(res => this.availableCharacterClasses = res, (error: ErrorResponse) => this.handleError(error));
-    this.deityService.getAllDeities().subscribe(res => this.availableDeities = res, (error: ErrorResponse) => this.handleError(error));
-    this.featService.getAllFeats().subscribe(res => this.availableFeats = res, (error: ErrorResponse) => this.handleError(error));
-    this.raceService.getAllRaces().subscribe(res => this.availableRaces = res, (error: ErrorResponse) => this.handleError(error));
-    this.skillService.getAllSkills().subscribe(res => this.availableSkills = res, (error: ErrorResponse) => this.handleError(error));
-  }
-
-  public specialSourceHandling(specialChip: MatChip) {
-    const chipValue: string = specialChip.value.trim();
-    switch (chipValue) {
-      case Constants.specialSourceCases.selectAll: {
-        const values: string[] = [];
-        this.allSources.forEach((source: Source) => values.push(source.sourceEnum));
-        this.sourceChipsSelected.setValue(values);
-        this.selectAll = true;
-      }
-      break;
-      case Constants.specialSourceCases.selectNone: {
-        this.sourceChipsSelected.reset();
-        this.selectAll = false;
-      }
-      break;
-      case Constants.specialSourceCases.coreOnly: {
-        this.sourceChipsSelected.setValue(Constants.coreOnlySources);
-        this.selectAll = false;
-      }
-      break;
-      case Constants.specialSourceCases.srdOnly: {
-        this.sourceChipsSelected.setValue(Constants.srdOnlySources);
-        this.selectAll = false;
-      }
-      break;
-      default: {
-        this.handleError(Constants.defaultErrorResponse);
-      }
-    }
-  }
-
   private handleError(error: ErrorResponse) {
     let errorMessage;
     let errorTitle;
@@ -198,14 +133,6 @@ export class CharacterBuilderComponent implements OnInit {
         this.characterBuilderForm.get('totalPointBuy').setValue(this.calculateTotalPoints());
       })
     })
-  }
-
-  launchCharacterLevelManager() {
-    this.dialog.open(ClassLevelManagerComponent, {
-      data: [this.characterBuilderForm, this.sourceSelectionForm.get(Constants.SOURCES_SELECTED).value],
-      width: '100%',
-      height: '80%'
-    });
   }
 
   toggleAllowedFlagFalse(value: number) {

@@ -1,0 +1,25 @@
+<form [formGroup]="characterBuilderForm">
+  <ng-template matStepLabel>Select Sources to Use</ng-template>
+
+  <mat-chip-list selectable>
+    <mat-chip #chip="matChip" (click)="specialSourceHandling(chip)"
+              *ngFor="let option of ['Core Only', 'SRD Only', this.selectAll ? 'Select none' : 'Select all']">
+      {{option}}
+    </mat-chip>
+  </mat-chip-list>
+
+  <div class="checkbox-list" fxLayout="column" fxLayoutAlign="space-evenly stretch">
+    <mat-form-field *ngIf="this.allSources">
+      <mat-chip-list selectable multiple formControlName="sourcesSelected">
+        <mat-chip #chip="matChip" [color]="'warn'" (click)="chip.toggleSelected(true)"
+                  [value]="source.sourceEnum"
+                  *ngFor="let source of this.allSources">{{source.readable}}</mat-chip>
+      </mat-chip-list>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <button color="accent" mat-raised-button matStepperNext (click)="this.getCharacterBuilderFormSelectionValues()">Next</button>
+  </div>
+
+</form>

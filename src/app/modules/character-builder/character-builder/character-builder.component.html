@@ -1,39 +1,17 @@
 <mat-drawer-container [hasBackdrop]="false">
   <mat-drawer mode="over" #drawer [position]="'end'">
 
-    <app-build-summary [characterBuilderForm]="characterBuilderForm"></app-build-summary>
+    <app-build-summary [characterBuilderForm]="this.characterBuilderForm"></app-build-summary>
+    <button mat-flat-button (click)="drawer.toggle()">Toggle summary</button>
 
   </mat-drawer>
   <mat-drawer-content>
 
     <mat-horizontal-stepper [linear]="isLinear" #stepper>
       <mat-step [stepControl]="characterBuilderForm">
-        <form [formGroup]="characterBuilderForm">
-          <ng-template matStepLabel>Select Sources to Use</ng-template>
 
-          <mat-chip-list selectable>
-            <mat-chip #chip="matChip" (click)="specialSourceHandling(chip)"
-                      *ngFor="let option of ['Core Only', 'SRD Only', this.selectAll ? 'Select none' : 'Select all']">
-              {{option}}
-            </mat-chip>
-          </mat-chip-list>
+        <app-source-form [characterBuilderForm]="this.characterBuilderForm"></app-source-form>
 
-          <div class="checkbox-list" fxLayout="column" fxLayoutAlign="space-evenly stretch">
-            <mat-form-field *ngIf="this.allSources">
-              <mat-chip-list selectable multiple formControlName="sourcesSelected">
-                <mat-chip #chip="matChip" [color]="'warn'" (click)="chip.toggleSelected(true)"
-                          [value]="source.sourceEnum"
-                          *ngFor="let source of this.allSources">{{source.readable}}</mat-chip>
-              </mat-chip-list>
-            </mat-form-field>
-          </div>
-
-          <div>
-            <button color="accent" mat-raised-button matStepperNext (click)="this.getCharacterBuilderFormSelectionValues()">Next</button>
-            <button mat-flat-button (click)="drawer.toggle()">Toggle summary</button>
-          </div>
-
-        </form>
       </mat-step>
 
       <mat-step [stepControl]="characterBuilderForm" label="Name your build">
