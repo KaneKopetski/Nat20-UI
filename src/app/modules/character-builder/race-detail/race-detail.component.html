@@ -1,1 +1,36 @@
-<p>race-detail works!</p>
+<mat-panel-title>{{ this.race.name }}</mat-panel-title>
+
+<br><span>Info: {{ this.race.info}}</span>
+<br><span>Base land speed: {{ this.race.baseLandSpeed}}</span>
+<br><span>Base climb speed: {{ this.race.baseClimbSpeed}}</span>
+<br><span>Base fly speed: {{ this.race.baseFlySpeed}}</span>
+<br><span>Flight maneuverability:{{ this.race.flightManeuverability}}</span>
+<br><span>Level adjustment: {{ this.race.levelAdjustment}}</span>
+<br><span *ngFor="let language of this.race.automaticLanguages">{{ language.readable }}</span>
+<br><span *ngFor="let language of this.race.bonusLanguages">{{ language.readable }}</span>
+<br><span>Favored class: {{ this.race.favoredClass}}</span>
+<br><span>Adulthood age: {{ this.race.adulthoodAge}}</span>
+<br><span>Middle age: {{ this.race.middleAge}}</span>
+<br><span>Old age: {{ this.race.oldAge}}</span>
+<br><span>Venerable age: {{ this.race.venerableAge}}</span>
+<br><span>Max age: {{ this.race.maxAge}}</span>
+<br><span>Random starting age, simple: {{ this.race.randomStartingAgeSimple}}</span>
+<br><span>Random starting age, moderate: {{ this.race.randomStartingAgeModerate}}</span>
+<br><span>Random starting age, Advanced: {{ this.race.randomStartingAgeAdvanced}}</span>
+<br><span>Base height, male: {{ this.race.baseHeightMale}}</span>
+<br><span>Height modifier, male: {{ this.race.heightModifierMale}}</span>
+<br><span>Base height, female: {{ this.race.baseHeightFemale}}</span>
+<br><span>Height modifier, female: {{ this.race.heightModifierFemale}}</span>
+<br><span>Base weight, male: {{ this.race.baseWeightMale}}</span>
+<br><span>Weight modifier, male: {{ this.race.weightModifierMale}}</span>
+<br><span>Base weight, female: {{ this.race.baseWeightFemale}}</span>
+<br><span>Weight modifier, female: {{ this.race.weightModifierFemale}}</span>
+<br><span>Is homebrew: {{ this.race.isHomebrew}}</span>
+<br><span *ngFor="let abilityAdjustment of race.abilityAdjustments">{{ abilityAdjustment.baseAbility + ': ' + abilityAdjustment.adjustment }}</span>
+<br><span *ngFor="let skillBonus of race.skillBonuses">{{ skillBonus.skillName + ': ' + skillBonus.skillBonus }}</span>
+
+
+<br>
+<br>
+<br>
+{{ this.race | json }}
