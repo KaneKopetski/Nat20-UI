@@ -8,10 +8,17 @@
   <mat-drawer-content>
 
     <mat-horizontal-stepper [linear]="isLinear" #stepper>
-      <mat-step [stepControl]="characterBuilderForm">
+      <mat-step [stepControl]="characterBuilderForm" label="Select sources">
 
         <button mat-flat-button (click)="drawer.toggle()">Toggle summary</button>
         <app-source-form [characterBuilderForm]="this.characterBuilderForm"></app-source-form>
+
+      </mat-step>
+
+      <mat-step [stepControl]="characterBuilderForm" label="Select race">
+
+        <button mat-flat-button (click)="drawer.toggle()">Toggle summary</button>
+        <app-race-selection-form [characterBuilderForm]="this.characterBuilderForm"></app-race-selection-form>
 
       </mat-step>
 
