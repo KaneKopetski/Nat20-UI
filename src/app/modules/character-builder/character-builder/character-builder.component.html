@@ -1,78 +1,7 @@
 <mat-drawer-container [hasBackdrop]="false">
   <mat-drawer mode="over" #drawer [position]="'end'">
 
-    <div fxLayout="column" fxLayoutAlign="space-around center">
-      <div class="summary-title">
-        <mat-panel-title>Build Summary</mat-panel-title>
-        <br>
-      </div>
-      <div class="build-name-title">
-        <mat-panel-title>{{ this.characterBuilderForm.get('buildName').value }}</mat-panel-title>
-        <br>
-      </div>
-
-      <div fxLayout="row" class="build-summary-by-numbers">
-        <div fxLayout="column">
-          <div class="build-stats">
-            <table mat-table [dataSource]="abilityScoreDisplayData" class="mat-elevation-z8 base-ability-totals">
-              <ng-container [matColumnDef]="column" *ngFor="let column of abilityScoreDisplayColumns">
-                <td mat-cell *matCellDef="let element"> {{ element[column] }} </td>
-              </ng-container>
-
-              <tr mat-row *matRowDef="let row; columns: abilityScoreDisplayColumns;"></tr>
-            </table>
-          </div>
-
-          <div class="class-levels">
-            <table mat-table [dataSource]="this.getCharacterClassLevelsAsArray()" class="mat-elevation-z8 class-levels">
-              <ng-container matColumnDef="level">
-                <th mat-header-cell *matHeaderCellDef>Level</th>
-                <td mat-cell *matCellDef="let classLevel"> {{ classLevel[0] }} </td>
-              </ng-container>
-              <ng-container matColumnDef="class">
-                <th mat-header-cell *matHeaderCellDef>Class</th>
-                <td mat-cell *matCellDef="let charClass"> {{ charClass[1].name }} </td>
-              </ng-container>
-              <ng-container matColumnDef="remove">
-                <tr><th mat-header-cell *matHeaderCellDef></th></tr>
-                <tr>
-                  <td mat-cell *matCellDef="let row">
-                    <button mat-icon-button color="accent" title="Remove class" (click)="this.removeClass(row)"><mat-icon>remove_circle</mat-icon></button>
-                  </td>
-                <tr>
-              </ng-container>
-              <tr mat-header-row *matHeaderRowDef="characterClassLevelsDisplayHeaders"></tr>
-              <tr mat-row *matRowDef="let row; columns: characterClassLevelsDisplayHeaders;"></tr>
-            </table>
-
-            <br>Level Class Pairs: {{ this.classLevels | json }}
-
-            <table mat-table [dataSource]="this.classLevels" class="mat-elevation-z8 class-levels">
-              <ng-container matColumnDef="level">
-                <th mat-header-cell *matHeaderCellDef>Level</th>
-                <td mat-cell *matCellDef="let levelClassPair"> {{ levelClassPair.level }} </td>
-              </ng-container>
-              <ng-container matColumnDef="class">
-                <th mat-header-cell *matHeaderCellDef>Class</th>
-                <td mat-cell *matCellDef="let classLevel"> {{ classLevel.characterClass.name }} </td>
-              </ng-container>
-              <ng-container matColumnDef="remove">
-                <tr><th mat-header-cell *matHeaderCellDef></th></tr>
-                <tr>
-                  <td mat-cell *matCellDef="let row">
-                    <button mat-icon-button color="accent" title="Remove class" (click)="this.removeClass(row)"><mat-icon>remove_circle</mat-icon></button>
-                  </td>
-                <tr>
-              </ng-container>
-              <tr mat-header-row *matHeaderRowDef="characterClassLevelsDisplayHeaders"></tr>
-              <tr mat-row *matRowDef="let row; columns: characterClassLevelsDisplayHeaders;"></tr>
-            </table>
-
-          </div>
-
-        </div>
-      </div>
-    </div>
+    <app-build-summary [characterBuilderForm]="characterBuilderForm"></app-build-summary>
 
   </mat-drawer>
   <mat-drawer-content>
@@ -101,7 +30,7 @@
 
           <div>
             <button color="accent" mat-raised-button matStepperNext (click)="this.getCharacterBuilderFormSelectionValues()">Next</button>
-            <button mat-flat-button (click)="drawer.toggle()">Show summary</button>
+            <button mat-flat-button (click)="drawer.toggle()">Toggle summary</button>
           </div>
 
         </form>
@@ -116,7 +45,7 @@
           <div>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-flat-button color="accent" type="submit" matStepperNext>Next</button>
-            <button mat-flat-button (click)="drawer.toggle()">Show summary</button>
+            <button mat-flat-button (click)="drawer.toggle()">Toggle summary</button>
           </div>
         </form>
       </mat-step>
@@ -184,15 +113,14 @@
           <div class="base-ability-score-buttons">
             <button mat-button matStepperPrevious>Back</button>
             <button mat-flat-button color="accent" matStepperNext>Next</button>
-            <button mat-flat-button (click)="drawer.toggle()">Show summary</button>
+            <button mat-flat-button (click)="drawer.toggle()">Toggle summary</button>
           </div>
         </form>
 
       </mat-step>
 
-      <mat-step [stepControl]="characterBuilderForm">
+      <mat-step [stepControl]="characterBuilderForm" label="Select your class levels">
         <app-class-level-manager [data]="this.characterBuilderForm"></app-class-level-manager>
-<!--        <button mat-flat-button color="accent" (click)="launchCharacterLevelManager()">Launch class level manager</button>-->
       </mat-step>
 
       <mat-step>

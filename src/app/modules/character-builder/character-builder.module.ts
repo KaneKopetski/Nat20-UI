@@ -6,18 +6,20 @@ import { ClassLevelManagerComponent } from './class-level-manager/class-level-ma
 import { CharacterClassDetailComponent } from './class-level-manager/character-class-detail/character-class-detail.component';
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {BaseAbilityDiceRollComponent} from "../../base-ability-dice-roll/base-ability-dice-roll.component";
+import {BuildSummaryComponent} from "./build-summary/build-summary.component";
 
 @NgModule({
   declarations: [
     CharacterBuilderComponent,
     ClassLevelManagerComponent,
     CharacterClassDetailComponent,
-    BaseAbilityDiceRollComponent
+    BaseAbilityDiceRollComponent,
+    BuildSummaryComponent
   ],
-    imports: [
-        SharedModule,
-        CarouselModule,
-        DragDropModule
-    ]
+  imports: [
+    SharedModule,
+    CarouselModule,
+    DragDropModule
+  ]
 })
 export class CharacterBuilderModule { }

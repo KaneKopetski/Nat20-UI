@@ -17,7 +17,6 @@ import {MatChip} from '@angular/material/chips';
 import {Constants} from '../../../shared/constants/constants';
 import {ToastContainerDirective, ToastrService} from 'ngx-toastr';
 import {ErrorResponse} from '../model/error-response/error-response-model';
-import {LevelClassPair} from '../model/level-class-pair/level-class-pair-model';
 import {MatDialog} from '@angular/material/dialog';
 import {ClassLevelManagerComponent} from '../class-level-manager/class-level-manager/class-level-manager.component';
 import {pairwise, startWith} from "rxjs/operators";
@@ -35,13 +34,8 @@ export class CharacterBuilderComponent implements OnInit {
   baseAbilities: Array<string> = Constants.baseAbilities;
 
   @ViewChild(ToastContainerDirective, {static: true}) toastContainer: ToastContainerDirective;
+
   characterBuildRequest: CharacterBuildRequest;
-
-  classLevels: Array<LevelClassPair> = [];
-  private characterClassLevelMap: Map<number, CharacterClass> = new Map<number, CharacterClass>();
-  characterClassLevelsDisplayHeaders: string[] = Constants.characterClassLevelsDisplayHeaders;
-
-  selectedClass: CharacterClass;
 
   availableCharacterClasses: Array<CharacterClass>;
   availableRaces: Array<Race>;
@@ -57,12 +51,6 @@ export class CharacterBuilderComponent implements OnInit {
 
   sourceSelectionForm: FormGroup;
   characterBuilderForm: FormGroup;
-
-  abilityScoreInputColumns = Constants.abilityScoreInputColumns;
-  abilityScoreInputData = Constants.baseAbilityScoreData;
-
-  abilityScoreDisplayColumns: string[];
-  abilityScoreDisplayData: any[];
 
   baseAbilityStyle = Constants.MANUAL;
 
@@ -84,8 +72,6 @@ export class CharacterBuilderComponent implements OnInit {
     this.setupForms();
     this.getSourceOptions();
     this.toastr.overlayContainer = this.toastContainer;
-    this.abilityScoreDisplayColumns = [Constants.ZERO].concat(this.abilityScoreInputData.map(x => x.position.toString()));
-    this.abilityScoreDisplayData = this.abilityScoreInputColumns.map(x => this.formatInputRow(x));
     this.watchStandardArrayFormFields();
     this.watchPointBuyFormFields();
   }
@@ -194,50 +180,6 @@ export class CharacterBuilderComponent implements OnInit {
     this.toastr.error(errorMessage, errorTitle);
   }
 
-  public addSelectedClassToClassLevels() {
-    if (this.selectedClass) {
-      const characterBuildLevel = this.characterClassLevelMap.size + 1;
-      this.characterClassLevelMap.set(characterBuildLevel, this.selectedClass);
-      this.classLevels.push({level: characterBuildLevel, characterClass: this.selectedClass});
-    }
-  }
-
-  public getCharacterClassLevelsAsArray(): [number, CharacterClass][] {
-    return Array.from(this.characterClassLevelMap);
-  }
-
-  private countInstancesOfEachCharacterClass(): Map<CharacterClass, number> {
-    const characterClassCount: Map<CharacterClass, number> = new Map();
-    this.characterClassLevelMap.forEach((characterClass) => {
-      if (characterClassCount.has(characterClass)) {
-        characterClassCount.set(characterClass, characterClassCount.get(characterClass) + 1);
-      } else {
-        characterClassCount.set(characterClass, 1);
-      }
-    });
-    return characterClassCount;
-  }
-
-  private calculateBab(): number {
-    const classCount = this.countInstancesOfEachCharacterClass();
-    let bab = 0;
-    classCount.forEach((count: number, charClass: CharacterClass) => {
-      bab += Math.floor(count * charClass.baseAttackBonusProgression);
-    });
-    return bab;
-  }
-
-  formatInputRow(row) {
-    const output = {};
-
-    output[0] = row;
-    this.abilityScoreInputData.forEach(item => {
-      output[item.position] = item[row];
-    });
-
-    return output;
-  }
-
   watchStandardArrayFormFields() {
     this.baseAbilities.forEach((baseAbilityScore: string) => {
         this.characterBuilderForm.get(baseAbilityScore + Constants.STANDARD_ARRAY_SUFFIX).valueChanges
@@ -252,14 +194,10 @@ export class CharacterBuilderComponent implements OnInit {
 
   watchPointBuyFormFields() {
     this.baseAbilities.forEach((baseAbilityScore: string) => {
-      this.characterBuilderForm.get(baseAbilityScore + Constants.POINT_BUY_SUFFIX).valueChanges.subscribe(res => {
+      this.characterBuilderForm.get(baseAbilityScore + Constants.POINT_BUY_SUFFIX).valueChanges.subscribe(() => {
         this.characterBuilderForm.get('totalPointBuy').setValue(this.calculateTotalPoints());
       })
     })
-  }
-
-  removeClass(row) {
-    console.log(row);
   }
 
   launchCharacterLevelManager() {

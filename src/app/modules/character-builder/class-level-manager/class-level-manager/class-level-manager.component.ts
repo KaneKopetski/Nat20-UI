@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Inject, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {CharacterClassService} from '../../services/character-class-service/character-class.service';
 import {CharacterClass} from '../../model/character-class/character-class';
 import {ToastContainerDirective, ToastrService} from 'ngx-toastr';
@@ -6,7 +6,7 @@ import {LevelClassPair} from '../../model/level-class-pair/level-class-pair-mode
 import {Constants} from '../../../../shared/constants/constants';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
-import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
+import {MatDialog} from '@angular/material/dialog';
 import {CharacterClassDetailComponent} from '../character-class-detail/character-class-detail.component';
 import {FormControl, FormGroup} from '@angular/forms';
 import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";

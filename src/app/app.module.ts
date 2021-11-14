@@ -14,24 +14,24 @@ import { UserProfileModule } from './modules/user-profile/user-profile.module';
 import { CharacterBuilderModule } from './modules/character-builder/character-builder.module';
 import { SharedModule } from './shared/shared.module';
 
-
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
-    AngularFireAnalyticsModule,
-    CoreModule,
-    AuthModule,
-    UserProfileModule,
-    CharacterBuilderModule,
-    SharedModule
-  ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true}],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFirestoreModule,
+        AngularFireAnalyticsModule,
+        CoreModule,
+        AuthModule,
+        UserProfileModule,
+        CharacterBuilderModule,
+        SharedModule
+    ],
+    providers: [{provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true}],
+    exports: [],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
