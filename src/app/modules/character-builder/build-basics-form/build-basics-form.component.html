@@ -1,0 +1,10 @@
+<form [formGroup]="characterBuilderForm" fxLayout="column" class="build-name-form">
+  <mat-form-field appearance="fill" color="accent">
+    <mat-label>Build name</mat-label>
+    <input matInput formControlName="buildName" autocomplete="off">
+  </mat-form-field>
+  <div>
+    <button mat-button matStepperPrevious>Back</button>
+    <button mat-flat-button color="accent" type="submit" matStepperNext>Next</button>
+  </div>
+</form>

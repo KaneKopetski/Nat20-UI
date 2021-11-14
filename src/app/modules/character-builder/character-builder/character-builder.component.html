@@ -10,22 +10,16 @@
     <mat-horizontal-stepper [linear]="isLinear" #stepper>
       <mat-step [stepControl]="characterBuilderForm">
 
+        <button mat-flat-button (click)="drawer.toggle()">Toggle summary</button>
         <app-source-form [characterBuilderForm]="this.characterBuilderForm"></app-source-form>
 
       </mat-step>
 
       <mat-step [stepControl]="characterBuilderForm" label="Name your build">
-        <form [formGroup]="characterBuilderForm" fxLayout="column" class="build-name-form">
-        <mat-form-field appearance="fill" color="accent">
-          <mat-label>Build name</mat-label>
-          <input matInput formControlName="buildName" autocomplete="off">
-        </mat-form-field>
-          <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-flat-button color="accent" type="submit" matStepperNext>Next</button>
-            <button mat-flat-button (click)="drawer.toggle()">Toggle summary</button>
-          </div>
-        </form>
+
+        <button mat-flat-button (click)="drawer.toggle()">Toggle summary</button>
+        <app-build-basics-form [characterBuilderForm]="this.characterBuilderForm"></app-build-basics-form>
+
       </mat-step>
 
       <mat-step [stepControl]="characterBuilderForm" label="Generate base ability scores">

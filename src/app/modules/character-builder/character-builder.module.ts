@@ -8,6 +8,7 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
 import {BaseAbilityDiceRollComponent} from "./base-ability-dice-roll/base-ability-dice-roll.component";
 import {BuildSummaryComponent} from "./build-summary/build-summary.component";
 import { SourceFormComponent } from './source-form/source-form.component';
+import { BuildBasicsFormComponent } from './build-basics-form/build-basics-form.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { SourceFormComponent } from './source-form/source-form.component';
     CharacterClassDetailComponent,
     BaseAbilityDiceRollComponent,
     BuildSummaryComponent,
-    SourceFormComponent
+    SourceFormComponent,
+    BuildBasicsFormComponent
   ],
   imports: [
     SharedModule,
