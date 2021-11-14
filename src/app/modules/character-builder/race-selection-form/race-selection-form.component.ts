@@ -24,8 +24,9 @@ export class RaceSelectionFormComponent implements OnInit {
 
   races: Race[];
   sourcesAllowed: Source[];
-  private searchTableDataSource: MatTableDataSource<Race>;
-  private searchTablePropertyMapping = Constants.classLevelManagerSearchTableColumnsMapping();
+  searchTableDataSource: MatTableDataSource<Race>;
+  private searchTablePropertyMapping = Constants.raceSearchTableColumnsMapping();
+  searchTableColumnsToDisplay: string[] = Constants.raceSearchTableColumnsToDisplay;
 
   constructor(private raceService: RaceService, private toastr: ToastrService) { }
 
@@ -47,7 +48,6 @@ export class RaceSelectionFormComponent implements OnInit {
         this.searchTableDataSource.paginator = this.paginator;
         this.searchTableDataSource.sort = this.sort;
         this.setSortingDataAccessorForSearchTable();
-        this.searchTableDataSource.filterPredicate = this.createFilter();
       },
       error => this.toastr.error(error.message, Constants.GENERIC_ERROR_TITLE));
   }
@@ -58,12 +58,11 @@ export class RaceSelectionFormComponent implements OnInit {
     }
   }
 
-  createFilter(): (data: any, filter: string) => boolean {
-    return function (data, filter): boolean {
-      let searchTerms = JSON.parse(filter);
-      return data.name.toLowerCase().indexOf(searchTerms.name) !== -1
-        && data.source.readable.toLowerCase().indexOf(searchTerms.source) !== -1;
-    };
+  selectRace(race) {
+
   }
 
+  openDialog(race) {
+
+  }
 }

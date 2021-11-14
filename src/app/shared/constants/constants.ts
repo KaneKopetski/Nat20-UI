@@ -118,6 +118,11 @@ export abstract class Constants {
     'actions'
   ];
 
+  public static readonly raceSearchTableColumnsToDisplay: string[] = [
+    'name',
+    'actions'
+  ];
+
   public static classLevelManagerSearchTableColumnsMapping(): Map<string, string> {
     let map: Map<string, string> = new Map();
 
@@ -127,6 +132,14 @@ export abstract class Constants {
     map.set('fort-save-progression', 'fortSaveProgression');
     map.set('reflex-save-progression', 'reflexSaveProgression');
     map.set('will-save-progression', 'willSaveProgression');
+
+    return map;
+  }
+
+  public static raceSearchTableColumnsMapping(): Map<string, string> {
+    let map: Map<string, string> = new Map();
+
+    map.set('name', 'name');
 
     return map;
   }
