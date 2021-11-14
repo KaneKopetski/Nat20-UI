@@ -32,7 +32,3 @@ input[type=number]::-webkit-outer-spin-button,
 input[type=number]::-webkit-inner-spin-button {
   opacity: 1;
 }
-
-.base-ability-score-buttons {
-  margin-top: 15px;
-}
