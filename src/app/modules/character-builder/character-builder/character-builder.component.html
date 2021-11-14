@@ -30,7 +30,10 @@
       </mat-step>
 
       <mat-step [stepControl]="characterBuilderForm" label="Select your class levels">
+
+        <button mat-flat-button (click)="drawer.toggle()">Toggle summary</button>
         <app-class-level-manager [data]="this.characterBuilderForm"></app-class-level-manager>
+
       </mat-step>
 
       <mat-step>
