@@ -47,7 +47,6 @@ export class ClassLevelManagerComponent implements OnInit {
   @ViewChild(ToastContainerDirective, {static: true}) private toastContainer: ToastContainerDirective;
   @ViewChild(MatPaginator) private paginator: MatPaginator;
   tooltipDelay: FormControl = Constants.tooltipDelay;
-  private characterBuildData: FormGroup;
 
   classLevelTableColumnsToDisplay: string[] = Constants.classLevelManagerClassLevelTableColumnsToDisplay;
   classLevelTableDataSource: MatTableDataSource<ClassLevelTableRow>;
@@ -59,8 +58,7 @@ export class ClassLevelManagerComponent implements OnInit {
   private classCount: Map<CharacterClass, number> = new Map();
   selectedIndex: number;
 
-  constructor(private characterClassService: CharacterClassService, private toastr: ToastrService,
-              private dialog: MatDialog) {
+  constructor(private characterClassService: CharacterClassService, private toastr: ToastrService, private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
