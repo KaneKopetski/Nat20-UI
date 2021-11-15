@@ -15,13 +15,6 @@
 
       </mat-step>
 
-      <mat-step [stepControl]="characterBuilderForm" label="Select race">
-
-        <button mat-flat-button (click)="drawer.toggle()">Toggle summary</button>
-        <app-race-selection-form [characterBuilderForm]="this.characterBuilderForm"></app-race-selection-form>
-
-      </mat-step>
-
       <mat-step [stepControl]="characterBuilderForm" label="Name your build">
 
         <button mat-flat-button (click)="drawer.toggle()">Toggle summary</button>
@@ -33,6 +26,13 @@
 
         <button mat-flat-button (click)="drawer.toggle()">Toggle summary</button>
         <app-base-ability-generator [characterBuilderForm]="this.characterBuilderForm"></app-base-ability-generator>
+
+      </mat-step>
+
+      <mat-step [stepControl]="characterBuilderForm" label="Select race">
+
+        <button mat-flat-button (click)="drawer.toggle()">Toggle summary</button>
+        <app-race-selection-form [characterBuilderForm]="this.characterBuilderForm"></app-race-selection-form>
 
       </mat-step>
 

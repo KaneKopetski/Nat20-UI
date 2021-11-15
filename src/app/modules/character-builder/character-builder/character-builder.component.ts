@@ -4,10 +4,8 @@ import {CharacterBuildRequest} from '../model/character-build/character-build-re
 import {Constants} from '../../../shared/constants/constants';
 import {ToastContainerDirective, ToastrService} from 'ngx-toastr';
 import {ErrorResponse} from '../model/error-response/error-response-model';
-import {MatDialog} from '@angular/material/dialog';
-import {pairwise, startWith} from "rxjs/operators";
-import {Observable, of} from "rxjs";
-import {StandardArrayOption} from "../model/options/standard-array-option.model";
+import {Race} from "../model/race/race";
+import {RaceBaseAbilityAdjustment} from "../model/race/race-base-ability-adjustment-model";
 
 @Component({
   selector: 'app-character-builder',
@@ -15,7 +13,6 @@ import {StandardArrayOption} from "../model/options/standard-array-option.model"
   styleUrls: ['./character-builder.component.css']
 })
 export class CharacterBuilderComponent implements OnInit {
-
 
   @ViewChild(ToastContainerDirective, {static: true}) toastContainer: ToastContainerDirective;
 
@@ -33,6 +30,7 @@ export class CharacterBuilderComponent implements OnInit {
   ngOnInit(): void {
     this.setupForms();
     this.toastr.overlayContainer = this.toastContainer;
+    this.watchFormControls();
   }
 
   private setupForms() {
@@ -91,6 +89,161 @@ export class CharacterBuilderComponent implements OnInit {
     this.toastr.error(errorMessage, errorTitle);
   }
 
+  watchFormControls() {
+    this.raceSelected.valueChanges.subscribe((raceSelected: Race) => {
+      if (this.raceSelected.value.abilityAdjustments) {
+        raceSelected.abilityAdjustments.forEach((adjustment: RaceBaseAbilityAdjustment) => {
+          this.updateBaseAbilityScoreWithRacialAdjustment(adjustment);
+        });
+      }
+    })
+
+    this.baseAbilityScoreGenerationStyle.valueChanges.subscribe(() => {
+      const raceSelected: Race = this.raceSelected.value;
+      if (this.raceSelected.value.abilityAdjustments) {
+        raceSelected.abilityAdjustments.forEach((adjustment: RaceBaseAbilityAdjustment) => {
+          this.updateBaseAbilityScoreWithRacialAdjustment(adjustment);
+        });
+      }
+    })
+  }
+
+  updateBaseAbilityScoreWithRacialAdjustment(adjustment: RaceBaseAbilityAdjustment) {
+    console.log('adjusting... ')
+    console.log(adjustment);
+    const baseAbilityToAdjust: string = adjustment.baseAbility.toLowerCase();
+    switch (baseAbilityToAdjust) {
+      case 'strength': {
+        this.strengthScore.patchValue(+this.strengthScore.value + adjustment.adjustment)
+      } break;
+      case 'dexterity': {
+        this.dexterityScore.patchValue(+this.dexterityScore.value + adjustment.adjustment)
+      } break;
+      case 'constitution': {
+        this.constitutionScore.patchValue(+this.constitutionScore.value + adjustment.adjustment)
+      } break;
+      case 'wisdom': {
+        this.wisdomScore.patchValue(+this.wisdomScore.value + adjustment.adjustment)
+      } break;
+      case 'intelligence': {
+        this.intelligenceScore.patchValue(+this.intelligenceScore.value + adjustment.adjustment)
+      } break;
+      case 'charisma': {
+        this.charismaScore.patchValue(+this.charismaScore.value + adjustment.adjustment)
+      } break;
+    }
+  }
+
+
+  get raceSelected() {
+    return this.characterBuilderForm.get('raceSelected');
+  }
+
+  get baseAbilityScoreGenerationStyle() {
+    return this.characterBuilderForm.get('abilityScoreGenerationMethod');
+  }
+
+  get strengthScore() {
+    switch (this.baseAbilityScoreGenerationStyle.value) {
+      case 'manual': {
+        return this.characterBuilderForm.get('strengthScoreManual');
+      }
+      case 'standardArray': {
+        return this.characterBuilderForm.get('strengthScoreStandardArray');
+      }
+      case 'pointBuy': {
+        return this.characterBuilderForm.get('strengthScorePointBuy');
+      }
+      case 'diceRolls': {
+        return this.characterBuilderForm.get('strengthScoreDiceRoll');
+      }
+    }
+  }
+
+  get dexterityScore() {
+    switch (this.baseAbilityScoreGenerationStyle.value) {
+      case 'manual': {
+        return this.characterBuilderForm.get('dexterityScoreManual');
+      }
+      case 'standardArray': {
+        return this.characterBuilderForm.get('dexterityScoreStandardArray');
+      }
+      case 'pointBuy': {
+        return this.characterBuilderForm.get('dexterityScorePointBuy');
+      }
+      case 'diceRolls': {
+        return this.characterBuilderForm.get('dexterityScoreDiceRoll');
+      }
+    }
+  }
+
+  get constitutionScore() {
+    switch (this.baseAbilityScoreGenerationStyle.value) {
+      case 'manual': {
+        return this.characterBuilderForm.get('constitutionScoreManual');
+      }
+      case 'standardArray': {
+        return this.characterBuilderForm.get('constitutionScoreStandardArray');
+      }
+      case 'pointBuy': {
+        return this.characterBuilderForm.get('constitutionScorePointBuy');
+      }
+      case 'diceRolls': {
+        return this.characterBuilderForm.get('constitutionScoreDiceRoll');
+      }
+    }
+  }
+
+  get wisdomScore() {
+    switch (this.baseAbilityScoreGenerationStyle.value) {
+      case 'manual': {
+        return this.characterBuilderForm.get('wisdomScoreManual');
+      }
+      case 'standardArray': {
+        return this.characterBuilderForm.get('wisdomScoreStandardArray');
+      }
+      case 'pointBuy': {
+        return this.characterBuilderForm.get('wisdomScorePointBuy');
+      }
+      case 'diceRolls': {
+        return this.characterBuilderForm.get('wisdomScoreDiceRoll');
+      }
+    }
+  }
+
+  get intelligenceScore() {
+    switch (this.baseAbilityScoreGenerationStyle.value) {
+      case 'manual': {
+        return this.characterBuilderForm.get('intelligenceScoreManual');
+      }
+      case 'standardArray': {
+        return this.characterBuilderForm.get('intelligenceScoreStandardArray');
+      }
+      case 'pointBuy': {
+        return this.characterBuilderForm.get('intelligenceScorePointBuy');
+      }
+      case 'diceRolls': {
+        return this.characterBuilderForm.get('intelligenceScoreDiceRoll');
+      }
+    }
+  }
+
+  get charismaScore() {
+    switch (this.baseAbilityScoreGenerationStyle.value) {
+      case 'manual': {
+        return this.characterBuilderForm.get('charismaScoreManual');
+      }
+      case 'standardArray': {
+        return this.characterBuilderForm.get('charismaScoreStandardArray');
+      }
+      case 'pointBuy': {
+        return this.characterBuilderForm.get('charismaScorePointBuy');
+      }
+      case 'diceRolls': {
+        return this.characterBuilderForm.get('charismaScoreDiceRoll');
+      }
+    }
+  }
 
 }
 

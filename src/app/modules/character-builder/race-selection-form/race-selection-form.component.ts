@@ -9,7 +9,7 @@ import {ToastContainerDirective, ToastrService} from "ngx-toastr";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {CharacterClass} from "../model/character-class/character-class";
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {MatDialog} from "@angular/material/dialog";
 import {RaceDetailComponent} from "../race-detail/race-detail.component";
 
 @Component({
@@ -30,6 +30,7 @@ export class RaceSelectionFormComponent implements OnInit {
   searchTableDataSource: MatTableDataSource<Race>;
   private searchTablePropertyMapping = Constants.raceSearchTableColumnsMapping();
   searchTableColumnsToDisplay: string[] = Constants.raceSearchTableColumnsToDisplay;
+  raceSelected: number;
 
   constructor(private raceService: RaceService, private toastr: ToastrService, private dialog: MatDialog) { }
 
@@ -62,6 +63,7 @@ export class RaceSelectionFormComponent implements OnInit {
   }
 
   selectRace(race) {
+    this.raceSelected = race.id;
     this.characterBuilderForm.get('raceSelected').setValue(race);
   }
 

@@ -4,7 +4,7 @@
 <br><span>Base land speed: {{ this.race.baseLandSpeed}}</span>
 <br><span>Base climb speed: {{ this.race.baseClimbSpeed}}</span>
 <br><span>Base fly speed: {{ this.race.baseFlySpeed}}</span>
-<br><span>Flight maneuverability:{{ this.race.flightManeuverability}}</span>
+<br><span>Flight maneuverability: {{ this.race.flightManeuverability}}</span>
 <br><span>Level adjustment: {{ this.race.levelAdjustment}}</span>
 <br><span *ngFor="let language of this.race.automaticLanguages">{{ language.readable }}</span>
 <br><span *ngFor="let language of this.race.bonusLanguages">{{ language.readable }}</span>
@@ -26,8 +26,8 @@
 <br><span>Base weight, female: {{ this.race.baseWeightFemale}}</span>
 <br><span>Weight modifier, female: {{ this.race.weightModifierFemale}}</span>
 <br><span>Is homebrew: {{ this.race.isHomebrew}}</span>
-<br><span *ngFor="let abilityAdjustment of race.abilityAdjustments">{{ abilityAdjustment.baseAbility + ': ' + abilityAdjustment.adjustment }}</span>
-<br><span *ngFor="let skillBonus of race.skillBonuses">{{ skillBonus.skillName + ': ' + skillBonus.skillBonus }}</span>
+<br><span *ngFor="let abilityAdjustment of race.abilityAdjustments">{{ abilityAdjustment.baseAbility + ': ' + abilityAdjustment.adjustment + ' ' }}</span>
+<br><span *ngFor="let skillBonus of race.skillBonuses">{{ skillBonus.skillName + ': ' + skillBonus.skillBonus + ' ' }}</span>
 
 
 <br>

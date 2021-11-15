@@ -1,5 +1,5 @@
 import {Size} from '../size/size';
-import {RaceBaseAbilityAdjustments} from "./race-base-ability-adjustments-model";
+import {RaceBaseAbilityAdjustment} from "./race-base-ability-adjustment-model";
 import {RaceSkillBonus} from "./race-skill-bonus-model";
 import {Language} from "../language/language-model";
 
@@ -33,6 +33,6 @@ export interface Race {
   baseWeightFemale: string;
   weightModifierFemale: string;
   isHomebrew: boolean;
-  abilityAdjustments: Array<RaceBaseAbilityAdjustments>;
+  abilityAdjustments: Array<RaceBaseAbilityAdjustment>;
   skillBonuses: Array<RaceSkillBonus>;
 }

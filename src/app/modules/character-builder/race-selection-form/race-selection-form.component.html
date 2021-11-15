@@ -11,8 +11,7 @@
     <td mat-cell *matCellDef="let race">
       <button mat-flat-button
               color="primary"
-              (click)="selectRace(race)"
-              matTooltip="Select {{ race.name }}">Select</button>
+              (click)="selectRace(race)">Select {{ race.name }}</button>
       <button mat-icon-button class="inspect-class-button"
               (click)="openDialog(race)"
               matTooltip="Inspect {{ race.name }} details">
@@ -22,7 +21,7 @@
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="this.searchTableColumnsToDisplay; sticky: true"></tr>
-  <tr mat-row *matRowDef="let row; columns: this.searchTableColumnsToDisplay;"></tr>
+  <tr mat-row *matRowDef="let row; columns: this.searchTableColumnsToDisplay;" [ngClass]="{'selected-race': row.id == this.raceSelected}"></tr>
 
 </table>
 
