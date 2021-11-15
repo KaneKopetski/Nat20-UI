@@ -4,6 +4,7 @@ import {environment} from "../../../../../environments/environment";
 import {Observable} from "rxjs";
 import {Skill} from "../../model/skill/skill";
 import {Page} from "../../model/page/page-model";
+import {Source} from "../../model/source/source-model";
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +12,12 @@ import {Page} from "../../model/page/page-model";
 export class SkillService {
 
   private readonly apiUrl: string;
-  private contextPath = '/skills';
-  private getAllSkillsEndpoint = '/getAllSkills';
-  private getSkillByIdEndPoint = '/getSkillById/';
-  private getSkillPageEndPoint = '/getSkillPage';
-  private getOfficialSkillByNameEndPoint = '/getOfficialSkillByName/';
+  private contextPath: string = '/skills';
+  private getAllSkillsEndpoint: string = '/getAllSkills';
+  private getSkillByIdEndPoint: string = '/getSkillById/';
+  private getSkillPageEndPoint: string = '/getSkillPage';
+  private getOfficialSkillByNameEndPoint: string = '/getOfficialSkillByName/';
+  private getSkillsFromSourcesEndPoint: string = '/getSkillsFromSources';
 
   constructor(private http: HttpClient) {
     this.apiUrl = environment.apiURL;
@@ -31,6 +33,10 @@ export class SkillService {
 
   public getSkillPage(page: number, pageSize: number): Observable<Page<Skill>> {
     return this.http.get<Page<Skill>>(this.apiUrl + this.contextPath + this.getSkillPageEndPoint + '?page=' + page + '&size='+ pageSize);
+  }
+
+  public getSkillsForSources(sources: Source[]): Observable<Skill[]> {
+    return this.http.post<Skill[]>(this.apiUrl + this.contextPath + this.getSkillsFromSourcesEndPoint, sources);
   }
 
 }

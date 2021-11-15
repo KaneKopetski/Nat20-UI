@@ -1,5 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {FormGroup} from "@angular/forms";
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {RaceService} from "../services/race-service/race.service";
 import {Race} from "../model/race/race";
 import {Constants} from "../../../shared/constants/constants";
@@ -11,6 +10,7 @@ import {MatSort} from "@angular/material/sort";
 import {CharacterClass} from "../model/character-class/character-class";
 import {MatDialog} from "@angular/material/dialog";
 import {RaceDetailComponent} from "../race-detail/race-detail.component";
+import {CharacterBuilderFormService} from "../services/characer-builder-form-service/character-builder-form.service";
 
 @Component({
   selector: 'app-race-selection-form',
@@ -19,20 +19,17 @@ import {RaceDetailComponent} from "../race-detail/race-detail.component";
 })
 export class RaceSelectionFormComponent implements OnInit {
 
-  @Input() characterBuilderForm: FormGroup;
-
   @ViewChild(MatPaginator) private paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(ToastContainerDirective, {static: true}) private toastContainer: ToastContainerDirective;
 
-  races: Race[];
   sourcesAllowed: Source[];
   searchTableDataSource: MatTableDataSource<Race>;
   private searchTablePropertyMapping = Constants.raceSearchTableColumnsMapping();
   searchTableColumnsToDisplay: string[] = Constants.raceSearchTableColumnsToDisplay;
   raceSelected: number;
 
-  constructor(private raceService: RaceService, private toastr: ToastrService, private dialog: MatDialog) { }
+  constructor(private raceService: RaceService, private toastr: ToastrService, private dialog: MatDialog, public cbFormService: CharacterBuilderFormService) { }
 
   ngOnInit(): void {
     this.setSources();
@@ -40,7 +37,7 @@ export class RaceSelectionFormComponent implements OnInit {
   }
 
   setSources() {
-    this.characterBuilderForm.get(Constants.SOURCES_SELECTED).valueChanges.subscribe(value => {
+    this.cbFormService.characterBuilderForm.get(Constants.SOURCES_SELECTED).valueChanges.subscribe(value => {
       this.sourcesAllowed = value;
       this.fetchFirstPageOfRacesForSourcesProvided();
     })
@@ -64,7 +61,7 @@ export class RaceSelectionFormComponent implements OnInit {
 
   selectRace(race) {
     this.raceSelected = race.id;
-    this.characterBuilderForm.get('raceSelected').setValue(race);
+    this.cbFormService.characterBuilderForm.get('raceSelected').setValue(race);
   }
 
   openDialog(row: CharacterClass) {

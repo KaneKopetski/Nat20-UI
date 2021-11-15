@@ -16,6 +16,7 @@ import {Feat} from "../model/feat/feat-model";
 import {Deity} from "../model/deity/deity-model";
 import {Skill} from "../model/skill/skill";
 import {CharacterClass} from "../model/character-class/character-class";
+import {CharacterBuilderFormService} from "../services/characer-builder-form-service/character-builder-form.service";
 
 @Component({
   selector: 'app-source-form',
@@ -23,8 +24,6 @@ import {CharacterClass} from "../model/character-class/character-class";
   styleUrls: ['./source-form.component.css']
 })
 export class SourceFormComponent implements OnInit {
-
-  @Input() characterBuilderForm: FormGroup;
 
   allSources: Array<Source>;
   selectAll = false;
@@ -35,12 +34,13 @@ export class SourceFormComponent implements OnInit {
   availableCharacterClasses: Array<CharacterClass>;
 
   get sourceChipsSelected() {
-    return this.characterBuilderForm.get(Constants.SOURCES_SELECTED);
+    return this.cbFormService.characterBuilderForm.get(Constants.SOURCES_SELECTED);
   }
 
   constructor(private sourceService: SourceService, private toastr: ToastrService,
               private characterClassService: CharacterClassService, private raceService: RaceService,
-              private featService: FeatService, private deityService: DeityService, private skillService: SkillService) { }
+              private featService: FeatService, private deityService: DeityService, private skillService: SkillService,
+              public cbFormService: CharacterBuilderFormService) { }
 
   ngOnInit(): void {
     this.getSourceOptions();

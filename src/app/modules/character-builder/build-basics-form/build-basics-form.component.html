@@ -1,4 +1,4 @@
-<form [formGroup]="characterBuilderForm" fxLayout="column" class="build-name-form">
+<form [formGroup]="cbFormService.characterBuilderForm" fxLayout="column" class="build-name-form">
   <mat-form-field appearance="fill" color="accent">
     <mat-label>Build name</mat-label>
     <input matInput formControlName="buildName" autocomplete="off">

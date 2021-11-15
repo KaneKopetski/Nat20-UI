@@ -123,6 +123,14 @@ export abstract class Constants {
     'actions'
   ];
 
+  public static readonly skillSearchTableColumnsToDisplay: string[] = [
+    'name',
+    'keyAbility',
+    'baseAbilityModifier',
+    'ranks',
+    'actions'
+  ];
+
   public static classLevelManagerSearchTableColumnsMapping(): Map<string, string> {
     let map: Map<string, string> = new Map();
 
@@ -140,6 +148,17 @@ export abstract class Constants {
     let map: Map<string, string> = new Map();
 
     map.set('name', 'name');
+
+    return map;
+  }
+
+  public static skillSearchTableColumnsMapping(): Map<string, string> {
+    let map: Map<string, string> = new Map();
+
+    map.set('name', 'name');
+    map.set('keyAbility', 'keyAbility');
+    map.set('ranks', 'ranks');
+    map.set('baseAbilityModifier', 'baseAbilityModifier');
 
     return map;
   }

@@ -1,8 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Constants} from "../../../shared/constants/constants";
 import {LevelClassPair} from "../model/level-class-pair/level-class-pair-model";
 import {CharacterClass} from "../model/character-class/character-class";
-import {FormGroup} from "@angular/forms";
+import {CharacterBuilderFormService} from "../services/characer-builder-form-service/character-builder-form.service";
 
 @Component({
   selector: 'app-build-summary',
@@ -10,8 +10,6 @@ import {FormGroup} from "@angular/forms";
   styleUrls: ['./build-summary.component.css']
 })
 export class BuildSummaryComponent implements OnInit {
-  @Input() characterBuilderForm: FormGroup;
-
   abilityScoreInputColumns = Constants.abilityScoreInputColumns;
   abilityScoreInputData = Constants.baseAbilityScoreData;
 
@@ -22,7 +20,7 @@ export class BuildSummaryComponent implements OnInit {
   private characterClassLevelMap: Map<number, CharacterClass> = new Map<number, CharacterClass>();
   characterClassLevelsDisplayHeaders: string[] = Constants.characterClassLevelsDisplayHeaders;
 
-  constructor() { }
+  constructor(public cbFormService: CharacterBuilderFormService) { }
 
   ngOnInit(): void {
     this.abilityScoreDisplayColumns = [Constants.ZERO].concat(this.abilityScoreInputData.map(x => x.position.toString()));

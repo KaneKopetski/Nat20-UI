@@ -14,6 +14,7 @@ import {ClassLevelTableRow} from "../../model/class-level-table-row/class-level-
 import {SavingThrowTotals} from "../../model/saving-throw-totals/saving-throw-totals.model";
 import {ClassFeature} from "../../model/character-class/class-feature-model";
 import {MatSort} from '@angular/material/sort';
+import {CharacterBuilderFormService} from "../../services/characer-builder-form-service/character-builder-form.service";
 
 @Component({
   selector: 'app-class-level-manager',
@@ -24,7 +25,6 @@ import {MatSort} from '@angular/material/sort';
 })
 export class ClassLevelManagerComponent implements OnInit {
 
-  @Input() data: FormGroup;
   @ViewChild(MatSort) sort: MatSort;
   sourcesAllowed: any[];
   searchTableDataSource: MatTableDataSource<CharacterClass>;
@@ -58,7 +58,8 @@ export class ClassLevelManagerComponent implements OnInit {
   private classCount: Map<CharacterClass, number> = new Map();
   selectedIndex: number;
 
-  constructor(private characterClassService: CharacterClassService, private toastr: ToastrService, private dialog: MatDialog) {
+  constructor(private characterClassService: CharacterClassService, private toastr: ToastrService, private dialog: MatDialog,
+              public cbFormService: CharacterBuilderFormService) {
   }
 
   ngOnInit(): void {
@@ -68,7 +69,7 @@ export class ClassLevelManagerComponent implements OnInit {
   }
 
   setSources() {
-    this.data.get(Constants.SOURCES_SELECTED).valueChanges.subscribe(value => {
+    this.cbFormService.characterBuilderForm.get(Constants.SOURCES_SELECTED).valueChanges.subscribe(value => {
       this.sourcesAllowed = value;
       this.fetchFirstPageOfClassesForSourcesProvided();
     })
@@ -252,7 +253,7 @@ export class ClassLevelManagerComponent implements OnInit {
   private getBaseAbilityModifier(abilityName: string): number {
     let abilityFormControl: string;
 
-    switch (this.data.get(Constants.ABILITY_SCORE_GENERATION_METHOD).value) {
+    switch (this.cbFormService.characterBuilderForm.get(Constants.ABILITY_SCORE_GENERATION_METHOD).value) {
       case Constants.MANUAL: {
         abilityFormControl = abilityName + Constants.MANUAL_SUFFIX;
       } break;
@@ -264,7 +265,7 @@ export class ClassLevelManagerComponent implements OnInit {
       }
     }
 
-    let abilityScore: number = this.data.get(abilityFormControl).value;
+    let abilityScore: number = this.cbFormService.characterBuilderForm.get(abilityFormControl).value;
 
     return Math.floor((abilityScore - 10) / 2);
   }

@@ -1,11 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {FormGroup} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
 import {Constants} from "../../../shared/constants/constants";
 import {BaseAbilityDiceRollComponent} from "../base-ability-dice-roll/base-ability-dice-roll.component";
 import {MatDialog} from "@angular/material/dialog";
 import {Observable, of} from "rxjs";
 import {StandardArrayOption} from "../model/options/standard-array-option.model";
 import {pairwise, startWith} from "rxjs/operators";
+import {CharacterBuilderFormService} from "../services/characer-builder-form-service/character-builder-form.service";
 
 @Component({
   selector: 'app-base-ability-generator',
@@ -14,14 +14,12 @@ import {pairwise, startWith} from "rxjs/operators";
 })
 export class BaseAbilityGeneratorComponent implements OnInit {
 
-  @Input() characterBuilderForm: FormGroup;
-
   baseAbilityStyle = Constants.MANUAL;
   baseAbilities: Array<string> = Constants.baseAbilities;
   standardArrayOptions: Observable<Array<StandardArrayOption>>;
   pointBuyMap: Map<number, number> = Constants.pointBuyMap;
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog, public cbFormService: CharacterBuilderFormService) { }
 
   ngOnInit(): void {
     this.setupOptions();
@@ -42,14 +40,14 @@ export class BaseAbilityGeneratorComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(res => {
-      this.characterBuilderForm.get(ability + Constants.DICE_ROLL_SUFFIX).patchValue(res);
+      this.cbFormService.characterBuilderForm.get(ability + Constants.DICE_ROLL_SUFFIX).patchValue(res);
     });
   }
 
   watchStandardArrayFormFields() {
     this.baseAbilities.forEach((baseAbilityScore: string) => {
-      this.characterBuilderForm.get(baseAbilityScore + Constants.STANDARD_ARRAY_SUFFIX).valueChanges
-        .pipe(startWith(this.characterBuilderForm.get(baseAbilityScore + Constants.STANDARD_ARRAY_SUFFIX).value), pairwise())
+      this.cbFormService.characterBuilderForm.get(baseAbilityScore + Constants.STANDARD_ARRAY_SUFFIX).valueChanges
+        .pipe(startWith(this.cbFormService.characterBuilderForm.get(baseAbilityScore + Constants.STANDARD_ARRAY_SUFFIX).value), pairwise())
         .subscribe(([oldValue, newValue]) => {
             this.toggleAllowedFlagFalse(newValue);
             this.toggleAllowedFlagTrue(oldValue);
@@ -60,8 +58,8 @@ export class BaseAbilityGeneratorComponent implements OnInit {
 
   watchPointBuyFormFields() {
     this.baseAbilities.forEach((baseAbilityScore: string) => {
-      this.characterBuilderForm.get(baseAbilityScore + Constants.POINT_BUY_SUFFIX).valueChanges.subscribe(() => {
-        this.characterBuilderForm.get('totalPointBuy').setValue(this.calculateTotalPoints());
+      this.cbFormService.characterBuilderForm.get(baseAbilityScore + Constants.POINT_BUY_SUFFIX).valueChanges.subscribe(() => {
+        this.cbFormService.characterBuilderForm.get('totalPointBuy').setValue(this.calculateTotalPoints());
       })
     })
   }
@@ -89,7 +87,7 @@ export class BaseAbilityGeneratorComponent implements OnInit {
   private calculateTotalPoints(): number {
     let total: number = 0;
     this.baseAbilities.forEach((baseAbilityScore: string) => {
-      let value = this.characterBuilderForm.get(baseAbilityScore + Constants.POINT_BUY_SUFFIX).value;
+      let value = this.cbFormService.characterBuilderForm.get(baseAbilityScore + Constants.POINT_BUY_SUFFIX).value;
       let pointBuyValue: number = this.pointBuyMap.has(value) ? this.pointBuyMap.get(value) : 0;
       total += pointBuyValue;
     })

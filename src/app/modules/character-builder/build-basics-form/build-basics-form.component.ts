@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormGroup} from "@angular/forms";
+import {CharacterBuilderFormService} from "../services/characer-builder-form-service/character-builder-form.service";
 
 @Component({
   selector: 'app-build-basics-form',
@@ -8,9 +9,7 @@ import {FormGroup} from "@angular/forms";
 })
 export class BuildBasicsFormComponent implements OnInit {
 
-  @Input() characterBuilderForm: FormGroup;
-
-  constructor() { }
+  constructor(public cbFormService: CharacterBuilderFormService) { }
 
   ngOnInit(): void {
   }
