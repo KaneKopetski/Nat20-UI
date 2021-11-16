@@ -25,9 +25,7 @@ export class CharacterBuilderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.setupForms();
     this.toastr.overlayContainer = this.toastContainer;
-    // this.watchFormControls();
   }
 
   private handleError(error: ErrorResponse) {

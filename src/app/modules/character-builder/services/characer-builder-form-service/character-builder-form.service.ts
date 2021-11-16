@@ -103,6 +103,29 @@ export class CharacterBuilderFormService {
     }
   }
 
+  getAbilityScoreByName(abilityName: string): number {
+    switch (abilityName.toLowerCase()) {
+      case 'strength': {
+        return this.strengthScore.value;
+      }
+      case 'dexterity': {
+        return this.dexterityScore.value;
+      }
+      case 'constitution': {
+        return this.constitutionScore.value;
+      }
+      case 'wisdom': {
+        return this.wisdomScore.value;
+      }
+      case 'intelligence': {
+        return this.intelligenceScore.value;
+      }
+      case 'charisma': {
+        return this.charismaScore.value;
+      }
+    }
+  }
+
   get raceSelected() {
     return this.characterBuilderForm.get('raceSelected');
   }
