@@ -118,7 +118,11 @@
     </mat-paginator>
   </mat-tab>
 
-  <mat-tab label="Class Levels Selected" [disabled]="this.classLevels.length === 0">
+  <mat-tab [disabled]="this.classLevels.length === 0">
+
+    <ng-template mat-tab-label>
+      <span matBadge="{{ this.classLevels.length }}" [matBadgeColor]="'accent'" matBadgeOverlap="false">Class Levels Selected</span>
+    </ng-template>
 
     <table mat-table
            cdkDropList
