@@ -18,10 +18,10 @@ import {RaceSkillBonus} from "../model/race/race-skill-bonus-model";
 
 export class SkillInfoRow {
   skillRankPair: SkillRankPair;
-  raceBonus: RaceSkillBonus;
+  raceBonus: number;
   baseAbilityModifier: number;
 
-  constructor(skillRankPair?: SkillRankPair, raceBonus?: RaceSkillBonus, baseAbilityModifier?: number) {
+  constructor(skillRankPair?: SkillRankPair, raceBonus?: number, baseAbilityModifier?: number) {
     this.skillRankPair = skillRankPair;
     this.raceBonus = raceBonus;
     this.baseAbilityModifier = baseAbilityModifier;
@@ -80,7 +80,7 @@ export class SkillFormComponent implements OnInit {
 
   addSkillFormControlsToForm() {
     this.skills.forEach((skill: Skill) => {
-      this.cbFormService.characterBuilderForm.addControl(skill.name, new FormControl([0]))
+      this.cbFormService.characterBuilderForm.addControl(skill.name, new FormControl([0]));
     })
   }
 
@@ -106,17 +106,37 @@ export class SkillFormComponent implements OnInit {
     return new SkillRankPair(skill, 0);
   }
 
-  calculateSkillBaseAbilityModifier(skillRankPair: SkillRankPair): number {
-    const keyAbility: string = skillRankPair.skill.keyAbility;
+  calculateSkillBaseAbilityModifier(skillInfoRow: SkillInfoRow): number {
+    const keyAbility: string = skillInfoRow.skillRankPair.skill.keyAbility;
     const keyAbilityScore: number = this.cbFormService.getAbilityScoreByName(keyAbility);
     return this.baseAbilityService.calculateBaseAbilityModifierForScore(keyAbilityScore);
   }
 
-  // calculateRacialSkillBonuses(skill: Skill): RaceSkillBonus {
-  //   const raceSelected: Race = this.cbFormService.raceSelected.value;
-  //   const raceHasSkillBonus: boolean = raceSelected.skillBonuses.some((skillBonus: RaceSkillBonus) => skillBonus.skillId === skill.id);
-  //
-  //   return raceHasSkillBonus ? raceSelected.skillBonuses.find((skillBonus: RaceSkillBonus) => skillBonus.skillId === skill.id) : undefined;
-  // }
+  calculateRacialSkillBonuses(skillInfoRow: SkillInfoRow): number {
+    const raceSelected: Race = this.cbFormService.raceSelected.value;
+    let bonus: number = 0;
+    if (raceSelected.skillBonuses) {
+      raceSelected.skillBonuses.forEach((raceSkillBonus: RaceSkillBonus) => {
+        if (raceSkillBonus.skillId === skillInfoRow.skillRankPair.skill.id && !raceSkillBonus.circumstance)
+           bonus = raceSkillBonus.skillBonus;
+      })
+      return bonus;
+    }
+  }
 
+  getCircumstanceForRacialBonus(skillInfoRow): string {
+    const raceSelected: Race = this.cbFormService.raceSelected.value;
+    let circumstance: string = '';
+    let bonus: number;
+    if (raceSelected.skillBonuses) {
+      raceSelected.skillBonuses.forEach((raceSkillBonus: RaceSkillBonus) => {
+        if (raceSkillBonus.skillId === skillInfoRow.skillRankPair.skill.id && raceSkillBonus.circumstance) {
+          circumstance = raceSkillBonus.circumstance;
+          bonus = raceSkillBonus.skillBonus;
+        }
+      });
+      if (circumstance != '')
+      return '+' + bonus + ', ' + circumstance.toLowerCase();
+    }
+  }
 }

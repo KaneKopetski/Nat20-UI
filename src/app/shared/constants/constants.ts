@@ -126,7 +126,10 @@ export abstract class Constants {
   public static readonly skillSearchTableColumnsToDisplay: string[] = [
     'name',
     'keyAbility',
+    'total',
     'baseAbilityModifier',
+    'raceModifier',
+    'circumstance',
     'ranks',
     'actions'
   ];
@@ -157,8 +160,11 @@ export abstract class Constants {
 
     map.set('name', 'name');
     map.set('keyAbility', 'keyAbility');
+    map.set('total', 'total');
     map.set('ranks', 'ranks');
     map.set('baseAbilityModifier', 'baseAbilityModifier');
+    map.set('raceModifier', 'raceModifier');
+    map.set('circumstance', 'circumstance');
 
     return map;
   }

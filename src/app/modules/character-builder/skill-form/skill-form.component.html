@@ -21,16 +21,31 @@
     </td>
   </ng-container>
 
+  <ng-container matColumnDef="total">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Total</th>
+    <td mat-cell *matCellDef="let skillInfoRow"> {{ this.calculateSkillBaseAbilityModifier(skillInfoRow)
+      + this.calculateRacialSkillBonuses(skillInfoRow)
+      + +this.cbFormService.characterBuilderForm.get(skillInfoRow.skillRankPair.skill.name).value }} </td>
+  </ng-container>
+
   <ng-container matColumnDef="baseAbilityModifier">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Base Ability Modifier</th>
     <td mat-cell *matCellDef="let skillInfoRow"> {{ this.calculateSkillBaseAbilityModifier(skillInfoRow) }} </td>
   </ng-container>
 
+  <ng-container matColumnDef="raceModifier">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Race Modifier</th>
+    <td mat-cell *matCellDef="let skillInfoRow"> {{ this.calculateRacialSkillBonuses(skillInfoRow) }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="circumstance">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Circumstance</th>
+    <td mat-cell *matCellDef="let skillInfoRow"> {{ this.getCircumstanceForRacialBonus(skillInfoRow) }} </td>
+  </ng-container>
+
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let skillInfoRow">
-      <button mat-flat-button
-              color="primary">Select {{ skillInfoRow.name }}</button>
       <button mat-icon-button class="inspect-class-button"
               (click)="openDialog(skillInfoRow)"
               matTooltip="Inspect {{ skillInfoRow.name }} details">
