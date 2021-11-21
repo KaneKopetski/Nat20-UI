@@ -1,10 +1,11 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {CharacterBuildRequest} from '../model/character-build/character-build-request-model';
 import {Constants} from '../../../shared/constants/constants';
 import {ToastContainerDirective, ToastrService} from 'ngx-toastr';
 import {ErrorResponse} from '../model/error-response/error-response-model';
 import {CharacterBuilderFormService} from "../services/characer-builder-form-service/character-builder-form.service";
+import {CdkStep, StepperSelectionEvent} from "@angular/cdk/stepper";
 
 @Component({
   selector: 'app-character-builder',
@@ -17,9 +18,12 @@ export class CharacterBuilderComponent implements OnInit {
 
   characterBuildRequest: CharacterBuildRequest;
 
+  skillFormLabel: string = Constants.SKILL_FORM_LABEL;
+
   selectable = true;
   removable = true;
   isLinear = false;
+  step: CdkStep;
 
   constructor(private fb: FormBuilder, private toastr: ToastrService, public cbFormService: CharacterBuilderFormService) {
   }
@@ -42,6 +46,11 @@ export class CharacterBuilderComponent implements OnInit {
       }         break;
     }
     this.toastr.error(errorMessage, errorTitle);
+  }
+
+  stepAdvanced(event: StepperSelectionEvent) {
+    console.log('emitting...');
+    this.step = event.selectedStep;
   }
 }
 

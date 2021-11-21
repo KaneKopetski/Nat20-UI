@@ -57,6 +57,8 @@ export abstract class Constants {
   public static readonly DICE_ROLL_SUFFIX: string = 'ScoreDiceRoll';
   public static readonly ABILITY_SCORE_GENERATION_METHOD: string = 'abilityScoreGenerationMethod';
 
+  static SKILL_FORM_LABEL: string = 'Pick your skills';
+
   public static readonly tooltipDelay = new FormControl(750);
 
   public static readonly specialSourceCases = {

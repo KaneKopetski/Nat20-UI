@@ -7,7 +7,7 @@
   </mat-drawer>
   <mat-drawer-content>
 
-    <mat-horizontal-stepper [linear]="isLinear" #stepper>
+    <mat-horizontal-stepper [linear]="isLinear" #stepper (selectionChange)="this.stepAdvanced($event)">
       <mat-step [stepControl]="this.cbFormService.characterBuilderForm" label="Select sources">
 
         <button mat-flat-button (click)="drawer.toggle()">Toggle summary</button>
@@ -43,10 +43,10 @@
 
       </mat-step>
 
-      <mat-step [stepControl]="this.cbFormService.characterBuilderForm" label="Pick your skills">
+      <mat-step [stepControl]="this.cbFormService.characterBuilderForm" label="{{ this.skillFormLabel }}">
 
         <button mat-flat-button (click)="drawer.toggle()">Toggle summary</button>
-        <app-skill-form></app-skill-form>
+        <app-skill-form [step]="this.step"></app-skill-form>
 
       </mat-step>
 
@@ -58,6 +58,11 @@
           <button mat-button (click)="stepper.reset()">Reset</button>
         </div>
       </mat-step>
+
+      <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-flat-button color="accent" matStepperNext>Next</button>
+      </div>
     </mat-horizontal-stepper>
 
     <span>{{this.cbFormService.characterBuilderForm.value | json}}</span>

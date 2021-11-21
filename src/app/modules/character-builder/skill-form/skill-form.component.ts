@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {SkillService} from "../services/skill-service/skill.service";
 import {MatTableDataSource} from "@angular/material/table";
@@ -33,11 +33,14 @@ export class SkillInfoRow {
   templateUrl: './skill-form.component.html',
   styleUrls: ['./skill-form.component.css']
 })
-export class SkillFormComponent implements OnInit {
+export class SkillFormComponent implements OnInit, OnChanges {
 
   @ViewChild(MatPaginator) private paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(ToastContainerDirective, {static: true}) private toastContainer: ToastContainerDirective;
+
+  @Input()
+  step;
 
   skills: Skill[];
   sourcesAllowed: Source[];
@@ -50,7 +53,15 @@ export class SkillFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.toastr.overlayContainer = this.toastContainer;
-    this.setSources();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.step) {
+      if (this.step.label === Constants.SKILL_FORM_LABEL) {
+        console.log('at the right step...');
+        this.setSources();
+      }
+    }
   }
 
   setSources() {
@@ -68,6 +79,7 @@ export class SkillFormComponent implements OnInit {
         this.skillRankTableData.sort = this.sort;
         this.setSortingDataAccessorForSearchTable();
         this.addSkillFormControlsToForm();
+        console.log(res);
       },
       error => this.toastr.error(error.message, Constants.GENERIC_ERROR_TITLE));
   }
